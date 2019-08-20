@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Tabel_server.month"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tabel_server"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border x:Name="Border" BorderThickness="1" CornerRadius="10" BorderBrush="Black">
+        <Grid x:Name="Grid" MouseLeftButtonDown="Grid_MouseLeftButtonDown"> 
+        <TextBlock  x:Name="NameMonth"  HorizontalAlignment="Center" VerticalAlignment="Center"  Text="" FontSize="14" > </TextBlock>  
+        </Grid>
+    </Border>
+</UserControl>

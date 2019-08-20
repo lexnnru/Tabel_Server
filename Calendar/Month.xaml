@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="Calendar.Month"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Calendar"
+             mc:Ignorable="d" 
+             d:DesignHeight="320" d:DesignWidth="280" SnapsToDevicePixels="True" TextOptions.TextFormattingMode="Display">
+    <Grid>
+        <Grid.Effect>
+            <DropShadowEffect Direction="0" BlurRadius="10" ShadowDepth="0" Color="#FF0033BB"/>
+        </Grid.Effect>
+        <Border CornerRadius="12" Grid.RowSpan="2" Background="#FFE3EBFF" BorderBrush="#FF8A9FFF" BorderThickness="2"></Border>
+        <Grid x:Name="HeaderGrid" Height="64" VerticalAlignment="Top" Margin="2,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="32"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+                <ColumnDefinition Width="1*" MinWidth="24"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock SnapsToDevicePixels="True" x:Name="MonthName" TextWrapping="Wrap" Text="Month" TextAlignment="Center" VerticalAlignment="Center"  Grid.ColumnSpan="7" FontSize="18" FontFamily="Times New Roman" Foreground="#FF0033BB"/>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" BorderBrush="#FF4CA5FF" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF77BBFF" Offset="1"/>
+                        <GradientStop Color="#FFCCE5FF"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Пн" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FF0023FF"/>
+            </Border>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="#FF4CA5FF" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF77BBFF" Offset="1"/>
+                        <GradientStop Color="#FFCCE5FF"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Вт" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FF0023FF"/>
+            </Border>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" Grid.Column="2" BorderBrush="#FF4CA5FF" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF77BBFF" Offset="1"/>
+                        <GradientStop Color="#FFCCE5FF"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Ср" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FF0023FF"/>
+            </Border>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" Grid.Column="3" BorderBrush="#FF4CA5FF" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF77BBFF" Offset="1"/>
+                        <GradientStop Color="#FFCCE5FF"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Чт" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FF0023FF"/>
+            </Border>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" Grid.Column="4" BorderBrush="#FF4CA5FF" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF77BBFF" Offset="1"/>
+                        <GradientStop Color="#FFCCE5FF"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Пт" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FF0023FF"/>
+            </Border>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" Grid.Column="5" BorderBrush="#FFFF6E6E" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFF7777" Offset="1"/>
+                        <GradientStop Color="#FFFFCCCC"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Сб" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FFAC0018"/>
+            </Border>
+            <Border CornerRadius="8, 8, 0, 0" BorderThickness="1" Grid.Row="1" Grid.Column="6" BorderBrush="#FFFF6E6E" SnapsToDevicePixels="True">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFF7777" Offset="1"/>
+                        <GradientStop Color="#FFFFCCCC"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock TextWrapping="Wrap" Text="Вс" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FFAC0018"/>
+            </Border>
+        </Grid>
+        <Grid x:Name="DaysGrid" Margin="2,64,2,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+                <ColumnDefinition Width="*" MinWidth="24"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="24"/>
+                <RowDefinition Height="*" MinHeight="24"/>
+                <RowDefinition Height="*" MinHeight="24"/>
+                <RowDefinition Height="*" MinHeight="24"/>
+                <RowDefinition Height="*" MinHeight="24"/>
+                <RowDefinition Height="*" MinHeight="24"/>
+            </Grid.RowDefinitions>
+
+        </Grid>
+    </Grid>
+</UserControl>

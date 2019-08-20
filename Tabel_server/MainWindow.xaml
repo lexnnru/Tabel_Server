@@ -1,0 +1,83 @@
+﻿<Window x:Class="Tabel_server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:Tabel_server"
+        mc:Ignorable="d"
+        Title="Sintek_table_server" Height="626" Width="1013" WindowState="Maximized" Margin="10,0,0,0" >
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger >
+
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"  x:Name="min"/>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition  Width="142*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*" MinHeight="120" />
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="149*"/>
+            </Grid.RowDefinitions>
+            <local:UCYearCalendar x:Name="dtpicker"  Grid.Row="0" Grid.Column="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <Button x:Name="btLoadTabl" Grid.Column="0" Grid.Row="1" Style="{DynamicResource ButtonStyle1}" Margin="0,5,0,0" Click="BtLoadTabl_Click" >
+                <TextBlock Text="Загрузка табеля"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"/>
+            </Button>
+            <Button x:Name="btManageEployees" Grid.Column="0" Grid.Row="2" Style="{DynamicResource ButtonStyle1}" Margin="0,5,0,0" MouseLeftButtonDown="BtManageEployees_MouseLeftButtonDown" Click="BtManageEployees_MouseLeftButtonDown" >
+                <TextBlock Text="Редактирование пользователей"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"/>
+            </Button>
+            <TextBlock x:Name="tbTabelNamber" TextAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="Табельный номер"  />
+            <ListBox x:Name="lbUsers"    SelectionChanged="LbUsers_SelectionChanged" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <TextBlock Text="{Binding fio}"  Grid.Row="0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding error}" Value="true">
+                                                <Setter Property="Background" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding error}" Value="false">
+                                                <Setter Property="Background" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Column="2"   >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40*"/>
+                <RowDefinition Height="557*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button x:Name="View2"  Content="Отработанные часы по дням" Click="View2_Click" Style="{DynamicResource ButtonStyle1}" />
+                <Button x:Name="View3" Content="Суммарные часы с коэфф." Click="View3_Click" Style="{DynamicResource ButtonStyle1}" />
+                <Button x:Name="btloadHoli" Content="Загрузить выходные в БД" Click="BtloadHoli_Click" Style="{DynamicResource ButtonStyle1}" />
+                <Button x:Name="btCalendar" Content="Календарь"  Style="{DynamicResource ButtonStyle1}" Click="BtCalendar_Click" />
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="0" x:Name="MainGrid"  />
+        </Grid>
+        <Button   Grid.Row="0" Grid.Column="1"  FontSize="24" Click="Button_Click" Style="{DynamicResource ButtonStyle1}" />
+    </Grid>
+</Window>

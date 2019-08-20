@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Tabel_server.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tabel_server"
+             mc:Ignorable="d" 
+             xmlns:convert="clr-namespace:Tabel_server.Model.Data"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <convert:ConverterDay x:Key="convday"/>
+        <convert:ConverterTime x:Key="convtime"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="95*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="datagrid1" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0" ItemsSource="{Binding odd}" Grid.ColumnSpan="4">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding isHoliday}" Value="true">
+                            <Setter Property="Background" Value="LightBlue"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding isHaveData}" Value="false">
+                            <Setter Property="Background" Value="Red"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding daynumber, Converter={StaticResource convday}}" Header="Дата" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding startday, Converter={StaticResource convtime}}" Header="Начало работы" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding endday, Converter={StaticResource convtime}}" Header="Окончание работы" CanUserSort="False" />
+                <DataGridTextColumn Binding="{Binding specCheck}" Header="Спец. отм." CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding city}" Header="Город" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения за день" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding Work_time}" Header="Отработанное время" CanUserSort="False"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

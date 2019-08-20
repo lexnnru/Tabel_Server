@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Tabel_server.UserControl3"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tabel_server"
+             xmlns:convert="clr-namespace:Tabel_server.Model.Data"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <convert:ConverterTimeSpan x:Key="convSpan"/>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding tables}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding fio}" ClipboardContentBinding="{x:Null}" Header="Работник"/>
+                <DataGridTextColumn Binding="{Binding hour1 , Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Часы без переработок"/>
+                <DataGridTextColumn Binding="{Binding hour15, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Переработки будни"/>
+                <DataGridTextColumn Binding="{Binding hour20, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Сверх переработки всего "/>
+                <DataGridTextColumn Binding="{Binding hourHoli20, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Переработки выходные"/>
+                <DataGridTextColumn Binding="{Binding daycomm}" ClipboardContentBinding="{x:Null}" Header="Количество дней в ком."/>
+                <DataGridTextColumn Binding="{Binding sickDays}" ClipboardContentBinding="{x:Null}" Header="Дней на больн."/>
+                <DataGridTextColumn Binding="{Binding sickHours, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Часов на больн."/>
+                <DataGridTextColumn Binding="{Binding vacationDays}" ClipboardContentBinding="{x:Null}" Header="Дней в отп."/>
+                <DataGridTextColumn Binding="{Binding vacationHours, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Часов в отп."/>
+                <DataGridTextColumn Binding="{Binding compensatory_days}" ClipboardContentBinding="{x:Null}" Header="Дней в отг."/>
+                <DataGridTextColumn Binding="{Binding compensatory_hours, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Часов в отг."/>
+                <DataGridTextColumn Binding="{Binding totalWorkHours, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Часы отработанные по плану"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>
