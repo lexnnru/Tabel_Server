@@ -57,8 +57,15 @@ namespace Tabel_server
             uc3 = new UserControl3();
             mu = new MangeUsers();
             new Presenter.Presenter(this);
-            dtpicker.SelectedDateChanged += Dtpicker_SelectedDateChanged; 
+            dtpicker.SelectedDateChanged += Dtpicker_SelectedDateChanged;
+            Loger.LogChange += Loger_LogChange;
         }
+
+        private void Loger_LogChange(string obj)
+        {
+            MessageBox.Show(obj);
+        }
+
         private void Dtpicker_SelectedDateChanged(DateTime obj)
         {
             DateChanged?.Invoke();

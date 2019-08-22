@@ -15,7 +15,7 @@ namespace Tabel_server.Model
     public class DataBase_manager
     {
         public event Action<string, string> AddingNewTabelNumber;
-        List<string> paramForUsersTable = new List<string>() { "day", "month", "year", "startdayH", "startdayEnd", "enddayH", "enddayMin", "city", "specCheck", "achiv" };
+        List<string> paramForUsersTable = new List<string>() { "day", "month", "year", "startdayH", "startdayMin", "enddayH", "enddayMin", "city", "specCheck", "achiv" };
         List<string> typeOfDataForTabelUsersTable= new List<string>() { "integer", "integer", "integer", "integer", "integer", "integer", "integer", "text", "text", "text" };
         public string NameOfTablenamberUserTable = "TabelNambersAndUsers";
         public List<string> paramForTabelNamberUserTable = new List<string>() { "TabelNamber", "Family", "Name",  "ParentName",
@@ -155,12 +155,12 @@ namespace Tabel_server.Model
             dr.Close();
             return idd;
         }
-        public List<(int, IncomingDataTable)> LoadFileTabelToDatabase(string path)
+        public List< IncomingDataTable> CompareFileTabelWithDatabase(string path)
         {
            
                 Deserialization ds = new Deserialization();
                 List<IncomingDataTable> odd = ds.GetOneTabelData(path, out string tablename);
-                List<(int, IncomingDataTable) > oddRowToUpdate=new List<(int, IncomingDataTable)>();
+                List<IncomingDataTable > oddRowToUpdate=new List<IncomingDataTable>();
                 if (CheckExistingTable(tablename))
                 {
                 for (int i = 0; i < odd.Count; i++)
@@ -179,18 +179,21 @@ namespace Tabel_server.Model
                     znachenies.Add(odd[i].achiv);
                     if (CheckExistingRowInTable(odd[i].tabelNumber, odd[i].daynumber.Year, odd[i].daynumber.Month, odd[i].daynumber.Day))
                     {
-                        oddRowToUpdate.Add((i, odd[i]));
+                       //odd[i].overlap= CheckExistingRowInTableAndContent(odd[i].tabelNumber, odd[i].daynumber.Year, odd[i].daynumber.Month, odd[i].daynumber.Day
+                       //     , odd[i].startday.Hour, odd[i].startday.Minute, odd[i].endday.Hour, odd[i].endday.Minute, odd[i].city, odd[i].specCheck, odd[i].achiv);
+                       oddRowToUpdate.Add( odd[i]);
                        // UpdateRow(odd[i].tabelNumber, paramForUsersTable, znachenies);
                     }
                     else { AddRowToTable(odd[i].tabelNumber, paramForUsersTable, znachenies); }
                       }
-                MessageBox.Show("Файл " + path + " был добавлен.");
+
+
                 return oddRowToUpdate;
             }
             
                 else
                 {
-                    MessageBox.Show("Работника с табельным номером: " + tablename +" не обнаружено!" + " Файл " + path +" не был добавлен.");
+                Model.Loger.GetLog("Работника с табельным номером: " + tablename + " не обнаружено!" + " Файл " + path + " не был добавлен.");
                 return oddRowToUpdate;
                 //Create_DataBase_Table(tablename, paramForUsersTable, typeOfDataForTabelUsersTable);
                 //List<string> znachenie = new List<string>() { tablename, odd[0].family, odd[0].name, odd[0].parentName, odd[0].mail};
@@ -213,23 +216,38 @@ namespace Tabel_server.Model
         }
         public bool CheckExistingRowInTable(string nametable, int year, int month, int day)
         {
-            bool checktabelnamber;
+            bool checktabelrow;
             if (CheckExistingTable(nametable))
             {
                 SQLiteDataReader dr = new SQLiteCommand($"select count(*) from '{nametable}' where year = {year} and month = {month} and day = {day}", db_connection).ExecuteReader();
                 dr.Read();
                 object count = dr["count(*)"];
                 if (Convert.ToInt32(count) == 1)
-                { checktabelnamber = true; }
-                else checktabelnamber = false;
+                { checktabelrow = true; }
+                else checktabelrow = false;
                 dr.Close();
-                return checktabelnamber;
+                return checktabelrow;
             }
             else {
-                checktabelnamber = false;
-                return checktabelnamber;
+                checktabelrow = false;
+                return checktabelrow;
               }
         }
+        public bool CheckExistingRowInTableAndContent(string nametable, int year, int month, int day, int startdayH, int startdayMin,
+            int enddayH, int enddayMin, string city, string  specCheck, string achiv )
+        {
+            bool checktabelrow;
+            SQLiteDataReader dr = new SQLiteCommand($"select count(*) from '{nametable}' where year = {year} and month = {month}  and day = {day} and startdayH ={startdayH} and startdayMin={startdayMin} and enddayH={enddayH} and enddayMin={enddayMin} and city='{city}' and  specCheck='{specCheck}' and achiv='{achiv}'  ", db_connection).ExecuteReader();
+                dr.Read();
+                object count = dr["count(*)"];
+                if (Convert.ToInt32(count) == 1)
+                { checktabelrow = true; }
+                else checktabelrow = false;
+                dr.Close();
+                return checktabelrow;
+
+        }
+
         public void AddRowToTable(string nametable, List<string> parametr, List<string> znachenie)
         {
             string parametrs = "";
@@ -450,11 +468,11 @@ namespace Tabel_server.Model
                 }
             return Get;
         }
-        public void AddNewEmplpyee(Employee employee)
+        public string AddNewEmplpyee(Employee employee)
         {
             if (CheckExistingTable(employee.tabelNumber))
             {
-                MessageBox.Show("Работник с таким табельным номером уже существует");
+                return "Сотрудник с таким табельным номером уже существует";
             }
             else
             {
@@ -462,6 +480,7 @@ namespace Tabel_server.Model
                 List<string> znachenie = new List<string>() { employee.tabelNumber, employee.family, employee.name, employee.parentName,
                     employee.dataOfEmployment.ToString(), employee.dateOfDismiss.ToString(), employee.salary.ToString(), employee.post};
                 AddRowToTable(NameOfTablenamberUserTable, paramForTabelNamberUserTable, znachenie);
+                return "Сотрудник успешно добавлен";
             }
         }
     }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using System.Windows;
 using System.Windows.Threading;
 using Tabel_server.Model.Data;
 
@@ -46,15 +47,44 @@ namespace Tabel_server.Presenter
             {
                 try
                 {
-                    // dataBase_Manager.LoadFileTabelToDatabase(obj[i]);
+                    bool show = false;
+                    List< IncomingDataTable> rowForUpdate =dataBase_Manager.CompareFileTabelWithDatabase(obj[i]);
+                    List<IncomingDataTable> rowINDB = dataBase_Manager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month);
+                    for (int j = 0; j < rowForUpdate.Count; j++)
+                    {
+                        
+                        if (rowForUpdate[j].daynumber == rowINDB[j].daynumber && rowForUpdate[j].startday == rowINDB[j].startday && rowForUpdate[j].endday == rowINDB[j].endday &&
+                            rowForUpdate[j].city == rowINDB[j].city && rowForUpdate[j].achiv == rowINDB[j].achiv && rowForUpdate[j].specCheck == rowINDB[j].specCheck)
+                        {
+                            rowForUpdate[j].overlap = true;
+                        }
+                        else
+                        {
+                            show = true;
+                            rowForUpdate[j].overlap = false;
+                            if (rowForUpdate[j].startday != rowINDB[j].startday)
+                            { rowForUpdate[j].startdayMarking = true; }
+                            if (rowForUpdate[j].endday != rowINDB[j].endday)
+                            { rowForUpdate[j].enddayMarking = true; }
+                            if (rowForUpdate[j].city != rowINDB[j].city)
+                            { rowForUpdate[j].cityMarking = true; }
+                            if (rowForUpdate[j].achiv != rowINDB[j].achiv)
+                            { rowForUpdate[j].achivMarking = true; }
+                            if (rowForUpdate[j].specCheck != rowINDB[j].specCheck)
+                            { rowForUpdate[j].specCheckMarking = true; }
+                        }
+                    }
+                    if (show)
+                    {
+                        PreveiwWindow.PreveiwTableForUpdate window = new PreveiwWindow.PreveiwTableForUpdate();
+                        window.showTable(rowForUpdate, rowINDB);
+                        window.Show();
+                    }
 
-                    List<(int, IncomingDataTable)> rowForUpdate =dataBase_Manager.LoadFileTabelToDatabase(obj[i]);
-                    UserControl1 userControl1 = new UserControl1();
                 }
                 catch (Exception ex)
                 {
-                    string extext = ex.Message;
-                    imain.ShowMess(extext);
+                    Model.Loger.GetLog(ex.Message);
                 }
                
             }
@@ -71,7 +101,8 @@ namespace Tabel_server.Presenter
         }
         private void Mu_AddNewEmpl(Employee obj)
         {
-            dataBase_Manager.AddNewEmplpyee(obj);
+            string message=dataBase_Manager.AddNewEmplpyee(obj);
+            imain.ShowMess(message);
             imain.SetlbUsers(new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain)));
         }
         private void Mu_Loaded(object sender, System.Windows.RoutedEventArgs e)

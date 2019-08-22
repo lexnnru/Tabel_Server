@@ -41,6 +41,12 @@ namespace Tabel_server.Model.Data
         public string tabelNumber { get; set; }
         public bool isHoliday { get; set; }
         public bool isHaveData { get; set; }
+        public bool overlap { get; set; }
+        public bool startdayMarking { get; set; }
+        public bool enddayMarking { get; set; }
+        public bool cityMarking { get; set; }
+        public bool specCheckMarking { get; set; }
+        public bool achivMarking { get; set; }
 
 
 

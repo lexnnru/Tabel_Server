@@ -112,6 +112,7 @@
     <Compile Include="Model\Data\OneDayData.cs" />
     <Compile Include="Model\Deserialization.cs" />
     <Compile Include="Model\Data\IncomingDataTable.cs" />
+    <Compile Include="Model\Loger.cs" />
     <Compile Include="Model\Monitoring.cs" />
     <Compile Include="month.xaml.cs">
       <DependentUpon>month.xaml</DependentUpon>

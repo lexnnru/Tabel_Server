@@ -5,8 +5,108 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tabel_server.PreveiwWindow"
         mc:Ignorable="d"
-        Title="PreveiwTableForUpdate" Height="450" Width="800">
+        xmlns:convert="clr-namespace:Tabel_server.Model.Data"
+        Title="Внести изменения в Табель?" Height="450" Width="1053">
+    <Window.Resources>
+        <convert:ConverterDay x:Key="convDay"></convert:ConverterDay>
+        <convert:ConverterTime x:Key="convTime"></convert:ConverterTime>
+
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="15*"/>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Height="0" Width="0"/>
+        <DataGrid ItemsSource="{Binding incomingDatas}"  x:Name="datagridForIncomingData" Grid.Row="1" AutoGenerateColumns="False"   >
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding overlap}" Value="true">
+                            <Setter Property="Background" Value="White"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding overlap}" Value="false">
+                            <Setter Property="Background" Value="LightYellow"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding daynumber, Converter={StaticResource convDay}}" Header="Дата"   ClipboardContentBinding="{x:Null}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding startday, Converter={StaticResource convTime}}" Header="Начало работы" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding startdayMarking}" Value="true">
+                                    <Setter Property="Background" Value="Yellow"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding endday, Converter={StaticResource convTime}}" Header="Окончание работы" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding enddayMarking}" Value="true">
+                                    <Setter Property="Background" Value="Yellow"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding city}" Header="Город" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding cityMarking}" Value="true">
+                                    <Setter Property="Background" Value="Yellow"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding specCheck}" Header="Спец. отметка" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding specCheckMarking}" Value="true">
+                                    <Setter Property="Background" Value="Yellow"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding achivMarking}" Value="true">
+                                    <Setter Property="Background" Value="Yellow"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid ItemsSource="{Binding rowinDB}"  x:Name="datagridForDataInDB" Grid.Row="1" AutoGenerateColumns="False" Margin="5,0,0,0" Grid.Column="1"   >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding daynumber, Converter={StaticResource convDay}}" Header="Дата"  ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{Binding startday, Converter={StaticResource convTime}}" Header="Начало работы" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{Binding endday, Converter={StaticResource convTime}}" Header="Окончание работы" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{Binding city}" Header="Город" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{Binding specCheck}" Header="Спец. отметка" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения" ClipboardContentBinding="{x:Null}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label HorizontalAlignment="Center"    Content="Входящий табель" VerticalAlignment="Center" Width="120"/>
+        <Label HorizontalAlignment="Center"  Content="Исходный табель" VerticalAlignment="Center" Width="120"  Grid.Column="1"/>
+        <Button x:Name="btAddChanges" Content="Внести изменения" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Click="BtAddChanges_Click"/>
     </Grid>
 </Window>
