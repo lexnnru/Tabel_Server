@@ -40,6 +40,7 @@ namespace Tabel_server.Presenter
             imain.mu.AddNewEmpl += Mu_AddNewEmpl;
             imain.mu.Setsource += Mu_Setsource;
             imain.mu.ChangeEmpl += Mu_ChangeEmpl;
+            
         }
         private void Imain_LoadDataTableToDB(List<string> obj)
         {
@@ -77,7 +78,9 @@ namespace Tabel_server.Presenter
                     if (show)
                     {
                         PreveiwWindow.PreveiwTableForUpdate window = new PreveiwWindow.PreveiwTableForUpdate();
-                        window.showTable(rowForUpdate, rowINDB);
+                         
+                        window.showTable(rowForUpdate, rowINDB, dataBase_Manager.GetEmployee(rowForUpdate[0].tabelNumber), obj[i]);
+                        window.AddTabelToDB += Window_AddTabelToDB;
                         window.Show();
                     }
 
@@ -89,6 +92,13 @@ namespace Tabel_server.Presenter
                
             }
         }
+
+        private void Window_AddTabelToDB(string obj)
+        {
+            dataBase_Manager.AddTabelToDB(obj);
+            Model.Loger.GetLog(obj + " файл табеля добавлен");
+        }
+
         private void Mu_ChangeEmpl(Employee arg1, Employee arg2)
         {
             dataBase_Manager.UpdateEmployee(arg1, arg2);
@@ -242,6 +252,7 @@ namespace Tabel_server.Presenter
                 }
                 
                 monthEmployeeData.persentFill = (100 / DateTime.DaysInMonth(date.Year, date.Month)) * fillCount;
+                monthEmployeeData.post = dataBase_Manager.GetEmployee(monthEmployeeData.tabelNumber).post;
 
                 foreach (string tabelnumber in tabelnumbers)
                 {

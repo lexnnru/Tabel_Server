@@ -79,7 +79,7 @@ namespace Tabel_server.Model
             }
             return listEpl;
         }
-            public List<string> GetRowFromTable(string nameTable, List<string> ColumnForSearch, List<string> ZnachenieForSearch)
+        public List<string> GetRowFromTable(string nameTable, List<string> ColumnForSearch, List<string> ZnachenieForSearch)
              {
             List<string> list = new List<string>();
             string partOFcommand="";
@@ -101,10 +101,11 @@ namespace Tabel_server.Model
                         {
                             list.Add(Convert.ToString(dr.GetValue(i)));
                         }
-                        dr.Close();
+                        
                     }
                 }
-                return list;
+            dr.Close();
+            return list;
             }
         public List<string> GetColumnFromDB(string TableName, string ColumnName)
         {
@@ -202,6 +203,34 @@ namespace Tabel_server.Model
                 
             
         }
+        public void AddTabelToDB (string path)
+        {
+            Deserialization ds = new Deserialization();
+            List<IncomingDataTable> odd = ds.GetOneTabelData(path, out string tablename);
+                for (int i = 0; i < odd.Count; i++)
+                {
+                    CheckExistingRowInTable(odd[i].tabelNumber, odd[i].daynumber.Year, odd[i].daynumber.Month, odd[i].daynumber.Day);
+                    List<string> znachenies = new List<string>();
+                    znachenies.Add(odd[i].daynumber.Day.ToString());
+                    znachenies.Add(odd[i].daynumber.Month.ToString());
+                    znachenies.Add(odd[i].daynumber.Year.ToString());
+                    znachenies.Add(odd[i].startday.Hour.ToString());
+                    znachenies.Add(odd[i].startday.Minute.ToString());
+                    znachenies.Add(odd[i].endday.Hour.ToString());
+                    znachenies.Add(odd[i].endday.Minute.ToString());
+                    znachenies.Add(odd[i].city);
+                    znachenies.Add(odd[i].specCheck);
+                    znachenies.Add(odd[i].achiv);
+                    if (CheckExistingRowInTable(odd[i].tabelNumber, odd[i].daynumber.Year, odd[i].daynumber.Month, odd[i].daynumber.Day))
+                    {
+                        UpdateRow(odd[i].tabelNumber, paramForUsersTable, znachenies);
+                    }
+                    else { AddRowToTable(odd[i].tabelNumber, paramForUsersTable, znachenies); }
+                }
+
+
+        }
+
         public bool CheckExistingTable(string nametable)
         {
             SQLiteDataReader dr = new SQLiteCommand($"SELECT count(*) FROM sqlite_master where type='table' and name='{nametable}'", db_connection).ExecuteReader();
@@ -482,6 +511,22 @@ namespace Tabel_server.Model
                 AddRowToTable(NameOfTablenamberUserTable, paramForTabelNamberUserTable, znachenie);
                 return "Сотрудник успешно добавлен";
             }
+        }
+        public Employee GetEmployee( string tabelNumberOfThisUser)
+        {
+            Employee employee = new Employee();
+            List<string> param = new List<string>() { "TabelNamber" };
+            List<string> znachenie = new List<string>() { tabelNumberOfThisUser };
+            List<string> list = GetRowFromTable(NameOfTablenamberUserTable, param, znachenie);
+            employee.tabelNumber = list[1];
+            employee.family = list[2];
+            employee.name = list[3];
+            employee.parentName = list[4];
+            employee.dataOfEmployment = Convert.ToInt64(list[5]);
+            employee.dateOfDismiss = Convert.ToInt64(list[6]);
+            employee.salary = Convert.ToInt32(list[7]);
+            employee.post = list[8];
+            return employee;
         }
     }
    

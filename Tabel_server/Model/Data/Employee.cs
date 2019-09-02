@@ -13,24 +13,22 @@ namespace Tabel_server.Model.Data
         {
             return family + " " + name + " " + parentName;
         }
-        public void GetEmployee(Model.DataBase_manager db, List<string> znachenie)
+        public Employee GetEmployee(Model.DataBase_manager db, string tabelNumber)
         {
-            List<string> param=new List<string>() { family, name, parentName};
+            List<string> param=new List<string>() { "TabelNamber" };
+            List<string> znachenie = new List<string>() { tabelNumber };
             List<string> list=db.GetRowFromTable(db.NameOfTablenamberUserTable, param, znachenie);
-            tabelNumber=list[0];
-            family = list[1];
-            name = list[2];
-            parentName = list[3];
-            mail = list[4];
+            tabelNumber = list[0];
+            family = list[0];
+            name = list[0];
+            parentName = list[0];
+            dataOfEmployment = Convert.ToInt64(list[0]);
+            dateOfDismiss = Convert.ToInt64(list[0]);
+            salary = Convert.ToInt32(list[0]);
+            post = list[0];
+            return this;
         }
-        public List<Employee> GetAllEmployees(Model.DataBase_manager db)  
-        {
-            List<Employee> employees=new List<Employee>();
-            List<List<string>> Lists = db.GetAllRowFromTable(db.NameOfTablenamberUserTable);
-            Lists.ForEach(i => { employees.Add(new Employee() {tabelNumber=i[0], family = i[1], name = i[2],
-                 parentName = i[3], mail = i[4]}); });
-            return employees;
-        }
+
         public List<Employee> GetAllEmployees(Model.DataBase_manager db, DateTime date)
         {
             List<Employee> employees = new List<Employee>();

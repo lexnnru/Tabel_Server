@@ -107,8 +107,8 @@
                     <TextBox x:Name="tbSalary" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,10,0,0" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" PreviewTextInput="TbSalary_PreviewTextInput" PreviewKeyDown="TbSalary_PreviewKeyDown"/>
                     <DatePicker x:Name="dtDateOfEmployeement" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Left" Margin="0,3,0,0" Grid.Row="7" VerticalAlignment="Top"/>
                     <DatePicker x:Name="dtDateOfDismiss"  IsEnabled="False" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2,0,0" Grid.Row="8" VerticalAlignment="Top"/>
-                    <Label Content="Должность" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="6" VerticalAlignment="Top" Width="152"/>
-                    <TextBox x:Name="tbPost" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,5,0,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+                    <Label Content="Должность" Target="{Binding ElementName=tbPost}" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="6" VerticalAlignment="Top" Width="152"/>
+                    <TextBox x:Name="tbPost" SpellCheck.IsEnabled="True" Language="ru-ru" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,5,0,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
                 </Grid>
             </Border>
 

@@ -8,20 +8,14 @@
         mc:Ignorable="d"
         Title="Sintek_table_server" Height="626" Width="1013" WindowState="Maximized" Margin="10,0,0,0" >
     <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Style.Triggers>
-                <DataTrigger >
-
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*"  x:Name="min"/>
-            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="240" x:Name="min"/>
+            <ColumnDefinition Width="7" />
             <ColumnDefinition  Width="142*"/>
         </Grid.ColumnDefinitions>
+        
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30*" MinHeight="120" />
@@ -42,11 +36,18 @@
                        TextAlignment="Center"/>
             </Button>
             <TextBlock x:Name="tbTabelNamber" TextAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="Табельный номер"  />
-            <ListBox x:Name="lbUsers"    SelectionChanged="LbUsers_SelectionChanged" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <ListBox x:Name="lbUsers"   SelectionChanged="LbUsers_SelectionChanged" Grid.Column="0" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+           
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid >
-                            <TextBlock Text="{Binding fio}"  Grid.Row="0">
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"></ColumnDefinition>
+                                <ColumnDefinition Width="3"></ColumnDefinition>
+                                <ColumnDefinition Width="*" ></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding fio}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
@@ -59,6 +60,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock  HorizontalAlignment="Left"  TextWrapping="WrapWithOverflow"  Grid.Column="2" Grid.Row="0">
+                                <Run Text="(" ></Run>
+                                <Run Text="{Binding post}"></Run>
+                                <Run Text=")" ></Run>
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
@@ -76,8 +82,12 @@
                 <Button x:Name="btloadHoli" Content="Загрузить выходные в БД" Click="BtloadHoli_Click" Style="{DynamicResource ButtonStyle1}" />
                 <Button x:Name="btCalendar" Content="Календарь"  Style="{DynamicResource ButtonStyle1}" Click="BtCalendar_Click" />
             </StackPanel>
-            <Grid Grid.Row="1" Grid.Column="0" x:Name="MainGrid"  />
+            <Grid Grid.Row="1" Grid.Column="0" x:Name="MainGrid"  >
+                
+            </Grid>
         </Grid>
-        <Button   Grid.Row="0" Grid.Column="1"  FontSize="24" Click="Button_Click" Style="{DynamicResource ButtonStyle1}" />
+        
+        <Button   Grid.Row="0" Grid.Column="1"   Click="Button_Click" Style="{DynamicResource ButtonStyle1}" />
+        <GridSplitter Grid.Row="0" Grid.Column="1" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="True" />
     </Grid>
 </Window>

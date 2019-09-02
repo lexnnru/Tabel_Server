@@ -17,6 +17,8 @@ namespace Tabel_server.Model.Data
         public string subject { get; set; }
         public string message { get; set; }
         public string tabelNumber { get; set; }
+        public string post { get; set; }
+
         public int persentFill { get; set; }
         public bool dataNotComplit { get; set; }
         public bool error { get; set; }

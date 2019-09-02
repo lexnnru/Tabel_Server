@@ -22,7 +22,7 @@
             <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Height="0" Width="0"/>
-        <DataGrid ItemsSource="{Binding incomingDatas}"  x:Name="datagridForIncomingData" Grid.Row="1" AutoGenerateColumns="False"   >
+        <DataGrid ItemsSource="{Binding incomingDatas}"   x:Name="datagridForIncomingData" Grid.Row="1" AutoGenerateColumns="False"   >
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -105,8 +105,11 @@
                 <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения" ClipboardContentBinding="{x:Null}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label HorizontalAlignment="Center"    Content="Входящий табель" VerticalAlignment="Center" Width="120"/>
+        <Label HorizontalAlignment="Center"    Content="Входящий табель" VerticalAlignment="Center" Width="108" Margin="202,0,214,0"/>
         <Label HorizontalAlignment="Center"  Content="Исходный табель" VerticalAlignment="Center" Width="120"  Grid.Column="1"/>
-        <Button x:Name="btAddChanges" Content="Внести изменения" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Click="BtAddChanges_Click"/>
+        <Button x:Name="btAddChanges" Style="{DynamicResource ButtonStyle1}" Content="Внести изменения" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Click="BtAddChanges_Click"/>
+        <Label Content="{Binding fio}" HorizontalAlignment="Center"  VerticalAlignment="Center"   Grid.ColumnSpan="2" Grid.Row="0" />
+
+
     </Grid>
 </Window>

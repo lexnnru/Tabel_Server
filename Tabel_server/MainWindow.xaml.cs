@@ -144,6 +144,13 @@ namespace Tabel_server
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc3.uc3);
         }
+
+
+
+
+
+
+
         private void BtloadHoli_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
@@ -162,7 +169,7 @@ namespace Tabel_server
         {
             if ( min.Width== new GridLength(0))
             {
-                min.Width = new GridLength(25, GridUnitType.Star);
+                min.Width = new GridLength(240, GridUnitType.Pixel);
             }
             else
             min.Width = new GridLength(0);
@@ -192,6 +199,11 @@ namespace Tabel_server
             Window window = new Calendar.MainWindow();
             window.Show();
             
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ShowMess(sender.ToString());
         }
     }
 }

@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <convert:ConverterDay x:Key="convday"/>
         <convert:ConverterTime x:Key="convtime"/>
+        <convert:ConverterTimeSpan x:Key="convtimeSpan"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -39,7 +40,7 @@
                 <DataGridTextColumn Binding="{Binding specCheck}" Header="Спец. отм." CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding city}" Header="Город" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения за день" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding Work_time}" Header="Отработанное время" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding Work_time, Converter={StaticResource convtimeSpan}}" Header="Отработанное время" CanUserSort="False"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

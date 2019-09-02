@@ -23,6 +23,10 @@ namespace Tabel_server.PreveiwWindow
     {
         public ObservableCollection<IncomingDataTable> incomingDatas { get; set; }
         public ObservableCollection<IncomingDataTable> rowinDB { get; set; }
+        public Employee employee { get; set; }
+        public event Action<string> AddTabelToDB;
+        string pathForTabel;
+        public string fio { get; set; }
         public PreveiwTableForUpdate()
         {
             InitializeComponent();
@@ -31,18 +35,22 @@ namespace Tabel_server.PreveiwWindow
             rowinDB = new ObservableCollection<IncomingDataTable>();
 
         }
-        public void showTable(List<IncomingDataTable> idd, List<IncomingDataTable> rowinDB)
-        {          
+        public void showTable(List<IncomingDataTable> idd, List<IncomingDataTable> rowinDB, Employee employee, string pathForTabel)
+        {
+            this.pathForTabel = pathForTabel;
             idd.ForEach(x=> {
-                
                 incomingDatas.Add(x); });
             rowinDB.ForEach(x => { this.rowinDB.Add(x); });
-           // this.Close();
+            this.employee = employee;
+            fio ="ФИО: " +employee.family + " " + employee.name + " " + employee.parentName + " " +"должность: "+ employee.post;
+
+
         }
 
         private void BtAddChanges_Click(object sender, RoutedEventArgs e)
         {
-
+            AddTabelToDB?.Invoke(pathForTabel);
+            this.Close();
         }
     }
 }

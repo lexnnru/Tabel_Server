@@ -9,44 +9,73 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <convert:ConverterTimeSpan x:Key="convSpan"/>
+        <convert:ConverterColor x:Key="convColor"/>
     </UserControl.Resources>
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="dtTPL">
+                        <UniformGrid Columns="2">
+                            <Label Content="{Binding day1}" ></Label>
+                            <Label Background="AliceBlue" Content="{Binding day1c}"></Label>
+                        </UniformGrid>
+            </DataTemplate>
+        </Grid.Resources>
         <DataGrid x:Name="datagridSummary"   ItemsSource="{Binding tables}" CanUserSortColumns="False" AutoGenerateColumns="False"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
-           <DataGrid.Columns>
-                <DataGridTextColumn x:Name="column1" Binding="{Binding name }"   ClipboardContentBinding="{x:Null}" Header="Работник"/>
-                <DataGridTextColumn Binding="{Binding day1, Converter={StaticResource convSpan}}" Header="1"/>
-                <DataGridTextColumn Binding="{Binding day2, Converter={StaticResource convSpan}}" Header="2" />
-                <DataGridTextColumn Binding="{Binding day3, Converter={StaticResource convSpan}}" Header="3" />
-                <DataGridTextColumn Binding="{Binding day4, Converter={StaticResource convSpan}}" Header="4" />
-                <DataGridTextColumn Binding="{Binding day5, Converter={StaticResource convSpan}}" Header="5"   />
-                <DataGridTextColumn Binding="{Binding day6, Converter={StaticResource convSpan}}" Header="6"   />
-                <DataGridTextColumn Binding="{Binding day7, Converter={StaticResource convSpan}}" Header="7"   />
-                <DataGridTextColumn Binding="{Binding day8, Converter={StaticResource convSpan}}" Header="8"   />
-                <DataGridTextColumn Binding="{Binding day9, Converter={StaticResource convSpan}}" Header="9"   />
-                <DataGridTextColumn Binding="{Binding day10, Converter={StaticResource convSpan}}" Header="10"   />
-                <DataGridTextColumn Binding="{Binding day11, Converter={StaticResource convSpan}}" Header="11"   />
-                <DataGridTextColumn Binding="{Binding day12, Converter={StaticResource convSpan}}" Header="12"   />
-                <DataGridTextColumn Binding="{Binding day13, Converter={StaticResource convSpan}}" Header="13"   />
-                <DataGridTextColumn Binding="{Binding day14, Converter={StaticResource convSpan}}" Header="14"   />
-                <DataGridTextColumn Binding="{Binding day15, Converter={StaticResource convSpan}}" Header="15"   />
-                <DataGridTextColumn Binding="{Binding day16, Converter={StaticResource convSpan}}" Header="16"   />
-                <DataGridTextColumn Binding="{Binding day17, Converter={StaticResource convSpan}}" Header="17"   />
-                <DataGridTextColumn Binding="{Binding day18, Converter={StaticResource convSpan}}" Header="18"   />
-                <DataGridTextColumn Binding="{Binding day19, Converter={StaticResource convSpan}}" Header="19"   />
-                <DataGridTextColumn Binding="{Binding day20, Converter={StaticResource convSpan}}" Header="20"   />
-                <DataGridTextColumn Binding="{Binding day21, Converter={StaticResource convSpan}}" Header="21"   />
-                <DataGridTextColumn Binding="{Binding day22, Converter={StaticResource convSpan}}" Header="22"   />
-                <DataGridTextColumn Binding="{Binding day23, Converter={StaticResource convSpan}}" Header="23"   />
-                <DataGridTextColumn Binding="{Binding day24, Converter={StaticResource convSpan}}" Header="24"   />
-                <DataGridTextColumn Binding="{Binding day25, Converter={StaticResource convSpan}}" Header="25"   />
-                <DataGridTextColumn Binding="{Binding day26, Converter={StaticResource convSpan}}" Header="26"   />
-                <DataGridTextColumn Binding="{Binding day27, Converter={StaticResource convSpan}}" Header="27"   />
-                <DataGridTextColumn Binding="{Binding day28, Converter={StaticResource convSpan}}" Header="28"   />
-                <DataGridTextColumn Binding="{Binding day29, Converter={StaticResource convSpan}}" Header="29"   />
-                <DataGridTextColumn Binding="{Binding day30, Converter={StaticResource convSpan}}" Header="30"   />
-                <DataGridTextColumn Binding="{Binding day31, Converter={StaticResource convSpan}}" Header="31"  />
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="colName" Binding="{Binding name }"   ClipboardContentBinding="{x:Null}" Header="Сотрудник"/>
+                <DataGridTemplateColumn x:Name="col1" Header="1">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2"  >
+                                <Label Content="{Binding day1, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day1c}" Background="{Binding day1c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="col2" Header="2">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day2, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day2c}" Background="{Binding day2c, Converter={StaticResource convColor}}" ></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="3">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2"  >
+                                <Label Content="{Binding day3, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day3c}" Background="{Binding day3c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="4">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2"  >
+                                <Label Content="{Binding day4, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day4c}" Background="{Binding day4c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="5">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day5, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day5c}"  Background="{Binding day5c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Binding="{Binding summa}" Header="Всего"  />
             </DataGrid.Columns>
-        </DataGrid>
+          </DataGrid>
     </Grid>
 </UserControl>
