@@ -105,7 +105,14 @@ namespace Tabel_server
         public void SetSummaryTable(List<MonthEmployeeData> Employees, DateTime date, List<DateTime> HolidateTimes)
         {           
             tables.Clear();
-            for (int i = 0; i < Employees.Count; i++)
+            ObservableCollection<DataGridColumn> dt = datagridSummary.Columns;
+            for (int i = 0; i < dt.Count; i++)
+            {
+                dt[i].CellStyle = new Style(typeof(DataGridCell));
+                dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.White)));
+            }
+
+                for (int i = 0; i < Employees.Count; i++)
             {
                 //Employees[i].oneDayDatas.ForEach(x => { tables.Add(x); });
                 tables.Add(new Table() { name = Employees[i].fio,
@@ -176,20 +183,21 @@ namespace Tabel_server
             }
 
             this.Employees = Employees;
-            ObservableCollection<DataGridColumn> dt = datagridSummary.Columns;
+            
+            
             int dim = DateTime.DaysInMonth(date.Year, date.Month);
-            //for (int i = 31; i > 27; i--)
-            //{
-            //    dt[i].Width = dt[25].Width;
-            //}
+            for (int i = 31; i > 27; i--)
+            {
+                dt[i].Width = dt[25].Width;
+            }
 
-            //for (int i = 31; i > dim; i--)
-            //{
-            //    dt[i].MinWidth = 0;
-            //    dt[i].Width = 0;
-            //}
+            for (int i = 31; i > dim; i--)
+            {
+                dt[i].MinWidth = 0;
+                dt[i].Width = 0;
+            }
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= DateTime.DaysInMonth(date.Year, date.Month); i++)
             {
                 //DateTime.DaysInMonth(date.Year, date.Month)
                 for (int j = 0; j < HolidateTimes.Count; j++)

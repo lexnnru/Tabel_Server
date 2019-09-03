@@ -33,7 +33,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn x:Name="col2" Header="2">
+                <DataGridTemplateColumn  Header="2">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <UniformGrid Columns="1" Rows="2" >
@@ -69,6 +69,266 @@
                             <UniformGrid Columns="1" Rows="2" >
                                 <Label Content="{Binding day5, Converter={StaticResource convSpan}}" ></Label>
                                 <Label  Content="{Binding day5c}"  Background="{Binding day5c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="6">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day6, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day6c}"  Background="{Binding day6c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="7">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day7, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day7c}"  Background="{Binding day7c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="8">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day8, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day8c}"  Background="{Binding day8c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="9">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day9, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day9c}"  Background="{Binding day9c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="10">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day10, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day10c}"  Background="{Binding day10c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="11">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day11, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day11c}"  Background="{Binding day11c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="12">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day12, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day12c}"  Background="{Binding day12c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="13">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day13, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day13c}"  Background="{Binding day13c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="14">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day14, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day14c}"  Background="{Binding day14c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="15">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day15, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day15c}"  Background="{Binding day15c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="16">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day16, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day16c}"  Background="{Binding day16c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="17">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day17, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day17c}"  Background="{Binding day17c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="18">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day18, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day18c}"  Background="{Binding day18c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="19">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day19, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day19c}"  Background="{Binding day19c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="20">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day20, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day20c}"  Background="{Binding day20c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="21">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day21, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day21c}"  Background="{Binding day21c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="22">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day22, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day22c}"  Background="{Binding day22c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="23">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day23, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day32c}"  Background="{Binding day23c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="24">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day24, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day24c}"  Background="{Binding day24c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="25">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day25, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day25c}"  Background="{Binding da25c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="26">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day26, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day26c}"  Background="{Binding day26c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="27">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day27, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day27c}"  Background="{Binding day27c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="28">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day28, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day28c}"  Background="{Binding day28c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="29">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day29, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day29c}"  Background="{Binding day29c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day30, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day30c}"  Background="{Binding day30c, Converter={StaticResource convColor}}"></Label>
+                            </UniformGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="31">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <UniformGrid Columns="1" Rows="2" >
+                                <Label Content="{Binding day31, Converter={StaticResource convSpan}}" ></Label>
+                                <Label  Content="{Binding day31c}"  Background="{Binding day31c, Converter={StaticResource convColor}}"></Label>
                             </UniformGrid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
