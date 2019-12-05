@@ -28,6 +28,7 @@ namespace Tabel_server
     {  void ShowMess(string message);
         event Action<string> Lb_users_SelectionChange;
         event Action<string> LoadHoli;
+        
         event Func <DateTime, List<MonthEmployeeData>>GetMonthEmployeeData;
         event Action DateChanged;
         event Action <List<string>> LoadDataTableToDB;
@@ -41,6 +42,7 @@ namespace Tabel_server
         IUserControl2 uc2 { get; }
         IUserControl3 uc3 { get; }
         MangeUsers mu { get; set; }
+        Calendar.MainWindow calendar { get; set; }
         string tabelNamber { get; set; }
        ObservableCollection<MonthEmployeeData> employees { get; set; }
         DateTime dtMain { get; set; }
@@ -56,6 +58,8 @@ namespace Tabel_server
             uc1 = new UserControl1();
             uc3 = new UserControl3();
             mu = new MangeUsers();
+            calendar = new Calendar.MainWindow();
+
             new Presenter.Presenter(this);
             dtpicker.SelectedDateChanged += Dtpicker_SelectedDateChanged;
             Loger.LogChange += Loger_LogChange;
@@ -90,6 +94,7 @@ namespace Tabel_server
         public DateTime dtMain { get; set; }
         public List<DateTime> HoliDateTimes { get; set; }
         public MangeUsers mu { get; set; }
+        public Calendar.MainWindow calendar { get; set; }
 
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
@@ -196,8 +201,7 @@ namespace Tabel_server
 
         private void BtCalendar_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new Calendar.MainWindow();
-            window.Show();
+            calendar.Show();
             
         }
 

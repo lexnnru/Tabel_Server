@@ -88,6 +88,7 @@ namespace Tabel_server
         public string day30c { get; set; }
         public string day31c { get; set; }
         public int summa { get; set; }
+        public string Details { get; set; }
 
     }
     public partial class UserControl2 : UserControl, Interfaces.IUserControl2
@@ -103,19 +104,77 @@ namespace Tabel_server
             tables = new ObservableCollection<Table>();
         }
         public void SetSummaryTable(List<MonthEmployeeData> Employees, DateTime date, List<DateTime> HolidateTimes)
-        {           
+        {     
+            
             tables.Clear();
             ObservableCollection<DataGridColumn> dt = datagridSummary.Columns;
+
             for (int i = 0; i < dt.Count; i++)
             {
                 dt[i].CellStyle = new Style(typeof(DataGridCell));
                 dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.White)));
             }
-
-                for (int i = 0; i < Employees.Count; i++)
+            for (int i = 1; i <= DateTime.DaysInMonth(date.Year, date.Month); i++)
             {
-                //Employees[i].oneDayDatas.ForEach(x => { tables.Add(x); });
-                tables.Add(new Table() { name = Employees[i].fio,
+                for (int j = 0; j < HolidateTimes.Count; j++)
+                {
+                    if (new DateTime(date.Year, date.Month, i) == new DateTime(HolidateTimes[j].Year, HolidateTimes[j].Month, HolidateTimes[j].Day))
+                    {
+                        dt[i].CellStyle = new Style(typeof(DataGridCell));
+                        dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.Bisque)));
+                    }
+                }
+            }
+            for (int i = 0; i < Employees.Count; i++)
+            {
+
+                //Table tbl = new Table();
+                //tbl.day1 = Employees[i].oneDayDatas[0].Work_time;
+                //tbl.day2 = Employees[i].oneDayDatas[1].Work_time;
+                //tbl.day3 = Employees[i].oneDayDatas[2].Work_time;
+                //tbl.day4 = Employees[i].oneDayDatas[3].Work_time;
+                ////tbl.day5 = Employees[i].oneDayDatas[4].Work_time;
+                ////tbl.day6 = Employees[i].oneDayDatas[5].Work_time;
+                ////tbl.day7 = Employees[i].oneDayDatas[6].Work_time;
+                ////tbl.day8 = Employees[i].oneDayDatas[7].Work_time;
+                ////tbl.day9 = Employees[i].oneDayDatas[8].Work_time;
+                ////tbl.day10 = Employees[i].oneDayDatas[9].Work_time;
+                ////tbl.day11 = Employees[i].oneDayDatas[10].Work_time;
+                ////tbl.day12 = Employees[i].oneDayDatas[11].Work_time;
+                ////tbl.day13 = Employees[i].oneDayDatas[12].Work_time;
+                ////tbl.day14 = Employees[i].oneDayDatas[13].Work_time;
+                ////tbl.day15 = Employees[i].oneDayDatas[14].Work_time;
+                ////tbl.day16 = Employees[i].oneDayDatas[15].Work_time;
+                ////tbl.day17 = Employees[i].oneDayDatas[16].Work_time;
+                ////tbl.day18 = Employees[i].oneDayDatas[17].Work_time;
+                ////tbl.day19 = Employees[i].oneDayDatas[18].Work_time;
+                ////tbl.day20 = Employees[i].oneDayDatas[19].Work_time;
+                ////tbl.day21 = Employees[i].oneDayDatas[20].Work_time;
+                ////tbl.day22 = Employees[i].oneDayDatas[21].Work_time;
+                ////tbl.day23 = Employees[i].oneDayDatas[22].Work_time;
+                ////tbl.day24 = Employees[i].oneDayDatas[23].Work_time;
+                //tbl.day25 = Employees[i].oneDayDatas[24].Work_time;
+                //tbl.day26 = Employees[i].oneDayDatas[25].Work_time;
+                //tbl.day27 = Employees[i].oneDayDatas[26].Work_time;
+                //tbl.day28 = Employees[i].oneDayDatas[27].Work_time;
+                //if (Employees[i].oneDayDatas.Count >28)
+                //{ tbl.day29 = Employees[i].oneDayDatas[28].Work_time; }
+                //if (Employees[i].oneDayDatas.Count > 29)
+                //{ tbl.day30 = Employees[i].oneDayDatas[29].Work_time; }
+                //if (Employees[i].oneDayDatas.Count > 30)
+                //{ tbl.day31 = Employees[i].oneDayDatas[30].Work_time; }
+
+                //tables.Add(tbl);
+
+
+
+
+
+
+
+                tables.Add(new Table()
+                {
+                    name = Employees[i].fio,
                     day1 = Employees[i].oneDayDatas[0].Work_time,
                     day2 = Employees[i].oneDayDatas[1].Work_time,
                     day3 = Employees[i].oneDayDatas[2].Work_time,
@@ -178,38 +237,21 @@ namespace Tabel_server
                     day29c = Employees[i].oneDayDatas[28].specCheck,
                     day30c = Employees[i].oneDayDatas[29].specCheck,
                     day31c = Employees[i].oneDayDatas[30].specCheck,
-                    summa = Employees[i].oneDayDatas.Sum(n=>n.Work_time.Hours)
-            });;
+                    Details = string.Format("Должность: {0}  Табельный номер: {1}.",
+                    Employees[i].post, Employees[i].tabelNumber),
+                    summa = Employees[i].oneDayDatas.Sum(n => n.Work_time.Hours)
+                }); ;
             }
-
-            this.Employees = Employees;
-            
-            
             int dim = DateTime.DaysInMonth(date.Year, date.Month);
             for (int i = 31; i > 27; i--)
             {
                 dt[i].Width = dt[25].Width;
             }
-
             for (int i = 31; i > dim; i--)
             {
                 dt[i].MinWidth = 0;
                 dt[i].Width = 0;
             }
-
-            for (int i = 1; i <= DateTime.DaysInMonth(date.Year, date.Month); i++)
-            {
-                //DateTime.DaysInMonth(date.Year, date.Month)
-                for (int j = 0; j < HolidateTimes.Count; j++)
-                {
-                    if (new DateTime(date.Year, date.Month, i) == new DateTime(HolidateTimes[j].Year, HolidateTimes[j].Month, HolidateTimes[j].Day))
-                    {
-                        dt[i].CellStyle = new Style(typeof(DataGridCell));
-                        dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.LightBlue)));
-                    }
-                }
-            }
         }
-        
     }
 }

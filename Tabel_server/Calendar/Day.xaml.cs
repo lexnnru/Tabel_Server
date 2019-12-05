@@ -47,6 +47,10 @@ namespace Calendar
                         Bord.BorderBrush = new SolidColorBrush(Color.FromRgb(110, 220, 140));
                         Bord.Background = new SolidColorBrush(Color.FromRgb(130, 240, 160));
                         break;
+                    case DayType.Castom:
+                        Bord.BorderBrush = new SolidColorBrush(Color.FromRgb(110, 220, 140));
+                        Bord.Background = new SolidColorBrush(Color.FromRgb(130, 240, 160));
+                        break;
                 }
             }
         }
@@ -177,6 +181,11 @@ namespace Calendar
                 BorderBrushAnim.To = Color.FromRgb(255, 230, 100);
             }
             else if (Type == DayType.VeryShortDay)
+            {
+                BackgroundAnim.To = Color.FromRgb(255, 240, 120);
+                BorderBrushAnim.To = Color.FromRgb(255, 230, 100);
+            }
+            else if (Type == DayType.Castom)
             {
                 BackgroundAnim.To = Color.FromRgb(255, 240, 120);
                 BorderBrushAnim.To = Color.FromRgb(255, 230, 100);

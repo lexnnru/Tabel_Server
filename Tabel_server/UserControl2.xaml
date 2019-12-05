@@ -5,25 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tabel_server"
              xmlns:convert="clr-namespace:Tabel_server.Model.Data"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" Height="auto" Width="auto">
     <UserControl.Resources>
         <convert:ConverterTimeSpan x:Key="convSpan"/>
         <convert:ConverterColor x:Key="convColor"/>
     </UserControl.Resources>
     <Grid>
         <Grid.Resources>
-            <DataTemplate x:Key="dtTPL">
-                        <UniformGrid Columns="2">
-                            <Label Content="{Binding day1}" ></Label>
-                            <Label Background="AliceBlue" Content="{Binding day1c}"></Label>
-                        </UniformGrid>
-            </DataTemplate>
         </Grid.Resources>
-        <DataGrid x:Name="datagridSummary"   ItemsSource="{Binding tables}" CanUserSortColumns="False" AutoGenerateColumns="False"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="colName" Binding="{Binding name }"   ClipboardContentBinding="{x:Null}" Header="Сотрудник"/>
-                <DataGridTemplateColumn x:Name="col1" Header="1">
+        <DataGrid x:Name="datagridSummary" RowDetailsVisibilityMode="VisibleWhenSelected"  ItemsSource="{Binding tables}" CanUserSortColumns="False" AutoGenerateColumns="False"    >
+            <DataGrid.RowDetailsTemplate >
+                <DataTemplate >
+                    <Grid>
+                        <TextBlock   Text="{Binding Details}" Margin="10" />
+                    </Grid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+            <DataGrid.Columns >
+                <DataGridTemplateColumn  Header="Сотрудник">
+                    <DataGridTemplateColumn.CellTemplate >
+                        <DataTemplate>
+                            <Grid   >
+                                <Label Content="{Binding name}" ></Label>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="1">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <UniformGrid Columns="1" Rows="2"  >
@@ -268,7 +276,7 @@
                         <DataTemplate>
                             <UniformGrid Columns="1" Rows="2" >
                                 <Label Content="{Binding day25, Converter={StaticResource convSpan}}" ></Label>
-                                <Label  Content="{Binding day25c}"  Background="{Binding da25c, Converter={StaticResource convColor}}"></Label>
+                                <Label  Content="{Binding day25c}"  Background="{Binding day25c, Converter={StaticResource convColor}}"></Label>
                             </UniformGrid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -333,9 +341,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-                <DataGridTextColumn Binding="{Binding summa}" Header="Всего"  />
+                <DataGridTemplateColumn  Header="Всего часов">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <Label Content="{Binding summa}" ></Label></Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
-          </DataGrid>
+        </DataGrid>
     </Grid>
 </UserControl>

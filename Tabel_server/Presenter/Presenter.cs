@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calendar;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace Tabel_server.Presenter
         {
             this.imain = imain;
             dataBase_Manager = new Model.DataBase_manager("TabelDB");
+            CreateHoliTabel();
             //imain.Lb_users_SelectionChange += Lb_users_SelectionChange;
             imain.LoadHoli += Imain_LoadHoli;
             imain.GetMonthEmployeeData += Imain_GetMonthEmployeeData;
@@ -40,8 +42,22 @@ namespace Tabel_server.Presenter
             imain.mu.AddNewEmpl += Mu_AddNewEmpl;
             imain.mu.Setsource += Mu_Setsource;
             imain.mu.ChangeEmpl += Mu_ChangeEmpl;
-            
+            imain.calendar.year.Set_DayType += Year_Set_DayType;
+
+
+
         }
+
+        private void Year_Set_DayType(DateTime arg1, DayType arg2)
+        {
+            dataBase_Manager.Set_DayType(arg1, arg2);
+        }
+
+        public void CreateHoliTabel()
+        {
+            dataBase_Manager.Create_DataBase_Table("holi", new List<string>() { "day", "type"}, new List<string>() { "integer", "text" });
+        }
+        
         private void Imain_LoadDataTableToDB(List<string> obj)
         {
             for (int i = 0; i < obj.Count; i++)
@@ -134,6 +150,7 @@ namespace Tabel_server.Presenter
             List<Employee> empls = emp.GetAllEmployees(dataBase_Manager, imain.dtMain);
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(dataBase_Manager, imain.dtMain));
             List<string> tabelnumbers = new List<string>();
+            List<(DateTime, DayType)> SpecialDays = dataBase_Manager.Get_DayTypeInYear(date.Year);
             foreach (Employee employee in employees)
             {
                 if (new DateTime(new DateTime(employee.dataOfEmployment).ToLocalTime().Year, new DateTime(employee.dataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
@@ -163,11 +180,10 @@ namespace Tabel_server.Presenter
                     odd.city = idd[k].city;
                     odd.achiv = idd[k].achiv;
                     odd.isHaveData = idd[k].isHaveData;
-                    odd.isHoliday =
-                       dataBase_Manager.HoliIsThisDay(idd[k].daynumber.Year, idd[k].daynumber.Month, idd[k].daynumber.Day);
-                    DateTime nextDay = odd.daynumber.AddDays(1);
+                    if (k+1<=DateTime.DaysInMonth(date.Year, date.Month))
+                    { odd.Work_time_According_plan = Work_time_According_plan(new DateTime(date.Year, date.Month, k + 1), SpecialDays); }
+                  
                     odd.LunchTime = new TimeSpan(0, 48, 0);
-                    odd.nextDayisholi = dataBase_Manager.HoliIsThisDay(nextDay.Year, nextDay.Month, nextDay.Day);
                     if (odd.isHoliday == true || odd.specCheck == "ком.")
                     {
                         odd.Work_time = odd.endday - odd.startday;
@@ -177,33 +193,27 @@ namespace Tabel_server.Presenter
 
                         if (odd.specCheck == "больн." || odd.specCheck == "отп.б.с.")
                         {
-                            if (dataBase_Manager.HoliIsThisDay(nextDay.Year, nextDay.Month, nextDay.Day))
-                            { odd.Sick_time = new TimeSpan(7, 12, 0); }
-                            else
-                            { odd.Sick_time = new TimeSpan(8, 12, 0); }
+                            { odd.Sick_time = Work_time_According_plan(odd.daynumber, SpecialDays);
+                            }
                         }
                         else if (odd.specCheck == "отг.")
                         {
-                            if (dataBase_Manager.HoliIsThisDay(nextDay.Year, nextDay.Month, nextDay.Day))
-                            { odd.Compensatory_time = new TimeSpan(7, 12, 0); }
-                            else
-                            { odd.Compensatory_time = new TimeSpan(8, 12, 0); }
+                            { odd.Compensatory_time = Work_time_According_plan(odd.daynumber, SpecialDays);
+                            }
+                            
                         }
                         else if (odd.specCheck == "отп.")
                         {
-                            if (dataBase_Manager.HoliIsThisDay(nextDay.Year, nextDay.Month, nextDay.Day))
-                            { odd.Vocation_time = new TimeSpan(7, 12, 0); }
-                            else
-                            { odd.Vocation_time = new TimeSpan(8, 12, 0); }
+                            { odd.Vocation_time = Work_time_According_plan(odd.daynumber, SpecialDays);
+                            }
                         }
                     }
                     else
                     {
                         if ((odd.endday - odd.startday) > new TimeSpan(4, 48, 0))
-                            odd.Work_time = odd.endday - odd.startday - odd.LunchTime;
-                        else odd.Work_time = odd.endday - odd.startday;
-                        if (odd.endday - odd.startday == new TimeSpan(0, 0, 0) || odd.daynumber == new DateTime(0001, 1, 1))
-                        { odd.error = true; }
+                        { odd.Work_time = odd.endday - odd.startday - odd.LunchTime; }
+                        else { odd.Work_time = odd.endday - odd.startday; }
+
                     }
                     if (odd.daynumber == new DateTime(0001, 1, 1))
                     {
@@ -214,6 +224,10 @@ namespace Tabel_server.Presenter
                         odd.isHaveData = true;
                         fillCount += 1;
                     }
+                    
+                    if (odd.endday - odd.startday == new TimeSpan(0, 0, 0) && odd.Work_time_According_plan!=new TimeSpan(0,0,0)
+                        || odd.daynumber == new DateTime(0001, 1, 1))
+                    { odd.error = true; }
                     monthEmployeeData.oneDayDatas.Add(odd);
                 }
                 if (date<new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))
@@ -230,7 +244,7 @@ namespace Tabel_server.Presenter
                 {
                     if ( Properties.Settings.Default.dayX.Day<20)
                     {
-                        for (int q = 1; q <= 15; q++)
+                        for (int q = 1; q <= Properties.Settings.Default.dayX.Day; q++)
                         {
                             if (monthEmployeeData.oneDayDatas[q - 1].error == true)
                             {
@@ -239,7 +253,6 @@ namespace Tabel_server.Presenter
                         }
                     }
                     else
-
                     {
                         for (int q = 1; q <=DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); q++)
                         {
@@ -261,8 +274,64 @@ namespace Tabel_server.Presenter
                     else { }
                 };
             }
-            imain.HoliDateTimes = dataBase_Manager.GetHoliDateTimes(imain.dtMain);
+            imain.HoliDateTimes = GetHoliDateTimes(imain.dtMain, SpecialDays);
             return monthEmployeeDatas;
+        }
+        public List<DateTime> GetHoliDateTimes(DateTime dateTime, List<(DateTime, DayType)> SpecialDays)
+        {
+            List<DateTime> dt = new List<DateTime>();
+            for (int i = 1; i <= DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i++)
+            {
+                SpecialDays.ForEach(x => {
+                    if (new DateTime(dateTime.Year, dateTime.Month, i) == x.Item1)
+                    {
+                        dt.Add(new DateTime(dateTime.Year, dateTime.Month, i));
+                    }
+     
+                });
+                if (dt.Contains(new DateTime(dateTime.Year, dateTime.Month, i)))
+                {
+                }
+                else
+                {
+                    if (new DateTime(dateTime.Year, dateTime.Month, i).DayOfWeek == DayOfWeek.Saturday ||
+                    new DateTime(dateTime.Year, dateTime.Month, i).DayOfWeek == DayOfWeek.Sunday)
+                    { dt.Add(new DateTime(dateTime.Year, dateTime.Month, i)); }
+                }
+            }
+            return dt;
+        }
+        private TimeSpan Work_time_According_plan (DateTime day, List<(DateTime, DayType)> SpecialDays)
+        {
+            TimeSpan ts = new TimeSpan(8, 12, 0);
+            bool this_day_is_special=false;
+            SpecialDays.ForEach(x => {
+                if (day==x.Item1)
+                {
+                    if (x.Item2==DayType.FreeDay)
+                    { ts= new TimeSpan(0, 0, 0); }
+                    if (x.Item2 == DayType.FullDay)
+                    { ts = new TimeSpan(8, 12, 0); }
+                    if (x.Item2 == DayType.ShortDay)
+                    { ts = new TimeSpan(7, 12, 0); }
+                    if (x.Item2 == DayType.VeryShortDay)
+                    { ts = new TimeSpan(6, 12, 0); }
+                    if (x.Item2 == DayType.Castom)
+                    { ts = Properties.Settings.Default.Castom; }
+                    this_day_is_special = true;
+                }
+               
+            });
+             if (this_day_is_special==false)
+            {
+                if (day.DayOfWeek == DayOfWeek.Friday)
+                { ts = new TimeSpan(7, 12, 0); }
+                if (day.DayOfWeek == DayOfWeek.Saturday)
+                { ts = new TimeSpan(0, 0, 0); }
+                if (day.DayOfWeek == DayOfWeek.Sunday)
+                { ts = new TimeSpan(0, 0, 0); }
+            }
+            return ts;
         }
         private void Imain_LoadHoli(string obj)
         {
@@ -285,7 +354,13 @@ namespace Tabel_server.Presenter
         //}
         public void GetDayX()
         {
-            List<int> holiMonth = dataBase_Manager.GetRealHoliMonth(DateTime.Now.Year, DateTime.Now.Month);
+            List<int> holiMonth= new List<int>();
+            List<(DateTime, DayType)> SpecialDays = dataBase_Manager.Get_DayTypeInYear(imain.dtMain.Year);
+            List<DateTime> ldt = GetHoliDateTimes(imain.dtMain, SpecialDays);
+            ldt.ForEach(x => {
+                holiMonth.Add(x.Day);
+            });
+            
             int dayX = 15;
             bool isitHoly = false;
             if (DateTime.Now.Day <= 15)

@@ -36,6 +36,10 @@ namespace Tabel_server
         public int compensatory_days { get; set; }
         public int daycomm { get; set; }
         public TimeSpan totalWorkHours { get; set; }
+        public string Details { get; set; }
+        public TimeSpan totalWorkHours_According_Plan { get; set; }
+
+
 
     }
     public partial class UserControl3 : UserControl, IUserControl3
@@ -69,7 +73,7 @@ namespace Tabel_server
                 TimeSpan vacationHours = new TimeSpan(0, 0, 0);
                 TimeSpan compensatory_hours = new TimeSpan(0, 0, 0);
                 TimeSpan totalWorkHours = new TimeSpan(0, 0, 0);
-
+                TimeSpan totalWorkHours_According_Plan = new TimeSpan(0, 0, 0);
 
                 int daycomm = 0;
                 int sickDays = 0;
@@ -97,44 +101,27 @@ namespace Tabel_server
                     }
 
 
-                    if (monthemployees[i].oneDayDatas[j].isHoliday==false)
+                    if (monthemployees[i].oneDayDatas[j].Work_time_According_plan> new TimeSpan(0,0,0))
                     {
-                        if (monthemployees[i].oneDayDatas[j].nextDayisholi)
+
+                        if (monthemployees[i].oneDayDatas[j].Work_time <= monthemployees[i].oneDayDatas[j].Work_time_According_plan)
                         {
-                            if (monthemployees[i].oneDayDatas[j].Work_time <= new TimeSpan(7, 12, 0))
-                            {
-                                hour1 += monthemployees[i].oneDayDatas[j].Work_time;
-                            }
-                            else if (monthemployees[i].oneDayDatas[j].Work_time > new TimeSpan(7, 12, 0) && monthemployees[i].oneDayDatas[j].Work_time < new TimeSpan(9, 12, 0))
-                            {
-                                hour1 += new TimeSpan(7, 12, 0);
-                                hour15 = hour15 + monthemployees[i].oneDayDatas[j].Work_time - new TimeSpan(7, 12, 0);
-                            }
-                            else if (monthemployees[i].oneDayDatas[j].Work_time > new TimeSpan(9, 12, 0))
-                            {
-                                hour1 += new TimeSpan(7, 12, 0);
-                                hour15 += new TimeSpan(2, 0, 0);
-                                hour20 = hour20 + monthemployees[i].oneDayDatas[j].Work_time - new TimeSpan(9, 12, 0);
-                            }
+                            hour1 += monthemployees[i].oneDayDatas[j].Work_time;
                         }
-                        else
+                        else if (monthemployees[i].oneDayDatas[j].Work_time > monthemployees[i].oneDayDatas[j].Work_time_According_plan &&
+                        monthemployees[i].oneDayDatas[j].Work_time <= monthemployees[i].oneDayDatas[j].Work_time_According_plan + new TimeSpan(2, 0, 0))
                         {
-                            if (monthemployees[i].oneDayDatas[j].Work_time <= new TimeSpan(8, 12, 0))
-                            {
-                                hour1 += monthemployees[i].oneDayDatas[j].Work_time;
-                            }
-                            else if (monthemployees[i].oneDayDatas[j].Work_time > new TimeSpan(8, 12, 0) && monthemployees[i].oneDayDatas[j].Work_time < new TimeSpan(10, 12, 0))
-                            {
-                                hour1 += new TimeSpan(8, 12, 0);
-                                hour15 = hour15 + monthemployees[i].oneDayDatas[j].Work_time - new TimeSpan(8, 12, 0);
-                            }
-                            else if (monthemployees[i].oneDayDatas[j].Work_time > new TimeSpan(10, 12, 0))
-                            {
-                                hour1 += new TimeSpan(8, 12, 0);
-                                hour15 += new TimeSpan(2, 0, 0);
-                                hour20 = hour20 + monthemployees[i].oneDayDatas[j].Work_time - new TimeSpan(10, 12, 0);
-                            }
+                            hour1 += monthemployees[i].oneDayDatas[j].Work_time_According_plan;
+                            hour15 = hour15 + monthemployees[i].oneDayDatas[j].Work_time - monthemployees[i].oneDayDatas[j].Work_time_According_plan;
                         }
+                        else if (monthemployees[i].oneDayDatas[j].Work_time > monthemployees[i].oneDayDatas[j].Work_time_According_plan + new TimeSpan(2, 0, 0))
+                            {
+                                hour1 += monthemployees[i].oneDayDatas[j].Work_time_According_plan;
+                                hour15 += new TimeSpan(2, 0, 0);
+                                hour20 = hour20 + monthemployees[i].oneDayDatas[j].Work_time - monthemployees[i].oneDayDatas[j].Work_time_According_plan - new TimeSpan(2, 0, 0);
+                            }
+                        
+        
 
                   
                     }
@@ -150,12 +137,16 @@ namespace Tabel_server
                         }
                     }
 
-                    totalWorkHours = sickHours + vacationHours + compensatory_hours + hour1;  
+                    totalWorkHours = sickHours + vacationHours + compensatory_hours + hour1;
+                    totalWorkHours_According_Plan += monthemployees[i].oneDayDatas[j].Work_time_According_plan;
                 }
 
             tables.Add(new table { fio = monthemployees[i].fio, hour1=hour1, hour15=hour15, hour20=hour20, hourHoli20=hourHoli20 ,
                 daycomm =daycomm, sickDays=sickDays, sickHours=sickHours, compensatory_days=compensatory_days,
-                compensatory_hours =compensatory_hours, vacationDays=vacationDays, vacationHours=vacationHours, totalWorkHours=totalWorkHours});
+                compensatory_hours =compensatory_hours, vacationDays=vacationDays, vacationHours=vacationHours, totalWorkHours=totalWorkHours,
+                Details = string.Format("Должность: {0}  Табельный номер: {1}.", monthemployees[i].post, monthemployees[i].tabelNumber),
+                totalWorkHours_According_Plan=totalWorkHours_According_Plan
+            });
             }
 
         }

@@ -37,7 +37,7 @@
                 <DataGridTextColumn Binding="{Binding daynumber, Converter={StaticResource convday}}" Header="Дата" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding startday, Converter={StaticResource convtime}}" Header="Начало работы" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding endday, Converter={StaticResource convtime}}" Header="Окончание работы" CanUserSort="False" />
-                <DataGridTextColumn Binding="{Binding specCheck}" Header="Спец. отм." CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding specCheck}" Header="Специальная отметка" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding city}" Header="Город" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения за день" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding Work_time, Converter={StaticResource convtimeSpan}}" Header="Отработанное время" CanUserSort="False"/>

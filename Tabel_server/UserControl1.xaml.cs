@@ -36,7 +36,11 @@ namespace Tabel_server
         public void SetSource(MonthEmployeeData employees)
         {
             odd.Clear();
-            employees.oneDayDatas.ForEach(x => { odd.Add(x); });
+            employees.oneDayDatas.ForEach(x => {
+                if (x.Work_time_According_plan==new TimeSpan(0,0,0))
+                { x.isHoliday = true; }
+
+                odd.Add(x); });
         }
     }
 }

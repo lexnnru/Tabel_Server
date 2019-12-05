@@ -24,5 +24,7 @@ namespace Tabel_server.Model.Data
         public bool isHaveData { get; set; }
         public bool error { get; set; }
         public bool nextDayisholi { get; set; }
+        public TimeSpan Work_time_According_plan { get; set; }
+        
     }
 }

@@ -49,6 +49,8 @@ namespace Tabel_server.Model.Data
             { return "#FFFFFFAB"; }
             else if (specCheck == "отп.")
             { return "#FFFFFF7D"; }
+            else if (specCheck == null)
+            { return "White"; }
             else return "White";
         }
 
@@ -61,7 +63,8 @@ namespace Tabel_server.Model.Data
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return  (( (TimeSpan)value).TotalHours);
+            return string.Format("{0:f1}", ((TimeSpan)value).TotalHours);
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

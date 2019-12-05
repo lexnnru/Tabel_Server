@@ -20,16 +20,29 @@ namespace Calendar
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Year year;
+        
         public MainWindow()
         {
             InitializeComponent();
             this.SnapsToDevicePixels = true;
             UseLayoutRounding = true;
-            this.Main.Children.Add(new Year(DateTime.Now, GetSpecialDays(DateTime.Now.Year))
-            { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left });
+            year = new Year(DateTime.Now, GetSpecialDays(DateTime.Now.Year)) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
+            this.Main.Children.Add(year);
         }
+        //public MainWindow(List<(DateTime, DayType)> specisal_Days)
+        //{
+        //    InitializeComponent();
+        //    this.SnapsToDevicePixels = true;
+        //    UseLayoutRounding = true;
+        //   year = new Year(DateTime.Now, specisal_Days) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
+            
+        //    this.Main.Children.Add( year );
 
-        List<(DateTime, DayType)> GetSpecialDays(int year)
+           
+        //}
+
+        public List<(DateTime, DayType)> GetSpecialDays(int year)
         {
             List<(DateTime, DayType)> SpecialDays = new List<(DateTime, DayType)>();
             switch (year)
@@ -44,6 +57,7 @@ namespace Calendar
                     SpecialDays.Add((new DateTime(2019, 2, 22), DayType.VeryShortDay));
                     SpecialDays.Add((new DateTime(2019, 3, 7), DayType.ShortDay));
                     SpecialDays.Add((new DateTime(2019, 3, 8), DayType.FreeDay));
+                    SpecialDays.Add((new DateTime(2019, 9, 8), DayType.FullDay));
                     SpecialDays.Add((new DateTime(2019, 4, 30), DayType.ShortDay));
                     SpecialDays.Add((new DateTime(2019, 5, 1), DayType.FreeDay));
                     SpecialDays.Add((new DateTime(2019, 5, 2), DayType.FreeDay));

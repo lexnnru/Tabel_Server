@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calendar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="900">
+        Title="MainWindow" Height="auto" Width="auto" WindowState="Maximized" ResizeMode="CanResizeWithGrip" MinWidth="1000" MinHeight="500">
+    <ScrollViewer HorizontalScrollBarVisibility="Visible">
     <Grid x:Name="Main"/>
+    </ScrollViewer>
 </Window>

@@ -11,6 +11,8 @@ namespace Calendar
         FullDay,
         ShortDay,
         VeryShortDay,
-        FreeDay
+        FreeDay,
+        Castom
     }
+  
 }

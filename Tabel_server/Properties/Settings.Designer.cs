@@ -44,5 +44,17 @@ namespace Tabel_server.Properties {
                 this["dayXOld"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00")]
+        public global::System.TimeSpan Castom {
+            get {
+                return ((global::System.TimeSpan)(this["Castom"]));
+            }
+            set {
+                this["Castom"] = value;
+            }
+        }
     }
 }
