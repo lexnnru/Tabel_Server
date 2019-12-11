@@ -31,14 +31,6 @@
 
         </Grid>
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal"  Grid.Row="0" Grid.Column="0">
-            <Button  Content="Задать значение" Width="200" Click="Button_Click" />
-            <ComboBox x:Name="bt_SetDayType" Width="260">
-                <ComboBoxItem>Выходной</ComboBoxItem>
-                <ComboBoxItem Content="Рабочий"/>
-                <ComboBoxItem>Сокращенный на 1 час</ComboBoxItem>
-                <ComboBoxItem>Сокращенный на 2 часа</ComboBoxItem>
-                <ComboBoxItem>Кастомный</ComboBoxItem>
-            </ComboBox>
             <TextBlock x:Name="SelectedDate" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="NoWrap" Text=""  FontSize="18"/>
         </StackPanel>
     </Grid>

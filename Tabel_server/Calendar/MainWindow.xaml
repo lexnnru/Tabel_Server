@@ -1,12 +1,32 @@
-﻿<Window x:Class="Calendar.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calendar"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Calendar.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="auto" Width="auto" WindowState="Maximized" ResizeMode="CanResizeWithGrip" MinWidth="1000" MinHeight="500">
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-    <Grid x:Name="Main"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{PriorityBinding}"/>
+                <RowDefinition Height="20*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="Main" Grid.Row="1"/>
+            <StackPanel Height="30" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" >
+                <Button  Content="Задать значение" Width="200" x:Name="btSetDayLength"  Style="{DynamicResource ButtonStyle1}" Click="BtSetDayLength_Click"/>
+                <ComboBox x:Name="cbDayType" Width="110"   SelectionChanged="Bt_SetDayType_SelectionChanged"   >
+                    <ComboBoxItem  Content="Выходной" HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="Рабочий" HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="Сокращенный" HorizontalAlignment="Center"/>
+                </ComboBox>
+                <TextBlock x:Name="tbInfo1" Width="{PriorityBinding}"  TextAlignment="Center"><Run Text="Введите продолжительность"/><LineBreak/><Run Text="рабочего дня, в часах:"/></TextBlock>
+                <xctk:DoubleUpDown x:Name="UpDownSelLengthDay" Width="{PriorityBinding}" Value="7.2"/>
+                <Label Content="Год:"/>
+                <xctk:IntegerUpDown  Value="{Binding year}" x:Name="UpDownYear" Width="176"/>
+            </StackPanel>
+        </Grid>
+
     </ScrollViewer>
 </Window>

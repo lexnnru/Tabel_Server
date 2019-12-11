@@ -7,20 +7,18 @@ namespace Calendar
 {
     public partial class Year : UserControl
     {
-        DateTime year;
+        DateTime Datetime;
         Month lastChecked;
         public DateTime SelectedDay { get; set; }
         public DayType DayTypeSelectedDay { get; set; }
-        public event Action<DateTime, DayType> Set_DayType;
-        public Year(DateTime Year, List<(DateTime, DayType)> SpecialDays = null)
+        public Year(DateTime datetime, List<(DateTime, DayType)> SpecialDays = null)
         {
             InitializeComponent();
-
-            year = Year;
+            Datetime = datetime;
             Month month;
             for (int i = 1; i < 13; i++)
             {
-                month = new Month(new DateTime(year.Year, i, 1), SpecialDays) { Margin = new Thickness(1) };
+                month = new Month(new DateTime(Datetime.Year, i, 1), SpecialDays) { Margin = new Thickness(1) };
                 month.Checked += (s, d, t) =>
                 {
                     if (lastChecked == null)
@@ -69,21 +67,6 @@ namespace Calendar
                 Grid.SetRow(month, (i - 1) / 6);
             }
 
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (bt_SetDayType.SelectedIndex == 0)
-            { DayTypeSelectedDay = DayType.FreeDay; }
-            else if (bt_SetDayType.SelectedIndex == 1)
-            { DayTypeSelectedDay = DayType.FullDay; }
-            else if (bt_SetDayType.SelectedIndex == 2)
-            { DayTypeSelectedDay = DayType.ShortDay; }
-            else if (bt_SetDayType.SelectedIndex == 3)
-            { DayTypeSelectedDay = DayType.VeryShortDay; }
-            else if (bt_SetDayType.SelectedIndex == 4)
-            { DayTypeSelectedDay = DayType.Castom; }
-            Set_DayType?.Invoke(SelectedDay, DayTypeSelectedDay);
         }
     }
 }

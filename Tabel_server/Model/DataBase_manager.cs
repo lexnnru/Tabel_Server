@@ -31,6 +31,10 @@ namespace Tabel_server.Model
                 Create_DataBase_Table(NameOfTablenamberUserTable, paramForTabelNamberUserTable, typedataForTabelNamberUserTable);
             }
         }
+        public void CreateHoliTabel()
+        {
+            Create_DataBase_Table("holi", new List<string>() { "day", "type", "daylength" }, new List<string>() { "integer", "text", "real" });
+        }
 
         public DataBase_manager(String dbFileName)
         {
@@ -85,7 +89,7 @@ namespace Tabel_server.Model
             });
             return list1;
         }
-        public void Set_DayType(DateTime dateTime, DayType dayType )
+        public void SetDayType(DateTime dateTime, DayType dayType, TimeSpan daylength )
         {
             int dt=2;
             SQLiteCommand sqlcmd = db_connection.CreateCommand();

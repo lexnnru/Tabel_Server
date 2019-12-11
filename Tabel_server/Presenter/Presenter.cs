@@ -16,48 +16,35 @@ namespace Tabel_server.Presenter
     public class Presenter
     {
         ImainWindow imain;
-        Model.DataBase_manager dataBase_Manager;
+        Model.DataBase_manager DBmanager;
         Employee employee = new Employee();
-        //Model.Monitoring monitor = new Model.Monitoring();
         ObservableCollection<MonthEmployeeData> monthemployees = new ObservableCollection<MonthEmployeeData>();
         ObservableCollection<Employee> FullEmployees = new ObservableCollection<Employee>();
         public Presenter(ImainWindow imain)
         {
             this.imain = imain;
-            dataBase_Manager = new Model.DataBase_manager("TabelDB");
-            CreateHoliTabel();
-            //imain.Lb_users_SelectionChange += Lb_users_SelectionChange;
+            DBmanager = new Model.DataBase_manager("TabelDB");
+            DBmanager.CreateTabelUserTable();
+            DBmanager.CreateHoliTabel();
             imain.LoadHoli += Imain_LoadHoli;
             imain.GetMonthEmployeeData += Imain_GetMonthEmployeeData;
             imain.DateChanged += Imain_DateChanged;
             imain.LoadDataTableToDB += Imain_LoadDataTableToDB;
-            //monitor.filechange += Monitor_filechange;
-            dataBase_Manager.CreateTabelUserTable();
-            //Thread tr = new Thread(monitor.Chek);
-            //tr.IsBackground = true;
-            //tr.Start();
+
             monthemployees = new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain));
             imain.SetlbUsers(monthemployees);
             imain.mu.Loaded += Mu_Loaded;
             imain.mu.AddNewEmpl += Mu_AddNewEmpl;
             imain.mu.Setsource += Mu_Setsource;
             imain.mu.ChangeEmpl += Mu_ChangeEmpl;
-            imain.calendar.year.Set_DayType += Year_Set_DayType;
-
-
-
+            imain.calendar.SetDayType += Year_Set_DayType;
         }
 
-        private void Year_Set_DayType(DateTime arg1, DayType arg2)
+        private void Year_Set_DayType(DateTime arg1, DayType arg2, TimeSpan arg3)
         {
-            dataBase_Manager.Set_DayType(arg1, arg2);
+            DBmanager.SetDayType(arg1, arg2, arg3);
         }
 
-        public void CreateHoliTabel()
-        {
-            dataBase_Manager.Create_DataBase_Table("holi", new List<string>() { "day", "type"}, new List<string>() { "integer", "text" });
-        }
-        
         private void Imain_LoadDataTableToDB(List<string> obj)
         {
             for (int i = 0; i < obj.Count; i++)
@@ -65,11 +52,11 @@ namespace Tabel_server.Presenter
                 try
                 {
                     bool show = false;
-                    List< IncomingDataTable> rowForUpdate =dataBase_Manager.CompareFileTabelWithDatabase(obj[i]);
-                    List<IncomingDataTable> rowINDB = dataBase_Manager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month);
+                    List<IncomingDataTable> rowForUpdate = DBmanager.CompareFileTabelWithDatabase(obj[i]);
+                    List<IncomingDataTable> rowINDB = DBmanager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month);
                     for (int j = 0; j < rowForUpdate.Count; j++)
                     {
-                        
+
                         if (rowForUpdate[j].daynumber == rowINDB[j].daynumber && rowForUpdate[j].startday == rowINDB[j].startday && rowForUpdate[j].endday == rowINDB[j].endday &&
                             rowForUpdate[j].city == rowINDB[j].city && rowForUpdate[j].achiv == rowINDB[j].achiv && rowForUpdate[j].specCheck == rowINDB[j].specCheck)
                         {
@@ -94,8 +81,8 @@ namespace Tabel_server.Presenter
                     if (show)
                     {
                         PreveiwWindow.PreveiwTableForUpdate window = new PreveiwWindow.PreveiwTableForUpdate();
-                         
-                        window.showTable(rowForUpdate, rowINDB, dataBase_Manager.GetEmployee(rowForUpdate[0].tabelNumber), obj[i]);
+
+                        window.showTable(rowForUpdate, rowINDB, DBmanager.GetEmployee(rowForUpdate[0].tabelNumber), obj[i]);
                         window.AddTabelToDB += Window_AddTabelToDB;
                         window.Show();
                     }
@@ -105,40 +92,39 @@ namespace Tabel_server.Presenter
                 {
                     Model.Loger.GetLog(ex.Message);
                 }
-               
+
             }
         }
-
         private void Window_AddTabelToDB(string obj)
         {
-            dataBase_Manager.AddTabelToDB(obj);
+            DBmanager.AddTabelToDB(obj);
             Model.Loger.GetLog(obj + " файл табеля добавлен");
         }
 
         private void Mu_ChangeEmpl(Employee arg1, Employee arg2)
         {
-            dataBase_Manager.UpdateEmployee(arg1, arg2);
+            DBmanager.UpdateEmployee(arg1, arg2);
         }
         private void Mu_Setsource()
         {
-            imain.mu.employees = new ObservableCollection<Employee>(employee.GetAllEmployees(dataBase_Manager, imain.dtMain));
+            imain.mu.employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
 
             imain.mu.lbUsers.ItemsSource = imain.mu.employees;
         }
         private void Mu_AddNewEmpl(Employee obj)
         {
-            string message=dataBase_Manager.AddNewEmplpyee(obj);
+            string message = DBmanager.AddNewEmplpyee(obj);
             imain.ShowMess(message);
             imain.SetlbUsers(new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain)));
         }
         private void Mu_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            imain.mu.employees = new ObservableCollection<Employee>(employee.GetAllEmployees(dataBase_Manager, imain.dtMain));
+            imain.mu.employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
             imain.mu.lbUsers.ItemsSource = imain.mu.employees;
         }
         private void Imain_DateChanged()
         {
-            
+
             monthemployees = new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain));
             imain.SetlbUsers(monthemployees);
         }
@@ -147,10 +133,10 @@ namespace Tabel_server.Presenter
             GetDayX();
             List<MonthEmployeeData> monthEmployeeDatas = new List<MonthEmployeeData>();
             Employee emp = new Employee();
-            List<Employee> empls = emp.GetAllEmployees(dataBase_Manager, imain.dtMain);
-            ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(dataBase_Manager, imain.dtMain));
+            List<Employee> empls = emp.GetAllEmployees(DBmanager, imain.dtMain);
+            ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
             List<string> tabelnumbers = new List<string>();
-            List<(DateTime, DayType)> SpecialDays = dataBase_Manager.Get_DayTypeInYear(date.Year);
+            List<(DateTime, DayType)> SpecialDays = DBmanager.Get_DayTypeInYear(date.Year);
             foreach (Employee employee in employees)
             {
                 if (new DateTime(new DateTime(employee.dataOfEmployment).ToLocalTime().Year, new DateTime(employee.dataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
@@ -162,7 +148,7 @@ namespace Tabel_server.Presenter
             for (int i = 0; i < empls.Count; i++)
             {
                 MonthEmployeeData monthEmployeeData = new MonthEmployeeData();
-                List<IncomingDataTable> idd = dataBase_Manager.Get_Month_IDD(empls[i].tabelNumber, date.Year, date.Month);
+                List<IncomingDataTable> idd = DBmanager.Get_Month_IDD(empls[i].tabelNumber, date.Year, date.Month);
                 monthEmployeeData.family = empls[i].family;
                 monthEmployeeData.name = empls[i].name;
                 monthEmployeeData.parentName = empls[i].parentName;
@@ -180,9 +166,9 @@ namespace Tabel_server.Presenter
                     odd.city = idd[k].city;
                     odd.achiv = idd[k].achiv;
                     odd.isHaveData = idd[k].isHaveData;
-                    if (k+1<=DateTime.DaysInMonth(date.Year, date.Month))
+                    if (k + 1 <= DateTime.DaysInMonth(date.Year, date.Month))
                     { odd.Work_time_According_plan = Work_time_According_plan(new DateTime(date.Year, date.Month, k + 1), SpecialDays); }
-                  
+
                     odd.LunchTime = new TimeSpan(0, 48, 0);
                     if (odd.isHoliday == true || odd.specCheck == "ком.")
                     {
@@ -193,18 +179,21 @@ namespace Tabel_server.Presenter
 
                         if (odd.specCheck == "больн." || odd.specCheck == "отп.б.с.")
                         {
-                            { odd.Sick_time = Work_time_According_plan(odd.daynumber, SpecialDays);
+                            {
+                                odd.Sick_time = Work_time_According_plan(odd.daynumber, SpecialDays);
                             }
                         }
                         else if (odd.specCheck == "отг.")
                         {
-                            { odd.Compensatory_time = Work_time_According_plan(odd.daynumber, SpecialDays);
+                            {
+                                odd.Compensatory_time = Work_time_According_plan(odd.daynumber, SpecialDays);
                             }
-                            
+
                         }
                         else if (odd.specCheck == "отп.")
                         {
-                            { odd.Vocation_time = Work_time_According_plan(odd.daynumber, SpecialDays);
+                            {
+                                odd.Vocation_time = Work_time_According_plan(odd.daynumber, SpecialDays);
                             }
                         }
                     }
@@ -224,13 +213,13 @@ namespace Tabel_server.Presenter
                         odd.isHaveData = true;
                         fillCount += 1;
                     }
-                    
-                    if (odd.endday - odd.startday == new TimeSpan(0, 0, 0) && odd.Work_time_According_plan!=new TimeSpan(0,0,0)
+
+                    if (odd.endday - odd.startday == new TimeSpan(0, 0, 0) && odd.Work_time_According_plan != new TimeSpan(0, 0, 0)
                         || odd.daynumber == new DateTime(0001, 1, 1))
                     { odd.error = true; }
                     monthEmployeeData.oneDayDatas.Add(odd);
                 }
-                if (date<new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))
+                if (date < new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1))
                 {
                     for (int q = 1; q <= DateTime.DaysInMonth(date.Year, date.Month); q++)
                     {
@@ -242,7 +231,7 @@ namespace Tabel_server.Presenter
                 }
                 else
                 {
-                    if ( Properties.Settings.Default.dayX.Day<20)
+                    if (Properties.Settings.Default.dayX.Day < 20)
                     {
                         for (int q = 1; q <= Properties.Settings.Default.dayX.Day; q++)
                         {
@@ -254,7 +243,7 @@ namespace Tabel_server.Presenter
                     }
                     else
                     {
-                        for (int q = 1; q <=DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); q++)
+                        for (int q = 1; q <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); q++)
                         {
                             if (monthEmployeeData.oneDayDatas[q - 1].error == true)
                             {
@@ -263,9 +252,9 @@ namespace Tabel_server.Presenter
                         }
                     }
                 }
-                
+
                 monthEmployeeData.persentFill = (100 / DateTime.DaysInMonth(date.Year, date.Month)) * fillCount;
-                monthEmployeeData.post = dataBase_Manager.GetEmployee(monthEmployeeData.tabelNumber).post;
+                monthEmployeeData.post = DBmanager.GetEmployee(monthEmployeeData.tabelNumber).post;
 
                 foreach (string tabelnumber in tabelnumbers)
                 {
@@ -282,12 +271,13 @@ namespace Tabel_server.Presenter
             List<DateTime> dt = new List<DateTime>();
             for (int i = 1; i <= DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i++)
             {
-                SpecialDays.ForEach(x => {
+                SpecialDays.ForEach(x =>
+                {
                     if (new DateTime(dateTime.Year, dateTime.Month, i) == x.Item1)
                     {
                         dt.Add(new DateTime(dateTime.Year, dateTime.Month, i));
                     }
-     
+
                 });
                 if (dt.Contains(new DateTime(dateTime.Year, dateTime.Month, i)))
                 {
@@ -301,15 +291,17 @@ namespace Tabel_server.Presenter
             }
             return dt;
         }
-        private TimeSpan Work_time_According_plan (DateTime day, List<(DateTime, DayType)> SpecialDays)
+        private TimeSpan Work_time_According_plan(DateTime day, List<(DateTime, DayType)> SpecialDays)
         {
             TimeSpan ts = new TimeSpan(8, 12, 0);
-            bool this_day_is_special=false;
-            SpecialDays.ForEach(x => {
-                if (day==x.Item1)
+            bool this_day_is_special = false;
+            bool next_day_is_special = false;
+            SpecialDays.ForEach(x =>
+            {
+                if (day == x.Item1)
                 {
-                    if (x.Item2==DayType.FreeDay)
-                    { ts= new TimeSpan(0, 0, 0); }
+                    if (x.Item2 == DayType.FreeDay)
+                    { ts = new TimeSpan(0, 0, 0); }
                     if (x.Item2 == DayType.FullDay)
                     { ts = new TimeSpan(8, 12, 0); }
                     if (x.Item2 == DayType.ShortDay)
@@ -320,15 +312,29 @@ namespace Tabel_server.Presenter
                     { ts = Properties.Settings.Default.Castom; }
                     this_day_is_special = true;
                 }
-               
+
             });
-             if (this_day_is_special==false)
+            if (this_day_is_special == false)
+            {
+                SpecialDays.ForEach(x =>
+                {
+                    if (day + TimeSpan.FromDays(1) == x.Item1)
+                    {
+                        if (x.Item2 == DayType.FreeDay)
+                        { ts = new TimeSpan(7, 12, 0); }
+                        if (x.Item2 == DayType.FullDay)
+                        { ts = new TimeSpan(8, 12, 0); }
+                        next_day_is_special = true;
+                    }
+                });
+            }
+            if (this_day_is_special == false && next_day_is_special == false)
             {
                 if (day.DayOfWeek == DayOfWeek.Friday)
                 { ts = new TimeSpan(7, 12, 0); }
-                if (day.DayOfWeek == DayOfWeek.Saturday)
+                else if (day.DayOfWeek == DayOfWeek.Saturday)
                 { ts = new TimeSpan(0, 0, 0); }
-                if (day.DayOfWeek == DayOfWeek.Sunday)
+                else if (day.DayOfWeek == DayOfWeek.Sunday)
                 { ts = new TimeSpan(0, 0, 0); }
             }
             return ts;
@@ -340,27 +346,24 @@ namespace Tabel_server.Presenter
             HoliYear hy = serializer.Deserialize<HoliYear>(json);
             for (int i = 0; i <= hy.HoliYea.Count - 1; i++)
             {
-                dataBase_Manager.SetMonthHoliday(hy.HoliYea[i].ToLocalTime().Year, hy.HoliYea[i].ToLocalTime().Month, hy.HoliYea[i].ToLocalTime().Day);
+                DBmanager.SetMonthHoliday(hy.HoliYea[i].ToLocalTime().Year, hy.HoliYea[i].ToLocalTime().Month, hy.HoliYea[i].ToLocalTime().Day);
             }
             for (int i = 0; i <= hy.HoliWorkYea.Count - 1; i++)
             {
-                dataBase_Manager.SetMonthWorkDayOnHoloday(hy.HoliWorkYea[i].Year, hy.HoliWorkYea[i].Month, hy.HoliWorkYea[i].Day);
+                DBmanager.SetMonthWorkDayOnHoloday(hy.HoliWorkYea[i].Year, hy.HoliWorkYea[i].Month, hy.HoliWorkYea[i].Day);
             }
         }
-        //private void Lb_users_SelectionChange(string tabelnamber)
-        //{
-        //    imain.HoliDateTimes = dataBase_Manager.GetHoliDateTimes(imain.dtMain);
-        //    imain.ShowTable(dataBase_Manager.Get_Month_IDD(tabelnamber, imain.dtMain.Year, imain.dtMain.Month)); 
-        //}
+
         public void GetDayX()
         {
-            List<int> holiMonth= new List<int>();
-            List<(DateTime, DayType)> SpecialDays = dataBase_Manager.Get_DayTypeInYear(imain.dtMain.Year);
+            List<int> holiMonth = new List<int>();
+            List<(DateTime, DayType)> SpecialDays = DBmanager.Get_DayTypeInYear(imain.dtMain.Year);
             List<DateTime> ldt = GetHoliDateTimes(imain.dtMain, SpecialDays);
-            ldt.ForEach(x => {
+            ldt.ForEach(x =>
+            {
                 holiMonth.Add(x.Day);
             });
-            
+
             int dayX = 15;
             bool isitHoly = false;
             if (DateTime.Now.Day <= 15)
@@ -408,71 +411,6 @@ namespace Tabel_server.Presenter
             }
             Properties.Settings.Default.dayX = new DateTime(DateTime.Now.Year, DateTime.Now.Month, dayX);
             Properties.Settings.Default.Save();
-            //if (DateTime.Now.Day > dayX)
-            //{
-            //    for (int i = 0; i <= 3; i++)
-            //    {
-            //        Invoke(new Action(() => {
-            //            showNotify(true);
-            //        }));
-            //        Thread.Sleep(1500);
-            //        Invoke(new Action(() => {
-            //            showNotify(false);
-            //        }));
-            //        Thread.Sleep(1500);
-            //    }
-            //}
-            //else
-            //{
-            //    Invoke(new Action(() =>
-            //    {
-            //        showNotify(false);
-            //    }));
-            //}
-
-
-
         }
-        //private void Monitor_filechange()
-        //{
-        //    imain.Get.Dispatcher.Invoke(() =>
-        //    {
-        //        List<string> files = monitor.Get_files();
-        //        for (int i = 0; i < files.Count; i++)
-        //            imain.ShowLog(DateTime.Now.ToString() + " Обнаружен новый файл: " + files[i]);
-        //    });
-        //    List<string> files1 = monitor.Get_files();
-        //    for (int i = 0; i < files1.Count; i++)
-        //    {
-        //        try
-        //        {
-        //            dataBase_Manager.LoadFileTabelToDatabase(files1[i]);
-        //            imain.Get.Dispatcher.Invoke(() =>
-        //            {
-        //                imain.ShowLog(DateTime.Now.ToString() + " Файл успешно добавлен: " + files1[i]);
-        //            });
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            string extext = ex.Message;
-        //            imain.Get.Dispatcher.Invoke(() =>
-        //            {
-        //                imain.ShowLog(DateTime.Now.ToString() + extext);
-        //            });
-        //        }
-        //        System.IO.File.Delete(files1[i]);
-        //        imain.Get.Dispatcher.Invoke(() =>
-        //        {
-        //            imain.ShowLog(DateTime.Now.ToString() + " Файл удален: " + files1[i]);
-        //        });
-        //    }
-        //    imain.Get.Dispatcher.Invoke(() =>
-        //    {
-        //        imain.SetlbUsers(new ObservableCollection<Employee>(employee.GetAllEmployees(dataBase_Manager)));
-
-        //    });
-        //}
-        ///Управление пользователями
-
     }
 }

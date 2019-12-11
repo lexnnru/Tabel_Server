@@ -20,27 +20,34 @@ namespace Calendar
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Year year;
+        public Year Year;
+        public int year { get; set; }
+        public DayType DayTypeSelectedDay { get; set; }
+        public event Action<DateTime, DayType, TimeSpan> SetDayType;
+        TimeSpan daylength;
         
+
+
         public MainWindow()
+        {
+            year = DateTime.Now.Year;
+            this.DataContext = this;
+            InitializeComponent();            
+            this.SnapsToDevicePixels = true;
+            UseLayoutRounding = true;
+            Year = new Year(DateTime.Now, GetSpecialDays(DateTime.Now.Year)) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
+            this.Main.Children.Add(Year);
+            UpDownSelLengthDay.Visibility = Visibility.Hidden;
+            tbInfo1.Visibility = Visibility.Hidden;
+        }
+        public MainWindow(List<(DateTime, DayType)> specisal_Days)
         {
             InitializeComponent();
             this.SnapsToDevicePixels = true;
             UseLayoutRounding = true;
-            year = new Year(DateTime.Now, GetSpecialDays(DateTime.Now.Year)) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
-            this.Main.Children.Add(year);
+            Year = new Year(DateTime.Now, specisal_Days) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
+            this.Main.Children.Add(Year);
         }
-        //public MainWindow(List<(DateTime, DayType)> specisal_Days)
-        //{
-        //    InitializeComponent();
-        //    this.SnapsToDevicePixels = true;
-        //    UseLayoutRounding = true;
-        //   year = new Year(DateTime.Now, specisal_Days) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
-            
-        //    this.Main.Children.Add( year );
-
-           
-        //}
 
         public List<(DateTime, DayType)> GetSpecialDays(int year)
         {
@@ -72,6 +79,38 @@ namespace Calendar
                     break;
             }
             return SpecialDays;
+        }
+
+        private void Bt_SetDayType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbDayType.SelectedIndex==2)
+            {
+                UpDownSelLengthDay.Visibility = Visibility.Visible;
+                tbInfo1.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                UpDownSelLengthDay.Visibility = Visibility.Hidden;
+                tbInfo1.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void BtSetDayLength_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (cbDayType.SelectedIndex == 0)
+            { DayTypeSelectedDay = DayType.FreeDay;
+                daylength = new TimeSpan(0, 0, 0);
+            }
+            else if (cbDayType.SelectedIndex == 1)
+            { DayTypeSelectedDay = DayType.FullDay;
+                daylength = new TimeSpan(8, 12, 0);
+            }
+            else if (cbDayType.SelectedIndex == 2)
+            { DayTypeSelectedDay = DayType.ShortDay;
+                daylength = new TimeSpan(0, Convert.ToInt32(UpDownSelLengthDay.Value * 60), 0) ;
+            }
+            SetDayType?.Invoke(Year.SelectedDay, DayTypeSelectedDay, daylength);
         }
     }
 }
