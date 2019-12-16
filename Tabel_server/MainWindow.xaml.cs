@@ -17,6 +17,7 @@ using System.Data;
 using Tabel_server.Interfaces;
 using Tabel_server.Model.Data;
 using System.Collections.ObjectModel;
+using Calendar;
 
 namespace Tabel_server
 {
@@ -32,10 +33,8 @@ namespace Tabel_server
         event Func <DateTime, List<MonthEmployeeData>>GetMonthEmployeeData;
         event Action DateChanged;
         event Action <List<string>> LoadDataTableToDB;
-
-        //void ShowLog(string log_messege);
+        event Action ShowCalendar;
         void SetlbUsers(ObservableCollection<MonthEmployeeData> employees);
-        //void ShowTable(MonthEmployeeData employee);
         List<DateTime> HoliDateTimes { get; set; }
         Window Get { get; }
         IUserControl1 uc1 { get; }
@@ -43,8 +42,11 @@ namespace Tabel_server
         IUserControl3 uc3 { get; }
         MangeUsers mu { get; set; }
         Calendar.MainWindow calendar { get; set; }
+        List<(DateTime, DayType, TimeSpan)> DayType { get; set; }
+
         string tabelNamber { get; set; }
        ObservableCollection<MonthEmployeeData> employees { get; set; }
+
         DateTime dtMain { get; set; }
 
     }
@@ -58,8 +60,6 @@ namespace Tabel_server
             uc1 = new UserControl1();
             uc3 = new UserControl3();
             mu = new MangeUsers();
-            calendar = new Calendar.MainWindow();
-
             new Presenter.Presenter(this);
             dtpicker.SelectedDateChanged += Dtpicker_SelectedDateChanged;
             Loger.LogChange += Loger_LogChange;
@@ -95,12 +95,14 @@ namespace Tabel_server
         public List<DateTime> HoliDateTimes { get; set; }
         public MangeUsers mu { get; set; }
         public Calendar.MainWindow calendar { get; set; }
+        public List<(DateTime, DayType, TimeSpan)> DayType { get; set; }
 
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
         public event Func<DateTime, List<MonthEmployeeData>> GetMonthEmployeeData;
         public event Action DateChanged;
         public event Action<List<string>> LoadDataTableToDB;
+        public event Action ShowCalendar;
 
         //public void ShowLog(string log_messege)
         //{
@@ -134,7 +136,6 @@ namespace Tabel_server
            lbUsers.ItemsSource = monthemployees;
            this.employees = monthemployees;
         }
-
         private void View2_Click(object sender, RoutedEventArgs e)
         {
             List<MonthEmployeeData> monthEmployeeDatas= GetMonthEmployeeData?.Invoke(dtMain);
@@ -149,13 +150,6 @@ namespace Tabel_server
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc3.uc3);
         }
-
-
-
-
-
-
-
         private void BtloadHoli_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
@@ -169,7 +163,6 @@ namespace Tabel_server
             
             DateChanged?.Invoke();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if ( min.Width== new GridLength(0))
@@ -179,7 +172,6 @@ namespace Tabel_server
             else
             min.Width = new GridLength(0);
         }
-
         private void BtManageEployees_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             MainGrid.Children.Clear();
@@ -201,8 +193,9 @@ namespace Tabel_server
 
         private void BtCalendar_Click(object sender, RoutedEventArgs e)
         {
+            calendar = new Calendar.MainWindow(DayType);
+            ShowCalendar?.Invoke();
             calendar.Show();
-            
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

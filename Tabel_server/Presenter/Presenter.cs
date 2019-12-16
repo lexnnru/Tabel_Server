@@ -30,14 +30,26 @@ namespace Tabel_server.Presenter
             imain.GetMonthEmployeeData += Imain_GetMonthEmployeeData;
             imain.DateChanged += Imain_DateChanged;
             imain.LoadDataTableToDB += Imain_LoadDataTableToDB;
-
             monthemployees = new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain));
             imain.SetlbUsers(monthemployees);
             imain.mu.Loaded += Mu_Loaded;
             imain.mu.AddNewEmpl += Mu_AddNewEmpl;
             imain.mu.Setsource += Mu_Setsource;
             imain.mu.ChangeEmpl += Mu_ChangeEmpl;
+            imain.ShowCalendar += Imain_ShowCalendar;
+            imain.DayType = DBmanager.Get_DayTypeInYear(imain.dtMain.Date.Year);
+        }
+
+        private void Imain_ShowCalendar()
+        {
+            
             imain.calendar.SetDayType += Year_Set_DayType;
+            imain.calendar.GetSpecialDays += Calendar_GetSpecialDays;
+        }
+
+        private void Calendar_GetSpecialDays(int obj)
+        {
+            imain.calendar.SpecialDays= DBmanager.Get_DayTypeInYear(obj);
         }
 
         private void Year_Set_DayType(DateTime arg1, DayType arg2, TimeSpan arg3)
@@ -136,7 +148,7 @@ namespace Tabel_server.Presenter
             List<Employee> empls = emp.GetAllEmployees(DBmanager, imain.dtMain);
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
             List<string> tabelnumbers = new List<string>();
-            List<(DateTime, DayType)> SpecialDays = DBmanager.Get_DayTypeInYear(date.Year);
+            List<(DateTime, DayType, TimeSpan)> SpecialDays = DBmanager.Get_DayTypeInYear(date.Year);
             foreach (Employee employee in employees)
             {
                 if (new DateTime(new DateTime(employee.dataOfEmployment).ToLocalTime().Year, new DateTime(employee.dataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
@@ -266,7 +278,7 @@ namespace Tabel_server.Presenter
             imain.HoliDateTimes = GetHoliDateTimes(imain.dtMain, SpecialDays);
             return monthEmployeeDatas;
         }
-        public List<DateTime> GetHoliDateTimes(DateTime dateTime, List<(DateTime, DayType)> SpecialDays)
+        public List<DateTime> GetHoliDateTimes(DateTime dateTime, List<(DateTime, DayType, TimeSpan)> SpecialDays)
         {
             List<DateTime> dt = new List<DateTime>();
             for (int i = 1; i <= DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i++)
@@ -291,7 +303,7 @@ namespace Tabel_server.Presenter
             }
             return dt;
         }
-        private TimeSpan Work_time_According_plan(DateTime day, List<(DateTime, DayType)> SpecialDays)
+        private TimeSpan Work_time_According_plan(DateTime day, List<(DateTime, DayType, TimeSpan)> SpecialDays)
         {
             TimeSpan ts = new TimeSpan(8, 12, 0);
             bool this_day_is_special = false;
@@ -300,16 +312,6 @@ namespace Tabel_server.Presenter
             {
                 if (day == x.Item1)
                 {
-                    if (x.Item2 == DayType.FreeDay)
-                    { ts = new TimeSpan(0, 0, 0); }
-                    if (x.Item2 == DayType.FullDay)
-                    { ts = new TimeSpan(8, 12, 0); }
-                    if (x.Item2 == DayType.ShortDay)
-                    { ts = new TimeSpan(7, 12, 0); }
-                    if (x.Item2 == DayType.VeryShortDay)
-                    { ts = new TimeSpan(6, 12, 0); }
-                    if (x.Item2 == DayType.Castom)
-                    { ts = Properties.Settings.Default.Castom; }
                     this_day_is_special = true;
                 }
 
@@ -357,7 +359,7 @@ namespace Tabel_server.Presenter
         public void GetDayX()
         {
             List<int> holiMonth = new List<int>();
-            List<(DateTime, DayType)> SpecialDays = DBmanager.Get_DayTypeInYear(imain.dtMain.Year);
+            List<(DateTime, DayType, TimeSpan)> SpecialDays = DBmanager.Get_DayTypeInYear(imain.dtMain.Year);
             List<DateTime> ldt = GetHoliDateTimes(imain.dtMain, SpecialDays);
             ldt.ForEach(x =>
             {

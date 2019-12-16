@@ -11,7 +11,7 @@ namespace Calendar
         Month lastChecked;
         public DateTime SelectedDay { get; set; }
         public DayType DayTypeSelectedDay { get; set; }
-        public Year(DateTime datetime, List<(DateTime, DayType)> SpecialDays = null)
+        public Year(DateTime datetime, List<(DateTime, DayType, TimeSpan)> SpecialDays = null)
         {
             InitializeComponent();
             Datetime = datetime;
@@ -47,20 +47,10 @@ namespace Calendar
                     }
                     if (t == DayType.ShortDay)
                     {
-                        SelectedDate.Text = $"{d.ToLongDateString()} - Сокращённый на 1 час рабочий день.";
+                        SelectedDate.Text = $"{d.ToLongDateString()} - Сокращённый  рабочий день.";
                         SelectedDay = d;
                         DayTypeSelectedDay = t;
                     }
-                    if (t == DayType.VeryShortDay)
-                    { SelectedDate.Text = $"{d.ToLongDateString()} - Сокращённый на 2 часа рабочий день.";
-                        SelectedDay = d;
-                        DayTypeSelectedDay = t;
-                    }
-                    if (t == DayType.Castom)
-                    {
-                        SelectedDate.Text = $"{d.ToLongDateString()} - Сокращённый на {Tabel_server.Properties.Settings.Default.Castom} часа рабочий день.";
-                    }
-                    
                 };
                 Main.Children.Add(month);
                 Grid.SetColumn(month, (i - 1) % 6);

@@ -7,7 +7,7 @@ namespace Calendar
     public partial class Month : UserControl
     {
         List<Day> days;
-        public Month(DateTime Month, List<(DateTime, DayType)> SpecialDays = null)
+        public Month(DateTime Month, List<(DateTime, DayType, TimeSpan)> SpecialDays = null)
         {
             InitializeComponent();
             this.Date = Month;
@@ -72,7 +72,7 @@ namespace Calendar
             }
         }
 
-        void InitSpecial(List<(DateTime, DayType)> SpecialDays)
+        void InitSpecial(List<(DateTime, DayType, TimeSpan)> SpecialDays)
         {
             SpecialDays.ForEach(d =>
             {

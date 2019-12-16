@@ -66,73 +66,56 @@ namespace Tabel_server.Model
 
         }
 
-        public List<(DateTime, DayType)> Get_DayTypeInYear(int year)
+        public List<(DateTime, DayType, TimeSpan)> Get_DayTypeInYear(int year)
         {
-            List<(DateTime, DayType)> list1 = new List<(DateTime, DayType)>();
+            List<(DateTime, DayType, TimeSpan)> list1 = new List<(DateTime, DayType, TimeSpan)>();
             List<List<string>> list2 = GetAllRowFromTable("holi");
             list2.ForEach(x =>
             {
-                DateTime day = new DateTime(Convert.ToInt64(x[1])).ToLocalTime();
+                DateTime day = new DateTime(Convert.ToInt64(x[0])).ToLocalTime();
+                TimeSpan ts = new TimeSpan(0, Convert.ToInt32(x[2]) * 60, 0);
                 DayType dayType = new DayType();
                 if (Convert.ToInt32(x[1]) == 0)
-                { dayType = DayType.Castom; }
-                else if (Convert.ToInt32(x[1]) == 1)
                 { dayType = DayType.FreeDay; }
-                else if (Convert.ToInt32(x[1]) == 2)
+                else if (Convert.ToInt32(x[1]) == 1)
                 { dayType = DayType.FullDay; }
-                else if (Convert.ToInt32(x[1]) == 3)
+                else if (Convert.ToInt32(x[1]) == 2)
                 { dayType = DayType.ShortDay; }
-                else if (Convert.ToInt32(x[1]) == 4)
-                { dayType = DayType.VeryShortDay; }
                 if (day.Year==year)
-                { list1.Add((day, dayType)); }
+                { list1.Add((day, dayType, ts)); }
+                
             });
             return list1;
         }
         public void SetDayType(DateTime dateTime, DayType dayType, TimeSpan daylength )
         {
             int dt=2;
+            
             SQLiteCommand sqlcmd = db_connection.CreateCommand();
-            sqlcmd.CommandText = "UPDATE holi set  type = @type where day= @day";
+            sqlcmd.CommandText = "UPDATE holi set  type = @type, daylength = @daylength where day= @day";
+            sqlcmd.Parameters.Add("@daylength", System.Data.DbType.String).Value = daylength.TotalHours;
             sqlcmd.Parameters.Add("@day", System.Data.DbType.String).Value = dateTime.ToUniversalTime().Ticks;
-            if (dayType==DayType.Castom)
-            { dt = 0; }
-            else if (dayType == DayType.FreeDay)
-            { dt = 1; }
+          
+            if (dayType == DayType.FreeDay)
+            { dt = 0;
+                daylength = new TimeSpan(0, 0, 0);
+            }
             else if (dayType == DayType.FullDay)
-            { dt = 2; }
+            { dt = 1;
+                daylength = new TimeSpan(8, 12, 0);
+            }
             else if (dayType == DayType.ShortDay)
-            { dt = 3; }
-            else if (dayType == DayType.VeryShortDay)
-            { dt = 4; }
+            { dt = 2;
+            }
             sqlcmd.Parameters.Add("@type", System.Data.DbType.String).Value = dt;
             int rezult=sqlcmd.ExecuteNonQuery();
             if (rezult>0)
             { }
             else
             {
-                sqlcmd.CommandText = "INSERT INTO holi (day, type) VALUES (@day, @type)";
+                sqlcmd.CommandText = "INSERT INTO holi (day, type, daylength) VALUES (@day, @type, @daylength)";
                 sqlcmd.ExecuteNonQuery();
             }
-
-            //string fullCommand = "";
-            //string endCommand = "";
-            //for (int i = 0; i < parametr.Count; i++)
-            //{
-            //    if (znachenie[i] == "")
-            //        fullCommand = parametr[i] + "= null";
-            //    else { fullCommand = parametr[i] + "=" + "'" + znachenie[i] + "'"; }
-            //    if (i < parametr.Count - 1)
-            //    {
-            //        fullCommand = fullCommand + ", ";
-            //    }
-            //    endCommand += fullCommand;
-            //}
-            //UPDATE holi SET type = '114' WHERE day = 1112;
-            //int i=new SQLiteCommand($"UPDATE holi set  type = @type where day= @day", db_connection).ExecuteNonQuery();
-            //if (i>0)
-            //{ }
-           
         }
         public List<List<string>> GetAllRowFromTable(string nameTable)
         {
@@ -348,7 +331,6 @@ namespace Tabel_server.Model
                 else checktabelrow = false;
                 dr.Close();
                 return checktabelrow;
-
         }
 
         public void AddRowToTable(string nametable, List<string> parametr, List<string> znachenie)
