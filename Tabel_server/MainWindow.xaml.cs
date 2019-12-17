@@ -42,7 +42,7 @@ namespace Tabel_server
         IUserControl3 uc3 { get; }
         MangeUsers mu { get; set; }
         Calendar.MainWindow calendar { get; set; }
-        List<(DateTime, DayType, TimeSpan)> DayType { get; set; }
+        List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
 
         string tabelNamber { get; set; }
        ObservableCollection<MonthEmployeeData> employees { get; set; }
@@ -95,7 +95,7 @@ namespace Tabel_server
         public List<DateTime> HoliDateTimes { get; set; }
         public MangeUsers mu { get; set; }
         public Calendar.MainWindow calendar { get; set; }
-        public List<(DateTime, DayType, TimeSpan)> DayType { get; set; }
+        public List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
 
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
@@ -193,7 +193,7 @@ namespace Tabel_server
 
         private void BtCalendar_Click(object sender, RoutedEventArgs e)
         {
-            calendar = new Calendar.MainWindow(DayType);
+            calendar = new Calendar.MainWindow(SpecialDays);
             ShowCalendar?.Invoke();
             calendar.Show();
         }

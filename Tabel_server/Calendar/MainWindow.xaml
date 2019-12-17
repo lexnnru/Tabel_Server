@@ -23,8 +23,8 @@
                 </ComboBox>
                 <TextBlock x:Name="tbInfo1" Width="{PriorityBinding}"  TextAlignment="Center"><Run Text="Введите продолжительность"/><LineBreak/><Run Text="рабочего дня, в часах:"/></TextBlock>
                 <xctk:DoubleUpDown x:Name="UpDownSelLengthDay" Width="{PriorityBinding}" Value="7.2"/>
-                <Label Content="Год:"/>
-                <xctk:IntegerUpDown  Value="{Binding year}" x:Name="UpDownYear" Width="176"/>
+                <Label Visibility="Hidden" Content="Год:"/>
+                <xctk:IntegerUpDown Visibility="Hidden"  Value="{Binding year}" x:Name="UpDownYear" Width="176"/>
             </StackPanel>
         </Grid>
 

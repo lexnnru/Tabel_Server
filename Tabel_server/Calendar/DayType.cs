@@ -8,8 +8,8 @@ namespace Calendar
 {
     public enum DayType
     {
-        FreeDay,
         FullDay,
+        FreeDay,
         ShortDay
     }
   

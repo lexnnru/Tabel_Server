@@ -37,7 +37,7 @@ namespace Tabel_server.Presenter
             imain.mu.Setsource += Mu_Setsource;
             imain.mu.ChangeEmpl += Mu_ChangeEmpl;
             imain.ShowCalendar += Imain_ShowCalendar;
-            imain.DayType = DBmanager.Get_DayTypeInYear(imain.dtMain.Date.Year);
+            imain.SpecialDays = DBmanager.Get_DayTypeInYear(imain.dtMain.Date.Year);
         }
 
         private void Imain_ShowCalendar()
@@ -55,6 +55,7 @@ namespace Tabel_server.Presenter
         private void Year_Set_DayType(DateTime arg1, DayType arg2, TimeSpan arg3)
         {
             DBmanager.SetDayType(arg1, arg2, arg3);
+            imain.calendar.SpecialDays = DBmanager.Get_DayTypeInYear(DateTime.Now.Year);
         }
 
         private void Imain_LoadDataTableToDB(List<string> obj)

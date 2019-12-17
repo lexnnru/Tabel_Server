@@ -12,14 +12,12 @@ namespace Calendar
             InitializeComponent();
             this.Date = Month;
             days = new List<Day>();
-
             InitName();
             InitDays();
             if (SpecialDays != null) InitSpecial(SpecialDays);
             Fill();
         }
-
-        public event Action<Month, DateTime, DayType> Checked;
+        public event Action<Month, DateTime, DayType, TimeSpan> Checked;
         public Day lastChecked { get; set; }
         public DateTime Date { get; set; }
 
@@ -48,15 +46,25 @@ namespace Calendar
                 day = new Day(i + 1);
                 today = new DateTime(Date.Year, Date.Month, i + 1);
                 if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Sunday)
+                {
                     day.Type = DayType.FreeDay;
-                if (today.DayOfWeek == DayOfWeek.Friday)
+                    day.DayLength = new TimeSpan(0, 0, 0);
+                }
+                else if (today.DayOfWeek == DayOfWeek.Friday)
+                {
                     day.Type = DayType.ShortDay;
+                    day.DayLength = new TimeSpan(7, 12, 0);
+                }
+                else {
+                    day.Type = DayType.FullDay;
+                    day.DayLength = new TimeSpan(8, 12, 0);
+                }
                 day.Checked += (s) =>
                 {
                     if (lastChecked == null)
                     {
                         lastChecked = s;
-                        Checked?.Invoke(this, new DateTime(Date.Year, Date.Month, s.Number), s.Type);
+                        Checked?.Invoke(this, new DateTime(Date.Year, Date.Month, s.Number), s.Type, s.DayLength);
                     }
                     else
                     {
@@ -64,7 +72,7 @@ namespace Calendar
                         {
                             lastChecked.IsChecked = false;
                             lastChecked = s;
-                            Checked?.Invoke(this, new DateTime(Date.Year, Date.Month, s.Number), s.Type);
+                            Checked?.Invoke(this, new DateTime(Date.Year, Date.Month, s.Number), s.Type, s.DayLength);
                         }
                     }
                 };
@@ -79,6 +87,7 @@ namespace Calendar
                 if (d.Item1.Month == Date.Month)
                 {
                     days.Find(i => { return d.Item1.Day == i.Number; }).Type = d.Item2;
+                    days.Find(i => { return d.Item1.Day == i.Number; }).DayLength = d.Item3;
                 }
             });
         }

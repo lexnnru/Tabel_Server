@@ -27,9 +27,6 @@ namespace Calendar
         public event Action<DateTime, DayType, TimeSpan> SetDayType;
         public event Action<int> GetSpecialDays;
         public List<(DateTime, DayType, TimeSpan)>  SpecialDays {get; set;}
-
-
-
         public MainWindow()
         {
             year = DateTime.Now.Year;
@@ -41,53 +38,22 @@ namespace Calendar
             GetSpecialDays?.Invoke(year);
             Year = new Year(DateTime.Now, SpecialDays) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
             this.Main.Children.Add(Year);
-            UpDownSelLengthDay.Visibility = Visibility.Hidden;
-            tbInfo1.Visibility = Visibility.Hidden;
         }
-
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
         }
-
         public MainWindow(List<(DateTime, DayType, TimeSpan)> specisal_Days)
         {
             InitializeComponent();
+            UpDownSelLengthDay.Visibility = Visibility.Hidden;
+            tbInfo1.Visibility = Visibility.Hidden;
+            year = DateTime.Now.Year;
+            this.DataContext = this;
             this.SnapsToDevicePixels = true;
             UseLayoutRounding = true;
             Year = new Year(DateTime.Now, specisal_Days) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
             this.Main.Children.Add(Year);
         }
-
-        //public List<(DateTime, DayType)> GetSpecialDays(int year)
-        //{
-        //    List<(DateTime, DayType)> SpecialDays = new List<(DateTime, DayType)>();
-        //    switch (year)
-        //    {
-        //        case 2019:
-        //            SpecialDays.Add((new DateTime(2019, 1, 1), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 1, 2), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 1, 3), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 1, 4), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 1, 7), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 1, 8), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 3, 7), DayType.ShortDay));
-        //            SpecialDays.Add((new DateTime(2019, 3, 8), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 9, 8), DayType.FullDay));
-        //            SpecialDays.Add((new DateTime(2019, 4, 30), DayType.ShortDay));
-        //            SpecialDays.Add((new DateTime(2019, 5, 1), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 5, 2), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 5, 3), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 5, 8), DayType.ShortDay));
-        //            SpecialDays.Add((new DateTime(2019, 5, 9), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 5, 10), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 6, 11), DayType.ShortDay));
-        //            SpecialDays.Add((new DateTime(2019, 6, 12), DayType.FreeDay));
-        //            SpecialDays.Add((new DateTime(2019, 11, 4), DayType.FreeDay));
-        //            break;
-        //    }
-        //    return SpecialDays;
-        //}
-
         private void Bt_SetDayType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cbDayType.SelectedIndex==2)
@@ -104,7 +70,6 @@ namespace Calendar
 
         private void BtSetDayLength_Click(object sender, RoutedEventArgs e)
         {
-
             if (cbDayType.SelectedIndex == 0)
             { DayTypeSelectedDay = DayType.FreeDay;
                 daylength = new TimeSpan(0, 0, 0);
@@ -118,6 +83,9 @@ namespace Calendar
                 daylength = new TimeSpan(0, Convert.ToInt32(UpDownSelLengthDay.Value * 60), 0) ;
             }
             SetDayType?.Invoke(Year.SelectedDay, DayTypeSelectedDay, daylength);
+            this.Main.Children.Clear();
+            Year = new Year(DateTime.Now, SpecialDays) { VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
+            this.Main.Children.Add(Year);
         }
     }
 }

@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Calendar"
              mc:Ignorable="d" 
              d:DesignHeight="32" d:DesignWidth="32">
-    <Border x:Name="Bord" Background="#FF77BBFF"  BorderBrush="#FF4CA5FF" BorderThickness="1" SnapsToDevicePixels="True"
-            MouseEnter="Bord_MouseEnter" MouseLeave="Bord_MouseLeave" MouseLeftButtonDown="Bord_MouseLeftButtonDown">
+    <Border x:Name="Bord" Background="#FF77BBFF"  BorderBrush="#FF4CA5FF" BorderThickness="1" SnapsToDevicePixels="True" MouseLeftButtonDown="Bord_MouseLeftButtonDown" MouseEnter="Bord_MouseEnter" MouseLeave="Bord_MouseLeave">
         <TextBlock x:Name="Text" TextWrapping="Wrap" Text="" VerticalAlignment="Center" TextAlignment="Center" Margin="2" FontSize="14"/>
     </Border>
 </UserControl>

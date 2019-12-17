@@ -73,7 +73,7 @@ namespace Tabel_server.Model
             list2.ForEach(x =>
             {
                 DateTime day = new DateTime(Convert.ToInt64(x[0])).ToLocalTime();
-                TimeSpan ts = new TimeSpan(0, Convert.ToInt32(x[2]) * 60, 0);
+                TimeSpan ts = new TimeSpan(0, Convert.ToInt32(x[2]), 0);
                 DayType dayType = new DayType();
                 if (Convert.ToInt32(x[1]) == 0)
                 { dayType = DayType.FreeDay; }
@@ -93,7 +93,7 @@ namespace Tabel_server.Model
             
             SQLiteCommand sqlcmd = db_connection.CreateCommand();
             sqlcmd.CommandText = "UPDATE holi set  type = @type, daylength = @daylength where day= @day";
-            sqlcmd.Parameters.Add("@daylength", System.Data.DbType.String).Value = daylength.TotalHours;
+            sqlcmd.Parameters.Add("@daylength", System.Data.DbType.String).Value = daylength.TotalMinutes;
             sqlcmd.Parameters.Add("@day", System.Data.DbType.String).Value = dateTime.ToUniversalTime().Ticks;
           
             if (dayType == DayType.FreeDay)

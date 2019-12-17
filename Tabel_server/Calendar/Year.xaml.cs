@@ -19,7 +19,7 @@ namespace Calendar
             for (int i = 1; i < 13; i++)
             {
                 month = new Month(new DateTime(Datetime.Year, i, 1), SpecialDays) { Margin = new Thickness(1) };
-                month.Checked += (s, d, t) =>
+                month.Checked += (s, d, t, ts) =>
                 {
                     if (lastChecked == null)
                     {
@@ -35,19 +35,19 @@ namespace Calendar
                         }
                     }
                     if (t == DayType.FullDay)
-                    { SelectedDate.Text = $"{d.ToLongDateString()} - Полный рабочий день.";
+                    { SelectedDate.Text = $"{d.ToLongDateString()} - Полный рабочий день.  {ts}";
                         SelectedDay = d;
                         DayTypeSelectedDay = t;
 
                     }
                     if (t == DayType.FreeDay)
-                    { SelectedDate.Text = $"{d.ToLongDateString()} - Выходной день.";
+                    { SelectedDate.Text = $"{d.ToLongDateString()} - Выходной день.  {ts}";
                         SelectedDay = d;
                         DayTypeSelectedDay = t;
                     }
                     if (t == DayType.ShortDay)
                     {
-                        SelectedDate.Text = $"{d.ToLongDateString()} - Сокращённый  рабочий день.";
+                        SelectedDate.Text = $"{d.ToLongDateString()} - Сокращённый  рабочий день.  {ts}";
                         SelectedDay = d;
                         DayTypeSelectedDay = t;
                     }
