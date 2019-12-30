@@ -18,7 +18,7 @@ namespace Tabel_server.Presenter
         ImainWindow imain;
         Model.DataBase_manager DBmanager;
         Employee employee = new Employee();
-        ObservableCollection<MonthEmployeeData> monthemployees = new ObservableCollection<MonthEmployeeData>();
+        ObservableCollection<MonthEmployeesDatas> monthemployees = new ObservableCollection<MonthEmployeesDatas>();
         ObservableCollection<Employee> FullEmployees = new ObservableCollection<Employee>();
         public Presenter(ImainWindow imain)
         {
@@ -30,7 +30,7 @@ namespace Tabel_server.Presenter
             imain.GetMonthEmployeeData += Imain_GetMonthEmployeeData;
             imain.DateChanged += Imain_DateChanged;
             imain.LoadDataTableToDB += Imain_LoadDataTableToDB;
-            monthemployees = new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain));
+            monthemployees = new ObservableCollection<MonthEmployeesDatas>(Imain_GetMonthEmployeeData(imain.dtMain));
             imain.SetlbUsers(monthemployees);
             imain.mu.Loaded += Mu_Loaded;
             imain.mu.AddNewEmpl += Mu_AddNewEmpl;
@@ -128,7 +128,7 @@ namespace Tabel_server.Presenter
         {
             string message = DBmanager.AddNewEmplpyee(obj);
             imain.ShowMess(message);
-            imain.SetlbUsers(new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain)));
+            imain.SetlbUsers(new ObservableCollection<MonthEmployeesDatas>(Imain_GetMonthEmployeeData(imain.dtMain)));
         }
         private void Mu_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -138,15 +138,13 @@ namespace Tabel_server.Presenter
         private void Imain_DateChanged()
         {
 
-            monthemployees = new ObservableCollection<MonthEmployeeData>(Imain_GetMonthEmployeeData(imain.dtMain));
+            monthemployees = new ObservableCollection<MonthEmployeesDatas>(Imain_GetMonthEmployeeData(imain.dtMain));
             imain.SetlbUsers(monthemployees);
         }
-        private List<MonthEmployeeData> Imain_GetMonthEmployeeData(DateTime date)
+        private List<MonthEmployeesDatas> Imain_GetMonthEmployeeData(DateTime date)
         {
             GetDayX();
-            List<MonthEmployeeData> monthEmployeeDatas = new List<MonthEmployeeData>();
-            Employee emp = new Employee();
-            List<Employee> empls = emp.GetAllEmployees(DBmanager, imain.dtMain);
+            List<MonthEmployeesDatas> monthEmployeeDatas = new List<MonthEmployeesDatas>();
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
             List<string> tabelnumbers = new List<string>();
             List<(DateTime, DayType, TimeSpan)> SpecialDays = DBmanager.Get_DayTypeInYear(date.Year);
@@ -158,16 +156,16 @@ namespace Tabel_server.Presenter
                     tabelnumbers.Add(employee.tabelNumber);
                 }
             }
-            for (int i = 0; i < empls.Count; i++)
+            for (int i = 0; i < employees.Count; i++)
             {
-                MonthEmployeeData monthEmployeeData = new MonthEmployeeData();
-                List<IncomingDataTable> idd = DBmanager.Get_Month_IDD(empls[i].tabelNumber, date.Year, date.Month);
-                monthEmployeeData.family = empls[i].family;
-                monthEmployeeData.name = empls[i].name;
-                monthEmployeeData.parentName = empls[i].parentName;
-                monthEmployeeData.mail = empls[i].mail;
-                monthEmployeeData.tabelNumber = empls[i].tabelNumber;
-                monthEmployeeData.fio = String.Join(" ", new string[] { empls[i].family, empls[i].name, empls[i].parentName });
+                MonthEmployeesDatas monthEmployeeData = new MonthEmployeesDatas();
+                List<IncomingDataTable> idd = DBmanager.Get_Month_IDD(employees[i].tabelNumber, date.Year, date.Month);
+                monthEmployeeData.family = employees[i].family;
+                monthEmployeeData.name = employees[i].name;
+                monthEmployeeData.parentName = employees[i].parentName;
+                monthEmployeeData.mail = employees[i].mail;
+                monthEmployeeData.tabelNumber = employees[i].tabelNumber;
+                monthEmployeeData.fio = String.Join(" ", new string[] { employees[i].family, employees[i].name, employees[i].parentName });
                 int fillCount = 0;
                 for (int k = 0; k < idd.Count; k++)
                 {

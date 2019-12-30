@@ -33,7 +33,7 @@ namespace Tabel_server
 
         public UserControl uc1 => this;
 
-        public void SetSource(MonthEmployeeData employees)
+        public void SetSource(MonthEmployeesDatas employees)
         {
             odd.Clear();
             employees.oneDayDatas.ForEach(x => {

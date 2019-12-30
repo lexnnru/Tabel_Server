@@ -45,6 +45,7 @@ namespace Calendar
         public MainWindow(List<(DateTime, DayType, TimeSpan)> specisal_Days)
         {
             InitializeComponent();
+            btSetDayLength.IsEnabled = false;
             UpDownSelLengthDay.Visibility = Visibility.Hidden;
             tbInfo1.Visibility = Visibility.Hidden;
             year = DateTime.Now.Year;
@@ -56,6 +57,7 @@ namespace Calendar
         }
         private void Bt_SetDayType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            btSetDayLength.IsEnabled = true;
             if (cbDayType.SelectedIndex==2)
             {
                 UpDownSelLengthDay.Visibility = Visibility.Visible;

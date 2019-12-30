@@ -10,7 +10,7 @@ namespace Tabel_server.Interfaces
 {
          public interface IUserControl3
     {
-        void SetSource(List<MonthEmployeeData> oneDayDatas,List<DateTime> HolidateTimes, DateTime dateTime);
+        void SetSource(List<MonthEmployeesDatas> oneDayDatas, List<DateTime> HolidateTimes, DateTime dateTime);
         UserControl uc3 { get; }
     }
 }

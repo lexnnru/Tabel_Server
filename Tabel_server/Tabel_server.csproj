@@ -123,7 +123,7 @@
     <Compile Include="Model\Data\Converter.cs" />
     <Compile Include="Model\Data\Employee.cs" />
     <Compile Include="Model\Data\HoliYear.cs" />
-    <Compile Include="Model\Data\MonthEmployeeData.cs" />
+    <Compile Include="Model\Data\MonthEmployeseDatas.cs" />
     <Compile Include="Model\Data\OneDayData.cs" />
     <Compile Include="Model\Deserialization.cs" />
     <Compile Include="Model\Data\IncomingDataTable.cs" />
@@ -133,6 +133,9 @@
     </Compile>
     <Compile Include="PreveiwWindow\PreveiwTableForUpdate.xaml.cs">
       <DependentUpon>PreveiwTableForUpdate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCCalculateZP.xaml.cs">
+      <DependentUpon>UCCalculateZP.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
@@ -187,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PreveiwWindow\PreveiwTableForUpdate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCCalculateZP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,27 +8,6 @@ namespace Tabel_server.Model.Data
 {
     public class Employee
     {
-        
-        public override string ToString()
-        {
-            return family + " " + name + " " + parentName;
-        }
-        public Employee GetEmployee(Model.DataBase_manager db, string tabelNumber)
-        {
-            List<string> param=new List<string>() { "TabelNamber" };
-            List<string> znachenie = new List<string>() { tabelNumber };
-            List<string> list=db.GetRowFromTable(db.NameOfTablenamberUserTable, param, znachenie);
-            tabelNumber = list[0];
-            family = list[0];
-            name = list[0];
-            parentName = list[0];
-            dataOfEmployment = Convert.ToInt64(list[0]);
-            dateOfDismiss = Convert.ToInt64(list[0]);
-            salary = Convert.ToInt32(list[0]);
-            post = list[0];
-            return this;
-        }
-
         public List<Employee> GetAllEmployees(Model.DataBase_manager db, DateTime date)
         {
             List<Employee> employees = new List<Employee>();

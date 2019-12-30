@@ -15,14 +15,12 @@ namespace Tabel_server.Model
 {
     public class DataBase_manager
     {
-        public event Action<string, string> AddingNewTabelNumber;
         List<string> paramForUsersTable = new List<string>() { "day", "month", "year", "startdayH", "startdayMin", "enddayH", "enddayMin", "city", "specCheck", "achiv" };
         List<string> typeOfDataForTabelUsersTable = new List<string>() { "integer", "integer", "integer", "integer", "integer", "integer", "integer", "text", "text", "text" };
         public string NameOfTablenamberUserTable = "TabelNambersAndUsers";
         public List<string> paramForTabelNamberUserTable = new List<string>() { "TabelNamber", "Family", "Name",  "ParentName",
             "dataOfEmployment", "dateOfDismiss", "salary", "post" };
         List<string> typedataForTabelNamberUserTable = new List<string>() { "text", "text", "text", "text", "INTEGER", "INTEGER", "INTEGER", "text" };
-        private String dbFileName;
         SQLiteConnection db_connection;
         public void CreateTabelUserTable()
         {
@@ -38,7 +36,6 @@ namespace Tabel_server.Model
 
         public DataBase_manager(String dbFileName)
         {
-            this.dbFileName = dbFileName;
             if (!File.Exists(dbFileName))
             {
                 SQLiteConnection.CreateFile(dbFileName);

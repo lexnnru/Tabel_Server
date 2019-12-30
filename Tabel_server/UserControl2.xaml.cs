@@ -96,14 +96,14 @@ namespace Tabel_server
         public ObservableCollection<Table> tables { get; set; }
         public ObservableCollection<OneDayData> otables { get; set; }
         public UserControl uc2 => this;
-        public List<MonthEmployeeData> Employees { set; get; }
+        public List<MonthEmployeesDatas> Employees { set; get; }
         public UserControl2()
         {
             InitializeComponent();
             this.DataContext = this;
             tables = new ObservableCollection<Table>();
         }
-        public void SetSummaryTable(List<MonthEmployeeData> Employees, DateTime date, List<DateTime> HolidateTimes)
+        public void SetSummaryTable(List<MonthEmployeesDatas> Employees, DateTime date, List<DateTime> HolidateTimes)
         {     
             
             tables.Clear();
@@ -127,51 +127,6 @@ namespace Tabel_server
             }
             for (int i = 0; i < Employees.Count; i++)
             {
-
-                //Table tbl = new Table();
-                //tbl.day1 = Employees[i].oneDayDatas[0].Work_time;
-                //tbl.day2 = Employees[i].oneDayDatas[1].Work_time;
-                //tbl.day3 = Employees[i].oneDayDatas[2].Work_time;
-                //tbl.day4 = Employees[i].oneDayDatas[3].Work_time;
-                ////tbl.day5 = Employees[i].oneDayDatas[4].Work_time;
-                ////tbl.day6 = Employees[i].oneDayDatas[5].Work_time;
-                ////tbl.day7 = Employees[i].oneDayDatas[6].Work_time;
-                ////tbl.day8 = Employees[i].oneDayDatas[7].Work_time;
-                ////tbl.day9 = Employees[i].oneDayDatas[8].Work_time;
-                ////tbl.day10 = Employees[i].oneDayDatas[9].Work_time;
-                ////tbl.day11 = Employees[i].oneDayDatas[10].Work_time;
-                ////tbl.day12 = Employees[i].oneDayDatas[11].Work_time;
-                ////tbl.day13 = Employees[i].oneDayDatas[12].Work_time;
-                ////tbl.day14 = Employees[i].oneDayDatas[13].Work_time;
-                ////tbl.day15 = Employees[i].oneDayDatas[14].Work_time;
-                ////tbl.day16 = Employees[i].oneDayDatas[15].Work_time;
-                ////tbl.day17 = Employees[i].oneDayDatas[16].Work_time;
-                ////tbl.day18 = Employees[i].oneDayDatas[17].Work_time;
-                ////tbl.day19 = Employees[i].oneDayDatas[18].Work_time;
-                ////tbl.day20 = Employees[i].oneDayDatas[19].Work_time;
-                ////tbl.day21 = Employees[i].oneDayDatas[20].Work_time;
-                ////tbl.day22 = Employees[i].oneDayDatas[21].Work_time;
-                ////tbl.day23 = Employees[i].oneDayDatas[22].Work_time;
-                ////tbl.day24 = Employees[i].oneDayDatas[23].Work_time;
-                //tbl.day25 = Employees[i].oneDayDatas[24].Work_time;
-                //tbl.day26 = Employees[i].oneDayDatas[25].Work_time;
-                //tbl.day27 = Employees[i].oneDayDatas[26].Work_time;
-                //tbl.day28 = Employees[i].oneDayDatas[27].Work_time;
-                //if (Employees[i].oneDayDatas.Count >28)
-                //{ tbl.day29 = Employees[i].oneDayDatas[28].Work_time; }
-                //if (Employees[i].oneDayDatas.Count > 29)
-                //{ tbl.day30 = Employees[i].oneDayDatas[29].Work_time; }
-                //if (Employees[i].oneDayDatas.Count > 30)
-                //{ tbl.day31 = Employees[i].oneDayDatas[30].Work_time; }
-
-                //tables.Add(tbl);
-
-
-
-
-
-
-
                 tables.Add(new Table()
                 {
                     name = Employees[i].fio,

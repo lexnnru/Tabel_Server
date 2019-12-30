@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tabel_server.Model.Data
 {
-    public class MonthEmployeeData
+    public class MonthEmployeesDatas
     {
        
         public string family { get; set; }
@@ -14,13 +14,10 @@ namespace Tabel_server.Model.Data
         public string parentName { get; set; }
         public string fio { get; set; }
         public string mail { get; set; }
-        public string subject { get; set; }
-        public string message { get; set; }
         public string tabelNumber { get; set; }
         public string post { get; set; }
 
         public int persentFill { get; set; }
-        public bool dataNotComplit { get; set; }
         public bool error { get; set; }
         public List<OneDayData> oneDayDatas { get; set; } = new List<OneDayData>();
         

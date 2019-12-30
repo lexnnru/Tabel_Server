@@ -79,6 +79,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                 <Button x:Name="View2"  Content="Отработанные часы по дням" Click="View2_Click" Style="{DynamicResource ButtonStyle1}" />
                 <Button x:Name="View3" Content="Суммарные часы с коэфф." Click="View3_Click" Style="{DynamicResource ButtonStyle1}" />
+                <Button x:Name="btCalculateSalary" Content="Рассчет ЗП"  Style="{DynamicResource ButtonStyle1}" Click="BtCalculateSalary_Click" />
                 <Button x:Name="btloadHoli" Content="Загрузить выходные в БД" Click="BtloadHoli_Click" Style="{DynamicResource ButtonStyle1}" />
                 <Button x:Name="btCalendar" Content="Календарь"  Style="{DynamicResource ButtonStyle1}" Click="BtCalendar_Click" />
             </StackPanel>
