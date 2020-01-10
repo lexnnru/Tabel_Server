@@ -44,7 +44,7 @@ namespace Tabel_server
     }
     public partial class UserControl3 : UserControl, IUserControl3
     {
-        ObservableCollection<MonthEmployeesDatas> employees;
+        ObservableCollection<MonthEmployeesDatasOld> employees;
         public ObservableCollection<table> tables { get; }
         
         public UserControl3()
@@ -57,12 +57,12 @@ namespace Tabel_server
         public UserControl uc3 =>this;
 
 
-        public void SetSource(List<MonthEmployeesDatas> monthemployees, List<DateTime> HolidateTimes, DateTime dateTime)
+        public void SetSource(List<MonthEmployeesDatasOld> monthemployees, List<DateTime> HolidateTimes, DateTime dateTime)
         {
 
             tables.Clear();
             int DayinMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-            this.employees=new ObservableCollection<MonthEmployeesDatas>(monthemployees);
+            this.employees=new ObservableCollection<MonthEmployeesDatasOld>(monthemployees);
             for (int i=0; i<monthemployees.Count; i++)
             {
                 TimeSpan hour1=new TimeSpan(0, 0, 0);

@@ -96,14 +96,14 @@ namespace Tabel_server
         public ObservableCollection<Table> tables { get; set; }
         public ObservableCollection<OneDayData> otables { get; set; }
         public UserControl uc2 => this;
-        public List<MonthEmployeesDatas> Employees { set; get; }
+        public List<MonthEmployeesDatasOld> Employees { set; get; }
         public UserControl2()
         {
             InitializeComponent();
             this.DataContext = this;
             tables = new ObservableCollection<Table>();
         }
-        public void SetSummaryTable(List<MonthEmployeesDatas> Employees, DateTime date, List<DateTime> HolidateTimes)
+        public void SetSummaryTable(List<MonthEmployeesDatasOld> Employees, DateTime date, List<DateTime> HolidateTimes)
         {     
             
             tables.Clear();

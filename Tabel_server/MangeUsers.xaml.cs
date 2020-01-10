@@ -96,22 +96,22 @@ namespace Tabel_server
             {
                 employee = new Employee()
                 {
-                    family = tbFamily.Text,
-                    name = tbName.Text,
-                    parentName = tbParentName.Text,
-                    salary = Convert.ToInt32(tbSalary.Text),
-                    post = tbPost.Text,
-                    tabelNumber = tbTabelNumber.Text
+                    Surname = tbFamily.Text,
+                    Name = tbName.Text,
+                    Patronymic = tbParentName.Text,
+                    Salary = Convert.ToInt32(tbSalary.Text),
+                    Post = tbPost.Text,
+                    TabelNumber = tbTabelNumber.Text
                 };
                 ChangeEmpl?.Invoke(employee, new Employee()
                 {
-                    family = tbFamily.Text,
-                    name = tbName.Text,
-                    parentName = tbParentName.Text,
-                    post = tbPost.Text,
-                    salary = Convert.ToInt32(tbSalary.Text),
-                    dataOfEmployment = DateOfEmployeement,
-                    dateOfDismiss = DateOfDismiss
+                    Surname = tbFamily.Text,
+                    Name = tbName.Text,
+                    Patronymic = tbParentName.Text,
+                    Post = tbPost.Text,
+                    Salary = Convert.ToInt32(tbSalary.Text),
+                    DataOfEmployment = DateOfEmployeement,
+                    DateOfDismiss = DateOfDismiss
                 });
                 Setsource?.Invoke();
                 btSave.IsEnabled = false;
@@ -159,14 +159,14 @@ namespace Tabel_server
             else
             {
                 employee = employees[lbUsers.SelectedIndex];
-                tbFamily.Text = employee.family;
-                tbName.Text = employee.name;
-                tbParentName.Text = employee.parentName;
-                tbSalary.Text = employee.salary.ToString();
-                tbPost.Text = employee.post;
-                tbTabelNumber.Text = employee.tabelNumber.ToString();
-                DateOfEmployeement = employee.dataOfEmployment;
-                DateOfDismiss = employee.dateOfDismiss;
+                tbFamily.Text = employee.Surname;
+                tbName.Text = employee.Name;
+                tbParentName.Text = employee.Patronymic;
+                tbSalary.Text = employee.Salary.ToString();
+                tbPost.Text = employee.Post;
+                tbTabelNumber.Text = employee.TabelNumber.ToString();
+                DateOfEmployeement = employee.DataOfEmployment;
+                DateOfDismiss = employee.DateOfDismiss;
             }
         }
         private void BtChangeEmpl_Click(object sender, RoutedEventArgs e)
@@ -190,14 +190,14 @@ namespace Tabel_server
             else {
                 employee = new Employee()
                 {
-                    family = tbFamily.Text,
-                    name = tbName.Text,
-                    parentName = tbParentName.Text,
-                    salary = Convert.ToInt32(tbSalary.Text),
-                    dataOfEmployment = DateOfEmployeement,
-                    dateOfDismiss = DateOfDismiss,
-                    post = tbPost.Text,
-                    tabelNumber = tbTabelNumber.Text,
+                    Surname = tbFamily.Text,
+                    Name = tbName.Text,
+                    Patronymic = tbParentName.Text,
+                    Salary = Convert.ToInt32(tbSalary.Text),
+                    DataOfEmployment = DateOfEmployeement,
+                    DateOfDismiss = DateOfDismiss,
+                    Post = tbPost.Text,
+                    TabelNumber = tbTabelNumber.Text,
                 };
                 AddNewEmpl?.Invoke(employee);
                 Setsource?.Invoke();
@@ -247,14 +247,14 @@ namespace Tabel_server
             else
             {
                 employee = employees[lbUsers.SelectedIndex];
-                tbFamily.Text = employee.family;
-                tbName.Text = employee.name;
-                tbParentName.Text = employee.parentName;
-                tbSalary.Text = employee.salary.ToString();
-                tbPost.Text = employee.post;
-                tbTabelNumber.Text = employee.tabelNumber.ToString();
-                DateOfEmployeement = employee.dataOfEmployment;
-                DateOfDismiss = employee.dateOfDismiss;
+                tbFamily.Text = employee.Surname;
+                tbName.Text = employee.Name;
+                tbParentName.Text = employee.Patronymic;
+                tbSalary.Text = employee.Salary.ToString();
+                tbPost.Text = employee.Post;
+                tbTabelNumber.Text = employee.TabelNumber.ToString();
+                DateOfEmployeement = employee.DataOfEmployment;
+                DateOfDismiss = employee.DateOfDismiss;
             }
 
         }

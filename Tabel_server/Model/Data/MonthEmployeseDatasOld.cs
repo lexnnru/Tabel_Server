@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tabel_server.Model.Data
 {
-    public class MonthEmployeesDatas
+    public class MonthEmployeesDatasOld
     {
        
         public string family { get; set; }

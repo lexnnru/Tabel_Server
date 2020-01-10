@@ -354,14 +354,14 @@ namespace Tabel_server.Model
         public void UpdateEmployee(Employee olddata, Employee newData)
         {
             List<string> znachenies = new List<string>();
-            znachenies.Add(olddata.tabelNumber);
-            znachenies.Add(newData.family);
-            znachenies.Add(newData.name);
-            znachenies.Add(newData.parentName);
-            znachenies.Add(newData.dataOfEmployment.ToString());
-            znachenies.Add(newData.dateOfDismiss.ToString());
-            znachenies.Add(newData.salary.ToString());
-            znachenies.Add(newData.post.ToString());
+            znachenies.Add(olddata.TabelNumber);
+            znachenies.Add(newData.Surname);
+            znachenies.Add(newData.Name);
+            znachenies.Add(newData.Patronymic);
+            znachenies.Add(newData.DataOfEmployment.ToString());
+            znachenies.Add(newData.DateOfDismiss.ToString());
+            znachenies.Add(newData.Salary.ToString());
+            znachenies.Add(newData.Post.ToString());
             string fullCommand = "";
             string endcomand = "";
             for (int i = 0; i < paramForTabelNamberUserTable.Count; i++)
@@ -555,15 +555,15 @@ namespace Tabel_server.Model
         //}
         public string AddNewEmplpyee(Employee employee)
         {
-            if (CheckExistingTable(employee.tabelNumber))
+            if (CheckExistingTable(employee.TabelNumber))
             {
                 return "Сотрудник с таким табельным номером уже существует";
             }
             else
             {
-                Create_DataBase_Table(employee.tabelNumber, paramForUsersTable, typeOfDataForTabelUsersTable);
-                List<string> znachenie = new List<string>() { employee.tabelNumber, employee.family, employee.name, employee.parentName,
-                    employee.dataOfEmployment.ToString(), employee.dateOfDismiss.ToString(), employee.salary.ToString(), employee.post};
+                Create_DataBase_Table(employee.TabelNumber, paramForUsersTable, typeOfDataForTabelUsersTable);
+                List<string> znachenie = new List<string>() { employee.TabelNumber, employee.Surname, employee.Name, employee.Patronymic,
+                    employee.DataOfEmployment.ToString(), employee.DateOfDismiss.ToString(), employee.Salary.ToString(), employee.Post};
                 AddRowToTable(NameOfTablenamberUserTable, paramForTabelNamberUserTable, znachenie);
                 return "Сотрудник успешно добавлен";
             }
@@ -574,14 +574,14 @@ namespace Tabel_server.Model
             List<string> param = new List<string>() { "TabelNamber" };
             List<string> znachenie = new List<string>() { tabelNumberOfThisUser };
             List<string> list = GetRowFromTable(NameOfTablenamberUserTable, param, znachenie);
-            employee.tabelNumber = list[1];
-            employee.family = list[2];
-            employee.name = list[3];
-            employee.parentName = list[4];
-            employee.dataOfEmployment = Convert.ToInt64(list[5]);
-            employee.dateOfDismiss = Convert.ToInt64(list[6]);
-            employee.salary = Convert.ToInt32(list[7]);
-            employee.post = list[8];
+            employee.TabelNumber = list[1];
+            employee.Surname = list[2];
+            employee.Name = list[3];
+            employee.Patronymic = list[4];
+            employee.DataOfEmployment = Convert.ToInt64(list[5]);
+            employee.DateOfDismiss = Convert.ToInt64(list[6]);
+            employee.Salary = Convert.ToInt32(list[7]);
+            employee.Post = list[8];
             return employee;
         }
     }

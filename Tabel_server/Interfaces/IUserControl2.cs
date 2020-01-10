@@ -13,7 +13,7 @@ namespace Tabel_server.Interfaces
     public interface IUserControl2
     {
         UserControl uc2 { get;  }
-        List<MonthEmployeesDatas> Employees { set; }
-        void SetSummaryTable(List<MonthEmployeesDatas> monthEmployeeDatas, DateTime date, List<DateTime> HolidateTimes);
+        List<MonthEmployeesDatasOld> Employees { set; }
+        void SetSummaryTable(List<MonthEmployeesDatasOld> monthEmployeeDatas, DateTime date, List<DateTime> HolidateTimes);
     }
 }

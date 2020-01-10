@@ -30,11 +30,11 @@ namespace Tabel_server
         event Action<string> Lb_users_SelectionChange;
         event Action<string> LoadHoli;
         
-        event Func <DateTime, List<MonthEmployeesDatas>>GetMonthEmployeeData;
+        event Func <DateTime, List<MonthEmployeesDatasOld>>GetMonthEmployeeData;
         event Action DateChanged;
         event Action <List<string>> LoadDataTableToDB;
         event Action ShowCalendar;
-        void SetlbUsers(ObservableCollection<MonthEmployeesDatas> employees);
+        void SetlbUsers(ObservableCollection<MonthEmployeesDatasOld> employees);
         List<DateTime> HoliDateTimes { get; set; }
         Window Get { get; }
         IUserControl1 uc1 { get; }
@@ -45,7 +45,7 @@ namespace Tabel_server
         List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
 
         string tabelNamber { get; set; }
-       ObservableCollection<MonthEmployeesDatas> employees { get; set; }
+       ObservableCollection<MonthEmployeesDatasOld> employees { get; set; }
 
         DateTime dtMain { get; set; }
 
@@ -76,7 +76,7 @@ namespace Tabel_server
             dtMain = obj;
             if (lbUsers.SelectedIndex != -1)
             {
-                MonthEmployeesDatas emp = employees[lbUsers.SelectedIndex];
+                MonthEmployeesDatasOld emp = employees[lbUsers.SelectedIndex];
                 tbTabelNamber.Text = emp.tabelNumber;
                 Lb_users_SelectionChange?.Invoke(emp.tabelNumber);
             }
@@ -90,7 +90,7 @@ namespace Tabel_server
         public IUserControl2 uc2 { get; private set; }
         public IUserControl3 uc3 { get;  set; }
         public string tabelNamber { get; set; }
-        public ObservableCollection<MonthEmployeesDatas> employees { get; set; }
+        public ObservableCollection<MonthEmployeesDatasOld> employees { get; set; }
         public DateTime dtMain { get; set; }
         public List<DateTime> HoliDateTimes { get; set; }
         public MangeUsers mu { get; set; }
@@ -99,7 +99,7 @@ namespace Tabel_server
 
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
-        public event Func<DateTime, List<MonthEmployeesDatas>> GetMonthEmployeeData;
+        public event Func<DateTime, List<MonthEmployeesDatasOld>> GetMonthEmployeeData;
         public event Action DateChanged;
         public event Action<List<string>> LoadDataTableToDB;
         public event Action ShowCalendar;
@@ -123,7 +123,7 @@ namespace Tabel_server
             ListBox lb = (ListBox)sender;
             if (lb.SelectedIndex!=-1)
             {
-                MonthEmployeesDatas emp = employees[lb.SelectedIndex];
+                MonthEmployeesDatasOld emp = employees[lb.SelectedIndex];
                 tbTabelNamber.Text = employees[lb.SelectedIndex].tabelNumber;
                 MainGrid.Children.Clear();
                 uc1.SetSource(emp);
@@ -131,21 +131,21 @@ namespace Tabel_server
             }
             else { }
         }
-        public void SetlbUsers(ObservableCollection<MonthEmployeesDatas> monthemployees)
+        public void SetlbUsers(ObservableCollection<MonthEmployeesDatasOld> monthemployees)
         {
            lbUsers.ItemsSource = monthemployees;
            this.employees = monthemployees;
         }
         private void View2_Click(object sender, RoutedEventArgs e)
         {
-            List<MonthEmployeesDatas> monthEmployeeDatas= GetMonthEmployeeData?.Invoke(dtMain);
+            List<MonthEmployeesDatasOld> monthEmployeeDatas= GetMonthEmployeeData?.Invoke(dtMain);
             uc2.SetSummaryTable(monthEmployeeDatas, dtMain, HoliDateTimes);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc2.uc2);
         }
         private void View3_Click(object sender, RoutedEventArgs e)
         {
-            List<MonthEmployeesDatas> monthEmployeeDatas = GetMonthEmployeeData?.Invoke(dtMain);
+            List<MonthEmployeesDatasOld> monthEmployeeDatas = GetMonthEmployeeData?.Invoke(dtMain);
             uc3.SetSource(monthEmployeeDatas, HoliDateTimes, dtMain);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc3.uc3);

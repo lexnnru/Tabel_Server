@@ -42,7 +42,7 @@ namespace Tabel_server.PreveiwWindow
                 incomingDatas.Add(x); });
             rowinDB.ForEach(x => { this.rowinDB.Add(x); });
             this.employee = employee;
-            fio ="ФИО: " +employee.family + " " + employee.name + " " + employee.parentName + " " +"должность: "+ employee.post;
+            fio ="ФИО: " +employee.Surname + " " + employee.Name + " " + employee.Patronymic + " " +"должность: "+ employee.Post;
 
 
         }

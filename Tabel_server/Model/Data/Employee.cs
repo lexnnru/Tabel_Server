@@ -8,6 +8,18 @@ namespace Tabel_server.Model.Data
 {
     public class Employee
     {
+        public string TabelNumber { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public string Mail { get; set; }
+        public Int64 DataOfEmployment { get; set; }
+        public Int64 DateOfDismiss { get; set; }
+        public int Salary { get; set; }
+        public string Post { get; set; }
+        
+        //public List<OneDayData> GetOneDayDatas(Model.DataBase_manager db, DateTime date)
+        //{ }
         public List<Employee> GetAllEmployees(Model.DataBase_manager db, DateTime date)
         {
             List<Employee> employees = new List<Employee>();
@@ -15,28 +27,18 @@ namespace Tabel_server.Model.Data
             Lists.ForEach(i => {
                 employees.Add(new Employee()
                 {
-                    tabelNumber = i[0],
-                    family = i[1],
-                    name = i[2],
-                    parentName = i[3],
-                    dataOfEmployment = Convert.ToInt64(i[4]),
-                    dateOfDismiss= Convert.ToInt64(i[5]),
-                    salary = Convert.ToInt32(i[6]),
-                    post=i[7],
-
-
+                    TabelNumber = i[0],
+                    Surname = i[1],
+                    Name = i[2],
+                    Patronymic = i[3],
+                    DataOfEmployment = Convert.ToInt64(i[4]),
+                    DateOfDismiss= Convert.ToInt64(i[5]),
+                    Salary = Convert.ToInt32(i[6]),
+                    Post=i[7]
                 });
             });
             return employees;
         }
-        public string tabelNumber {get; set;}
-        public string family { get; set; }
-        public string name { get; set; }
-        public string parentName { get; set; }
-        public string mail { get; set; }
-        public Int64 dataOfEmployment { get; set; }
-        public Int64 dateOfDismiss { get; set; }
-        public int salary { get; set; }
-        public string post { get; set; }
+
     }
 }

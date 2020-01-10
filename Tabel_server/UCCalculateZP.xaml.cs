@@ -21,7 +21,7 @@ namespace Tabel_server
     /// </summary>
     public partial class UCCalculateZP : UserControl
     {
-        public UCCalculateZP(ObservableCollection<Model.Data.MonthEmployeesDatas> monthEmployeeDatas)
+        public UCCalculateZP(ObservableCollection<Model.Data.MonthEmployeesDatasOld> monthEmployeeDatas)
         {
             InitializeComponent();
 
