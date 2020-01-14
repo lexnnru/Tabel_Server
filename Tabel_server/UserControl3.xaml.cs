@@ -120,9 +120,6 @@ namespace Tabel_server
                                 hour15 += new TimeSpan(2, 0, 0);
                                 hour20 = hour20 + monthemployees[i].oneDayDatas[j].Work_time - monthemployees[i].oneDayDatas[j].Work_time_According_plan - new TimeSpan(2, 0, 0);
                             }
-                        
-        
-
                   
                     }
                     else

@@ -56,6 +56,8 @@ namespace Tabel_server.Presenter
         {
             DBmanager.SetDayType(arg1, arg2, arg3);
             imain.calendar.SpecialDays = DBmanager.Get_DayTypeInYear(DateTime.Now.Year);
+            imain.HoliDateTimes = GetHoliDateTimes(imain.dtMain, imain.calendar.SpecialDays);
+
         }
 
         private void Imain_LoadDataTableToDB(List<string> obj)

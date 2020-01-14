@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Tabel_server"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DataGrid HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+    <DataGrid ItemsSource="{Binding monthZP}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
         <DataGrid.Columns>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Работник">
                 <DataGridTemplateColumn.CellTemplate>

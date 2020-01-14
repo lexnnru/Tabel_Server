@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tabel_server.Model.Data;
 
 namespace Tabel_server
 {
@@ -24,7 +25,25 @@ namespace Tabel_server
         public UCCalculateZP(ObservableCollection<Model.Data.MonthEmployeesDatasOld> monthEmployeeDatas)
         {
             InitializeComponent();
+            List<MonthZP> monthZP = new List<MonthZP>();
+            for (int i=0; i<= monthEmployeeDatas.Count; i++)
+            {
+                monthZP.Add(new MonthZP() { }); ;
+
+
+                    }
+            this.DataContext = this;
 
         }
+    }
+    public class MonthZP
+    {
+        public Employee Employee { get; set; }
+        public int MonthBonus       { get;   set;}
+        public int BiznessTripBonus { get; set; }
+        public int OverWorkingBonus { get; set; }
+        public int FreeBonus { get; set; }
+        public int ZP { get; set; }
+        public int ZPwithout13 { get; set; }
     }
 }
