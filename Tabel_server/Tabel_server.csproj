@@ -121,7 +121,7 @@
       <DependentUpon>MangeUsers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Data\Converter.cs" />
-    <Compile Include="Model\Data\Table\Day.cs" />
+    <Compile Include="Model\Data\Table\DayEmployee.cs" />
     <Compile Include="Model\Data\Employee.cs" />
     <Compile Include="Model\Data\HoliYear.cs" />
     <Compile Include="Model\Data\MonthEmployeseDatasOld.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="Model\Data\Table\Fact\DayOnFact.cs" />
     <Compile Include="Model\Data\Table\Fact\DayTypeOnFact.cs" />
     <Compile Include="Model\Data\Table\Fact\MonthOnFact.cs" />
-    <Compile Include="Model\Data\Table\Month.cs" />
+    <Compile Include="Model\Data\Table\MonthEmployee.cs" />
     <Compile Include="Model\Data\Table\Plan\DayOnPlan.cs" />
     <Compile Include="Model\Data\Table\Plan\DayTypeOnPlan.cs" />
     <Compile Include="Model\Data\Table\Plan\MonthOnPlan.cs" />

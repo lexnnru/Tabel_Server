@@ -7,12 +7,14 @@ using Tabel_server.Model.Data.Table;
 using Tabel_server.Model.Data.Table.EmployeeDay;
 using Tabel_server.Model.Data.Table.PlanDay;
 
-namespace Tabel_server.Model.Data
+namespace Tabel_server.Model.Data.Table
 {
-    class Day
+    public class DayEmployee
     {
-        public DayOnFact DayOnEmployee {get; set;}
+        public Employee Employee { get; set; }
+        public DayOnFact DayOnFact {get; set;}
         public DayOnPlan DayOnPlan { get; set; }
+        
         public TimeSpan Time1X { get; set; }
         public TimeSpan Time15X { get; set; }
         public TimeSpan Time20X { get; set; }
@@ -21,5 +23,14 @@ namespace Tabel_server.Model.Data
         ////Время недоработанное работником
         /// </summary>
         public TimeSpan Time0 { get; set; }
+        public String City { get; set; }
+        public String Achiv { get; set; }
+        public DayEmployee()
+        {
+            this.DayOnPlan = new DayOnPlan();
+
+            this.DayOnFact = new DayOnFact();
+        }
+
     }
 }

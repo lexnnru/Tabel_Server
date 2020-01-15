@@ -18,6 +18,7 @@ using Tabel_server.Interfaces;
 using Tabel_server.Model.Data;
 using System.Collections.ObjectModel;
 using Calendar;
+using Tabel_server.Model.Data.Table;
 
 namespace Tabel_server
 {
@@ -48,6 +49,8 @@ namespace Tabel_server
        ObservableCollection<MonthEmployeesDatasOld> employees { get; set; }
 
         DateTime dtMain { get; set; }
+        
+            ObservableCollection<Model.Data.Table.MonthEmployee> monthEmployees { get; set; }
 
     }
     public partial class MainWindow : Window, ImainWindow
@@ -96,6 +99,7 @@ namespace Tabel_server
         public MangeUsers mu { get; set; }
         public Calendar.MainWindow calendar { get; set; }
         public List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
+        public ObservableCollection<MonthEmployee> monthEmployees { get; set; }
 
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
@@ -103,21 +107,10 @@ namespace Tabel_server
         public event Action DateChanged;
         public event Action<List<string>> LoadDataTableToDB;
         public event Action ShowCalendar;
-
-        //public void ShowLog(string log_messege)
-        //{
-        //    lb_log.Items.Add(log_messege +" " +Environment.NewLine);
-        //}
         public void ShowMess(string message)
         {
             MessageBox.Show(message);
         }
-        //public void ShowTable(ObservableCollection<MonthEmployeeData> employees)
-        //{
-        //    MainGrid.Children.Clear();
-        //    uc1.SetSource(employees);
-        //    MainGrid.Children.Add(uc1.uc1);
-        //}
         private void LbUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox lb = (ListBox)sender;

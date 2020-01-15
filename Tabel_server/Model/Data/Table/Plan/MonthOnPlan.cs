@@ -14,7 +14,7 @@ namespace Tabel_server.Model.Data.Table.Plan
         {
             foreach (DayOnPlan day in Days)
             {
-                MonthWorkerdTime += day.WorkedTimeOnPlan;
+                MonthWorkerdTime += day.WorkedTime;
             }
         }
     }

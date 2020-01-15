@@ -8,7 +8,7 @@ namespace Tabel_server.Model.Data.Table.Fact
 {
         class MonthOnFact
         {
-            public Day[] Days { get; set; }
+            public DayEmployee[] Days { get; set; }
             public TimeSpan Time1X { get; set; }
             public TimeSpan Time15X { get; set; }
             public TimeSpan Time20X { get; set; }
@@ -24,15 +24,15 @@ namespace Tabel_server.Model.Data.Table.Fact
             /// </summary>
             public TimeSpan Time0 { get; set; }
 
-            public MonthOnFact (Day[] Days)
+            public MonthOnFact (DayEmployee[] Days)
             {
-                foreach (Day day in Days)
+                foreach (DayEmployee day in Days)
                 {
                     Time1X += day.Time1X;
                     Time15X += day.Time15X;
                     Time20X += day.Time20X;
                     Time0 += day.Time0;
-                    switch (day.DayOnEmployee.DayTypeOnEmployee)
+                    switch (day.DayOnFact.DayTypeOnEmployee)
                     {
                         case EmployeeDay.DayTypeOnFact.Worked:
                             DaysWorked += 1;

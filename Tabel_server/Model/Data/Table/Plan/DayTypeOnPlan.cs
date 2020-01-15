@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tabel_server.Model.Data.Table
 {
-    public enum DayTypeOnPlan: int
+    public enum DayTypeOnPlan
     {
         Holiday,
         Worked,

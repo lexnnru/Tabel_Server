@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Threading;
 using Tabel_server.Model.Data;
+using Tabel_server.Model.Data.Table;
 
 namespace Tabel_server.Presenter
 {
@@ -38,8 +39,17 @@ namespace Tabel_server.Presenter
             imain.mu.ChangeEmpl += Mu_ChangeEmpl;
             imain.ShowCalendar += Imain_ShowCalendar;
             imain.SpecialDays = DBmanager.Get_DayTypeInYear(imain.dtMain.Date.Year);
+             imain.monthEmployees = GetMonthEmployees();
         }
-
+        public ObservableCollection<Model.Data.Table.MonthEmployee> GetMonthEmployees()
+        {
+            ObservableCollection<MonthEmployee> monthEmployees = new ObservableCollection<MonthEmployee>();
+            ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
+            
+            foreach (Employee employee in employees)
+            { monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); }
+            return monthEmployees;
+        }
         private void Imain_ShowCalendar()
         {
             
