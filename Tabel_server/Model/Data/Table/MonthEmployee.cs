@@ -37,6 +37,7 @@ namespace Tabel_server.Model.Data.Table
                 Time15X += day.Time15X;
                 Time20X += day.Time20X;
                 Time0 += day.Time0;
+                TimeHoli += day.TimeHoli;
                 switch (day.DayOnFact.DayTypeOnEmployee)
                 {
                     case EmployeeDay.DayTypeOnFact.Worked:

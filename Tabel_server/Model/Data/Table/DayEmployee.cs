@@ -12,9 +12,8 @@ namespace Tabel_server.Model.Data.Table
     public class DayEmployee
     {
         public Employee Employee { get; set; }
-        public DayOnFact DayOnFact {get; set;}
+        public DayOnFact DayOnFact { get; set; }
         public DayOnPlan DayOnPlan { get; set; }
-        
         public TimeSpan Time1X { get; set; }
         public TimeSpan Time15X { get; set; }
         public TimeSpan Time20X { get; set; }
@@ -23,13 +22,33 @@ namespace Tabel_server.Model.Data.Table
         ////Время недоработанное работником
         /// </summary>
         public TimeSpan Time0 { get; set; }
-        public String City { get; set; }
-        public String Achiv { get; set; }
-        public DayEmployee()
+        public DayEmployee(DayOnPlan dayOnPlan, DayOnFact dayOnFact, Employee employee)
         {
-            this.DayOnPlan = new DayOnPlan();
-
-            this.DayOnFact = new DayOnFact();
+            this.Employee = employee;
+            if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Worked || dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.WorkedShort)
+            { if (dayOnFact.WorkedTime <= dayOnPlan.WorkedTime)
+                { Time1X = dayOnFact.WorkedTime;
+                    Time0 = dayOnPlan.WorkedTime - dayOnFact.WorkedTime;
+                }
+                else if (dayOnFact.WorkedTime > dayOnPlan.WorkedTime && dayOnFact.WorkedTime <= dayOnPlan.WorkedTime + new TimeSpan(2, 0, 0))
+                { Time1X = dayOnFact.WorkedTime;
+                    Time15X = dayOnFact.WorkedTime - dayOnPlan.WorkedTime;
+                }
+                else if (dayOnFact.WorkedTime >dayOnPlan.WorkedTime + new TimeSpan(2, 0, 0))
+                {
+                    Time1X = dayOnFact.WorkedTime;
+                    Time15X = new TimeSpan(2, 0, 0);
+                    Time20X = dayOnFact.WorkedTime - Time1X - Time15X;
+                }
+            }
+            else if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Holiday)
+            { if (dayOnFact.WorkedTime<= dayOnPlan.WorkedTime)
+                { TimeHoli = dayOnFact.WorkedTime; }
+            else if (dayOnFact.WorkedTime > dayOnPlan.WorkedTime)
+                { TimeHoli = dayOnPlan.WorkedTime;
+                    Time20X = dayOnFact.WorkedTime - dayOnPlan.WorkedTime;
+                }
+            }
         }
 
     }

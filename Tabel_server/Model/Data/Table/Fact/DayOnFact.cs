@@ -13,6 +13,7 @@ namespace Tabel_server.Model.Data.Table.EmployeeDay
         public TimeSpan WorkedTime { get; set; }
         public DayTypeOnFact DayTypeOnEmployee { get; set; }
         public TimeSpan Dinner { get; set; }
+
         public DayOnFact()
         { }
         public DayOnFact (DateTime StartWork, DateTime EndWOrk, TimeSpan Dinner, DayTypeOnFact DayTypeOnEmployee)

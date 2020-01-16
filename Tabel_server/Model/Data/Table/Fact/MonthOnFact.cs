@@ -23,8 +23,10 @@ namespace Tabel_server.Model.Data.Table.Fact
             ////Время недоработанное работником
             /// </summary>
             public TimeSpan Time0 { get; set; }
+        public String City { get; set; }
+        public String Achiv { get; set; }
 
-            public MonthOnFact (DayEmployee[] Days)
+        public MonthOnFact (DayEmployee[] Days)
             {
                 foreach (DayEmployee day in Days)
                 {

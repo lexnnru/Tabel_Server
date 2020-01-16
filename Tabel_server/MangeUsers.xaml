@@ -37,9 +37,9 @@
                                     <ColumnDefinition>
                                     </ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding family}" Grid.Column="0"></TextBlock>
-                                <TextBlock Text="{Binding name}" Grid.Column="1" Margin="2,0,2,0"></TextBlock>
-                                <TextBlock Text="{Binding parentName}" Grid.Column="2"></TextBlock>
+                                <TextBlock Text="{Binding Surname}" Grid.Column="0"></TextBlock>
+                                <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="2,0,2,0"></TextBlock>
+                                <TextBlock Text="{Binding Patronymic}" Grid.Column="2"></TextBlock>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Tabel_server.Model.Data;
 using Tabel_server.Model.Data.Table;
+using Tabel_server.Model.Data.Table.EmployeeDay;
 using Tabel_server.Model.Data.Table.PlanDay;
 
 namespace Tabel_server.Model
@@ -520,7 +521,9 @@ namespace Tabel_server.Model
         }
         public DayEmployee GetDayEmployee(DateTime day, Employee employee)
         {
+
             DayEmployee dayEmployee = new DayEmployee();
+            DayOnFact dayOnFact=new DayOnFact()
             dayEmployee.Employee = employee;
             List<string> param = new List<string>() { "day", "month", "year" };
             List<string> znachenie = new List<string>() { day.Day.ToString(), day.Month.ToString(), day.Year.ToString() };
@@ -610,7 +613,6 @@ namespace Tabel_server.Model
                         dayEmployee.DayOnPlan.WorkedTime = data.length;
                     }
                 }
-                
             }
             else
             {
