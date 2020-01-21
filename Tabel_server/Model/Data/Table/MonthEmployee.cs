@@ -19,6 +19,8 @@ namespace Tabel_server.Model.Data.Table
         public int DaysNotWorkedMatherhoodVacation { get; set; }
         public int DaysNotWorkedVacation { get; set; }
         public int DaysNotWorkedAdministrative { get; set; }
+        public int WorkedDayInMonthPlaned { get; set; }
+        public TimeSpan WorkedHoursInMonthPlaned { get; set; }
         /// <summary>
         ////Время недоработанное работником
         /// </summary>
@@ -26,6 +28,7 @@ namespace Tabel_server.Model.Data.Table
 
         public MonthEmployee(DayEmployee[] Days)
         {
+            this.Days = Days;
             Time1X = new TimeSpan(0);
             Time15X = new TimeSpan(0);
             Time20X = new TimeSpan(0);
@@ -55,9 +58,25 @@ namespace Tabel_server.Model.Data.Table
                     case EmployeeDay.DayTypeOnFact.NotWorkedMatherhoodVacation:
                         DaysNotWorkedMatherhoodVacation += 1;
                         break;
+                    case EmployeeDay.DayTypeOnFact.NotWorkedAdministrative:
+                        DaysNotWorkedAdministrative += 1;
+                        break;
+
+                }
+                switch (day.DayOnPlan.DayTypeOnPlan)
+                {
+                    case DayTypeOnPlan.Worked:
+                        WorkedDayInMonthPlaned += 1;
+                        WorkedHoursInMonthPlaned += day.DayOnPlan.WorkedTime;
+                        break;
+                    case DayTypeOnPlan.WorkedShort:
+                        WorkedDayInMonthPlaned += 1;
+                        WorkedHoursInMonthPlaned += day.DayOnPlan.WorkedTime;
+                        break;
+
                 }
 
-            }
+                }
         }
     }
 }

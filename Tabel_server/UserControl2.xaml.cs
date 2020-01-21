@@ -89,6 +89,8 @@ namespace Tabel_server
         public string day31c { get; set; }
         public int summa { get; set; }
         public string Details { get; set; }
+        public string info { get; set; }
+        
 
     }
     public partial class UserControl2 : UserControl, Interfaces.IUserControl2
@@ -129,6 +131,7 @@ namespace Tabel_server
             {
                 tables.Add(new Table()
                 {
+                    info = "табельный номер: " + Employees[i].tabelNumber + ", должность: " + Employees[i].post,
                     name = Employees[i].fio,
                     day1 = Employees[i].oneDayDatas[0].Work_time,
                     day2 = Employees[i].oneDayDatas[1].Work_time,
@@ -195,7 +198,7 @@ namespace Tabel_server
                     Details = string.Format("Должность: {0}  Табельный номер: {1}.",
                     Employees[i].post, Employees[i].tabelNumber),
                     summa = Employees[i].oneDayDatas.Sum(n => n.Work_time.Hours)
-                }); ;
+                }) ;
             }
             int dim = DateTime.DaysInMonth(date.Year, date.Month);
             for (int i = 31; i > 27; i--)

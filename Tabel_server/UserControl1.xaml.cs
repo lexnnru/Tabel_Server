@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tabel_server.Model.Data;
+using Tabel_server.Model.Data.Table;
 
 namespace Tabel_server
 {
@@ -26,7 +27,7 @@ namespace Tabel_server
         public UserControl1()
         {
             InitializeComponent();
-           odd = new ObservableCollection<OneDayData>();
+            odd = new ObservableCollection<OneDayData>();
 
             this.DataContext = this;
         }
@@ -41,6 +42,20 @@ namespace Tabel_server
                 { x.isHoliday = true; }
 
                 odd.Add(x); });
+        }
+        public void SetSourceNew(MonthEmployee employees)
+        {
+            odd.Clear();
+            for (int i=0; i<employees.Days.Length; i++)
+            { }
+          
+                
+            //    ForEach(x => {
+            //    if (x.Work_time_According_plan == new TimeSpan(0, 0, 0))
+            //    { x.isHoliday = true; }
+
+            //    odd.Add(x);
+            //});
         }
     }
 }

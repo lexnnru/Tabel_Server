@@ -19,6 +19,7 @@ using Tabel_server.Model.Data;
 using System.Collections.ObjectModel;
 using Calendar;
 using Tabel_server.Model.Data.Table;
+using System.Globalization;
 
 namespace Tabel_server
 {
@@ -120,7 +121,9 @@ namespace Tabel_server
                 tbTabelNamber.Text = employees[lb.SelectedIndex].tabelNumber;
                 MainGrid.Children.Clear();
                 uc1.SetSource(emp);
+                uc1.SetSourceNew(monthEmployees[1]);
                 MainGrid.Children.Add(uc1.uc1);
+                tbNameTable.Text = "Табель работника: "+ emp.fio+ ", за " +dtMain.ToString("MMMM",  CultureInfo.CurrentCulture).ToLower() +" " +dtMain.Year +" года.";
             }
             else { }
         }
@@ -135,6 +138,7 @@ namespace Tabel_server
             uc2.SetSummaryTable(monthEmployeeDatas, dtMain, HoliDateTimes);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc2.uc2);
+            tbNameTable.Text = "Таблица отработанных сотрудниками часов за: " + dtMain.ToString("MMMM", CultureInfo.CurrentCulture).ToLower() + " " + dtMain.Year + " года.";
         }
         private void View3_Click(object sender, RoutedEventArgs e)
         {
@@ -203,6 +207,9 @@ namespace Tabel_server
             MainGrid.Children.Add(uCCalculateZP);
         }
 
-
+        private void lbUsers_LostFocus(object sender, RoutedEventArgs e)
+        {
+            lbUsers.SelectedIndex = -1;
+        }
     }
 }

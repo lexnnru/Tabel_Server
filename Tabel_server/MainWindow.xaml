@@ -15,7 +15,7 @@
             <ColumnDefinition Width="7" />
             <ColumnDefinition  Width="142*"/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30*" MinHeight="120" />
@@ -36,11 +36,11 @@
                        TextAlignment="Center"/>
             </Button>
             <TextBlock x:Name="tbTabelNamber" TextAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="Табельный номер"  />
-            <ListBox x:Name="lbUsers"   SelectionChanged="LbUsers_SelectionChanged" Grid.Column="0" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-           
+            <ListBox x:Name="lbUsers"   SelectionChanged="LbUsers_SelectionChanged" Grid.Column="0" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LostFocus="lbUsers_LostFocus" >
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        
+
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="160"></ColumnDefinition>
@@ -73,21 +73,25 @@
         </Grid>
         <Grid Grid.Column="2"   >
             <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="40*"/>
-                <RowDefinition Height="557*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="88,0" Width="582" >
                 <Button x:Name="View2"  Content="Отработанные часы по дням" Click="View2_Click" Style="{DynamicResource ButtonStyle1}" />
                 <Button x:Name="View3" Content="Суммарные часы с коэфф." Click="View3_Click" Style="{DynamicResource ButtonStyle1}" />
                 <Button x:Name="btCalculateSalary" Content="Рассчет ЗП"  Style="{DynamicResource ButtonStyle1}" Click="BtCalculateSalary_Click" />
                 <Button x:Name="btloadHoli" Content="Загрузить выходные в БД" Click="BtloadHoli_Click" Style="{DynamicResource ButtonStyle1}" />
                 <Button x:Name="btCalendar" Content="Календарь"  Style="{DynamicResource ButtonStyle1}" Click="BtCalendar_Click" />
             </StackPanel>
-            <Grid Grid.Row="1" Grid.Column="0" x:Name="MainGrid"  >
+            <TextBlock Grid.Row="1" x:Name="tbNameTable" HorizontalAlignment="Center">
                 
+            </TextBlock>
+            <Grid Grid.Row="2" Grid.Column="0" x:Name="MainGrid"  >
+
             </Grid>
         </Grid>
-        
+
         <Button   Grid.Row="0" Grid.Column="1"   Click="Button_Click" Style="{DynamicResource ButtonStyle1}" />
         <GridSplitter Grid.Row="0" Grid.Column="1" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="True" />
     </Grid>

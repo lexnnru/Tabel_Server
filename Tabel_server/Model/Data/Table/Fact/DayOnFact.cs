@@ -13,16 +13,10 @@ namespace Tabel_server.Model.Data.Table.EmployeeDay
         public TimeSpan WorkedTime { get; set; }
         public DayTypeOnFact DayTypeOnEmployee { get; set; }
         public TimeSpan Dinner { get; set; }
-
+        public String City { get; set; }
+        public String Achiv { get; set; }
         public DayOnFact()
-        { }
-        public DayOnFact (DateTime StartWork, DateTime EndWOrk, TimeSpan Dinner, DayTypeOnFact DayTypeOnEmployee)
-        {
-            this.StartWork = StartWork;
-            this.EndWOrk = EndWOrk;
-            this.Dinner = Dinner;
-            this.DayTypeOnEmployee = DayTypeOnEmployee;
-            WorkedTime = EndWOrk - StartWork - Dinner;
+        { WorkedTime = new TimeSpan(0);
         }
     }
 }

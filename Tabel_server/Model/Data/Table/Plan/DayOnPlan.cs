@@ -8,18 +8,8 @@ namespace Tabel_server.Model.Data.Table.PlanDay
 {
     public class DayOnPlan
     {
+        public DateTime Day { get; set; }
         public DayTypeOnPlan DayTypeOnPlan { get; set; }
         public TimeSpan WorkedTime { get; set; }
-        public DayOnPlan()
-        {
-        }
-        public DayOnPlan(DayTypeOnPlan DayTypeOnPlan, TimeSpan WorkedTime)
-        {
-            this.DayTypeOnPlan = DayTypeOnPlan;
-            this.WorkedTime = WorkedTime;
-        }
-
-
     }
-
 }

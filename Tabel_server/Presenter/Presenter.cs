@@ -20,6 +20,7 @@ namespace Tabel_server.Presenter
         Model.DataBase_manager DBmanager;
         Employee employee = new Employee();
         ObservableCollection<MonthEmployeesDatasOld> monthemployees = new ObservableCollection<MonthEmployeesDatasOld>();
+        ObservableCollection<MonthEmployee> monthemployeesNew = new ObservableCollection<MonthEmployee>();
         ObservableCollection<Employee> FullEmployees = new ObservableCollection<Employee>();
         public Presenter(ImainWindow imain)
         {
@@ -45,9 +46,13 @@ namespace Tabel_server.Presenter
         {
             ObservableCollection<MonthEmployee> monthEmployees = new ObservableCollection<MonthEmployee>();
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
-            
             foreach (Employee employee in employees)
-            { monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); }
+            {
+                if (new DateTime(new DateTime(employee.DataOfEmployment).ToLocalTime().Year, new DateTime(employee.DataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
+          new DateTime(employee.DateOfDismiss).ToLocalTime() >= new DateTime(imain.dtMain.Year, imain.dtMain.Month, 1))
+                { monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); }
+            }
+            monthemployeesNew = monthEmployees;
             return monthEmployees;
         }
         private void Imain_ShowCalendar()

@@ -14,19 +14,24 @@
         <Grid.Resources>
         </Grid.Resources>
         <DataGrid x:Name="datagridSummary" RowDetailsVisibilityMode="VisibleWhenSelected"  ItemsSource="{Binding tables}" CanUserSortColumns="False" AutoGenerateColumns="False"    >
-            <DataGrid.RowDetailsTemplate >
+            <!--<DataGrid.RowDetailsTemplate >
                 <DataTemplate >
                     <Grid>
-                        <TextBlock   Text="{Binding Details}" Margin="10" />
+                        <TextBlock   Text="{Binding Dt}" Margin="10" />
                     </Grid>
                 </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+            </DataGrid.RowDetailsTemplate>-->
             <DataGrid.Columns >
                 <DataGridTemplateColumn  Header="Сотрудник">
                     <DataGridTemplateColumn.CellTemplate >
                         <DataTemplate>
-                            <Grid   >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
                                 <Label Content="{Binding name}" ></Label>
+                                <Label Content="{Binding info}" Grid.Row="1"></Label>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

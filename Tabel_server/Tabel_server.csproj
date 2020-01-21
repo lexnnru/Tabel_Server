@@ -128,11 +128,9 @@
     <Compile Include="Model\Data\OneDayData.cs" />
     <Compile Include="Model\Data\Table\Fact\DayOnFact.cs" />
     <Compile Include="Model\Data\Table\Fact\DayTypeOnFact.cs" />
-    <Compile Include="Model\Data\Table\Fact\MonthOnFact.cs" />
     <Compile Include="Model\Data\Table\MonthEmployee.cs" />
     <Compile Include="Model\Data\Table\Plan\DayOnPlan.cs" />
     <Compile Include="Model\Data\Table\Plan\DayTypeOnPlan.cs" />
-    <Compile Include="Model\Data\Table\Plan\MonthOnPlan.cs" />
     <Compile Include="Model\Deserialization.cs" />
     <Compile Include="Model\Data\IncomingDataTable.cs" />
     <Compile Include="Model\Loger.cs" />

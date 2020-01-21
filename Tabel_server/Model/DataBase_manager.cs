@@ -521,165 +521,110 @@ namespace Tabel_server.Model
         }
         public DayEmployee GetDayEmployee(DateTime day, Employee employee)
         {
-
-            DayEmployee dayEmployee = new DayEmployee();
-            DayOnFact dayOnFact=new DayOnFact()
-            dayEmployee.Employee = employee;
+            DayOnPlan dayOnPlan = GetDayOnPlan(day);
+            DayOnFact dayOnFact = GetDayOnFact(day, employee);
+            DayEmployee dayEmployee = new DayEmployee(dayOnPlan, dayOnFact, employee);
+            //if (dayEmployee.DayOnFact.DayTypeOnEmployee==DayTypeOnFact.WorkedBusinessTrip|| dayEmployee.DayOnPlan.DayTypeOnPlan==DayTypeOnPlan.Holiday)
+            //{ dayEmployee.DayOnFact.WorkedTime = dayEmployee.DayOnFact.EndWOrk - dayEmployee.DayOnFact.StartWork; }
+            return dayEmployee;
+        }
+        DayOnFact GetDayOnFact(DateTime day, Employee employee)
+        {
+            DayOnFact dayOnFact = new DayOnFact();
             List<string> param = new List<string>() { "day", "month", "year" };
             List<string> znachenie = new List<string>() { day.Day.ToString(), day.Month.ToString(), day.Year.ToString() };
             List<string> list = GetRowFromTable(employee.TabelNumber, param, znachenie);
-            if (list.Count>0)
+            if (list.Count > 0)
             {
-                dayEmployee.DayOnFact.StartWork = new DateTime(Convert.ToInt32(list[3]), Convert.ToInt32(list[2]), Convert.ToInt32(list[1]), Convert.ToInt32(list[4]),
+                dayOnFact.StartWork = new DateTime(Convert.ToInt32(list[3]), Convert.ToInt32(list[2]), Convert.ToInt32(list[1]), Convert.ToInt32(list[4]),
                     Convert.ToInt32(list[5]), 0);
-                dayEmployee.DayOnFact.EndWOrk = new DateTime(Convert.ToInt32(list[3]), Convert.ToInt32(list[2]), Convert.ToInt32(list[1]), Convert.ToInt32(list[6]),
+                dayOnFact.EndWOrk = new DateTime(Convert.ToInt32(list[3]), Convert.ToInt32(list[2]), Convert.ToInt32(list[1]), Convert.ToInt32(list[6]),
                    Convert.ToInt32(list[7]), 0);
-                dayEmployee.City = list[8];
-                dayEmployee.Achiv = list[10];
+                dayOnFact.City = list[8];
+                dayOnFact.Achiv = list[10];
+                dayOnFact.Dinner = new TimeSpan(0, 48, 0);
                 switch (list[10])
-                    {
+                {
                     case "ком.":
-                        dayEmployee.DayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.WorkedBusinessTrip;
+                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.WorkedBusinessTrip;
                         break;
                     case "больн.":
-                        dayEmployee.DayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedSick;
+                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedSick;
                         break;
                     case "отг.":
-                        dayEmployee.DayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedAdministrative;
+                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedAdministrative;
                         break;
                     case "отп.б.с.":
-                        dayEmployee.DayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedMatherhoodVacation;
+                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedMatherhoodVacation;
                         break;
                     case "отп.":
-                        dayEmployee.DayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedVacation;
+                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedVacation;
                         break;
                     case "":
-                        dayEmployee.DayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked;
+                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked;
                         break;
                 }
+            }
+            return dayOnFact;
+            }
+        DayOnPlan GetDayOnPlan(DateTime day)
+        {
+            DayOnPlan dayOnPlan = new DayOnPlan();
 
-                switch (day.DayOfWeek)
-                {
-                    case DayOfWeek.Sunday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(0, 0, 0);
-                        break;
-                    case DayOfWeek.Saturday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(0, 0, 0);
-                        break;
-                    case DayOfWeek.Friday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
-                        break;
-                    case DayOfWeek.Monday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                    case DayOfWeek.Tuesday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                    case DayOfWeek.Wednesday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                    case DayOfWeek.Thursday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                }
-                List<(DateTime data, DayType datatype, TimeSpan length)> SpecialDays = Get_DayTypeInYear(day.Year);
-                foreach ((DateTime data, DayType datatype, TimeSpan length) data in SpecialDays)
-                {
-                    if (data.data.AddDays(1)== day && data.datatype==DayType.FreeDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
-                    }
-                    else if (data.data == day && data.datatype == DayType.FreeDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
-                        dayEmployee.DayOnPlan.WorkedTime = data.length;
-                    }
-                    else if (data.data == day && data.datatype == DayType.FullDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = data.length;
-                    }
-                    else if (data.data == day && data.datatype == DayType.ShortDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                        dayEmployee.DayOnPlan.WorkedTime = data.length;
-                    }
-                }
+            if (day.DayOfWeek==DayOfWeek.Monday || day.DayOfWeek == DayOfWeek.Tuesday || day.DayOfWeek == DayOfWeek.Wednesday || day.DayOfWeek == DayOfWeek.Thursday)
+            { dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
+                dayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
             }
-            else
+            else if (day.DayOfWeek == DayOfWeek.Friday)
             {
-                switch (day.DayOfWeek)
+                dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
+                dayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
+            }
+            else 
+            {
+                dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
+                dayOnPlan.WorkedTime = new TimeSpan(0);
+            }
+
+            List<(DateTime data, DayType datatype, TimeSpan length)> SpecialDays = Get_DayTypeInYear(day.Year);
+            foreach ((DateTime data, DayType datatype, TimeSpan length) data in SpecialDays)
+            {
+                //if (data.data.AddDays(1) == day && data.datatype == DayType.FreeDay)
+                //{
+                //    if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Holiday)
+                //    { }
+                //    else {
+                //        dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
+                //        dayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
+                //    }
+                    
+                //}
+                if (data.data == day && data.datatype == DayType.FreeDay)
                 {
-                    case DayOfWeek.Sunday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan =  DayTypeOnPlan.Holiday;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(0, 0, 0);
-                        break;
-                    case DayOfWeek.Saturday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(0, 0, 0);
-                        break;
-                    case DayOfWeek.Friday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
-                        break;
-                    case DayOfWeek.Monday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                    case DayOfWeek.Tuesday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                    case DayOfWeek.Wednesday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
-                    case DayOfWeek.Thursday:
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
-                        break;
+                    dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
+                    dayOnPlan.WorkedTime = data.length;
                 }
-                List<(DateTime data, DayType datatype, TimeSpan length)> SpecialDays = Get_DayTypeInYear(day.Year);
-                foreach ((DateTime data, DayType datatype, TimeSpan length) data in SpecialDays)
+                else if (data.data == day && data.datatype == DayType.FullDay)
                 {
-                    if (data.data.AddDays(1) == day && data.datatype == DayType.FreeDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                        dayEmployee.DayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
-                    }
-                    else if (data.data == day && data.datatype == DayType.FreeDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
-                        dayEmployee.DayOnPlan.WorkedTime = data.length;
-                    }
-                    else if (data.data == day && data.datatype == DayType.FullDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
-                        dayEmployee.DayOnPlan.WorkedTime = data.length;
-                    }
-                    else if (data.data == day && data.datatype == DayType.ShortDay)
-                    {
-                        dayEmployee.DayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                        dayEmployee.DayOnPlan.WorkedTime = data.length;
-                    }
+                    dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
+                    dayOnPlan.WorkedTime = data.length;
+                }
+                else if (data.data == day && data.datatype == DayType.ShortDay)
+                {
+                    dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
+                    dayOnPlan.WorkedTime = data.length;
                 }
             }
-            return dayEmployee;
+            return dayOnPlan;
         }
-        public MonthEmployee GetMonthEmployee (DateTime month, Employee employee)
+        
+            public MonthEmployee GetMonthEmployee (DateTime month, Employee employee)
         {
             DayEmployee[] Days = new DayEmployee[DateTime.DaysInMonth(month.Year, month.Month)];
             for (int i = 1; i <= DateTime.DaysInMonth(month.Year, month.Month); i++)
             { 
                 Days[i-1] = GetDayEmployee(new DateTime(month.Year, month.Month, i), employee);
+                
             }
             MonthEmployee monthEmployee = new MonthEmployee(Days);
             return monthEmployee;

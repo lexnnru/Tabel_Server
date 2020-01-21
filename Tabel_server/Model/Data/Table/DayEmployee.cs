@@ -24,7 +24,17 @@ namespace Tabel_server.Model.Data.Table
         public TimeSpan Time0 { get; set; }
         public DayEmployee(DayOnPlan dayOnPlan, DayOnFact dayOnFact, Employee employee)
         {
-            this.Employee = employee;
+            DayOnFact = dayOnFact;
+            DayOnPlan = dayOnPlan;
+            Employee = employee;
+            if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Holiday || dayOnFact.DayTypeOnEmployee == DayTypeOnFact.WorkedBusinessTrip)
+            { dayOnFact.WorkedTime = dayOnFact.EndWOrk - dayOnFact.StartWork; }
+            else
+            {
+                if (dayOnFact.EndWOrk - dayOnFact.StartWork>=new TimeSpan(4,48,0))
+                { dayOnFact.WorkedTime = dayOnFact.EndWOrk - dayOnFact.StartWork - dayOnFact.Dinner; }
+                else { dayOnFact.WorkedTime = dayOnFact.EndWOrk - dayOnFact.StartWork; }
+            }
             if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Worked || dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.WorkedShort)
             { if (dayOnFact.WorkedTime <= dayOnPlan.WorkedTime)
                 { Time1X = dayOnFact.WorkedTime;
@@ -42,11 +52,11 @@ namespace Tabel_server.Model.Data.Table
                 }
             }
             else if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Holiday)
-            { if (dayOnFact.WorkedTime<= dayOnPlan.WorkedTime)
+            {    if (dayOnFact.WorkedTime<= new TimeSpan(8, 0, 0))
                 { TimeHoli = dayOnFact.WorkedTime; }
-            else if (dayOnFact.WorkedTime > dayOnPlan.WorkedTime)
-                { TimeHoli = dayOnPlan.WorkedTime;
-                    Time20X = dayOnFact.WorkedTime - dayOnPlan.WorkedTime;
+                else if (dayOnFact.WorkedTime > new TimeSpan(8, 0, 0))
+                { TimeHoli = dayOnFact.WorkedTime;
+                    Time20X = dayOnFact.WorkedTime - new TimeSpan(8, 0, 0);
                 }
             }
         }
