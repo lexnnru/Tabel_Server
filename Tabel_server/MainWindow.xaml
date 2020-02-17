@@ -36,7 +36,7 @@
                        TextAlignment="Center"/>
             </Button>
             <TextBlock x:Name="tbTabelNamber" TextAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="Табельный номер"  />
-            <ListBox x:Name="lbUsers"   SelectionChanged="LbUsers_SelectionChanged" Grid.Column="0" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LostFocus="lbUsers_LostFocus" >
+            <ListBox x:Name="lbUsers" ItemsSource="{Binding monthEmployees}"  SelectionChanged="LbUsers_SelectionChanged" Grid.Column="0" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LostFocus="lbUsers_LostFocus" >
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -47,7 +47,7 @@
                                 <ColumnDefinition Width="3"></ColumnDefinition>
                                 <ColumnDefinition Width="*" ></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding fio}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0">
+                            <TextBlock Text="{Binding Employee}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>

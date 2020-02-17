@@ -17,7 +17,11 @@ namespace Tabel_server.Model.Data
         public Int64 DateOfDismiss { get; set; }
         public int Salary { get; set; }
         public string Post { get; set; }
-        
+        public override string ToString()
+        {
+            return string.Join(" ", Surname, Name, Patronymic);
+        }
+
         //public List<OneDayData> GetOneDayDatas(Model.DataBase_manager db, DateTime date)
         //{ }
         public List<Employee> GetAllEmployees(Model.DataBase_manager db, DateTime date)

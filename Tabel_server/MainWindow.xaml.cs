@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using Calendar;
 using Tabel_server.Model.Data.Table;
 using System.Globalization;
+using System.Data.Linq;
 
 namespace Tabel_server
 {
@@ -36,7 +37,7 @@ namespace Tabel_server
         event Action DateChanged;
         event Action <List<string>> LoadDataTableToDB;
         event Action ShowCalendar;
-        void SetlbUsers(ObservableCollection<MonthEmployeesDatasOld> employees);
+        void SetlbUsers(ObservableCollection<MonthEmployee> employees);
         List<DateTime> HoliDateTimes { get; set; }
         Window Get { get; }
         IUserControl1 uc1 { get; }
@@ -45,13 +46,14 @@ namespace Tabel_server
         MangeUsers mu { get; set; }
         Calendar.MainWindow calendar { get; set; }
         List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
+        
 
         string tabelNamber { get; set; }
        ObservableCollection<MonthEmployeesDatasOld> employees { get; set; }
 
         DateTime dtMain { get; set; }
         
-            ObservableCollection<Model.Data.Table.MonthEmployee> monthEmployees { get; set; }
+            ObservableCollection<MonthEmployee> monthEmployees { get; set; }
 
     }
     public partial class MainWindow : Window, ImainWindow
@@ -59,6 +61,7 @@ namespace Tabel_server
         public MainWindow()
         {   
             InitializeComponent();
+            DataContext = this;
             dtMain = dtpicker.Data;
             uc2 = new UserControl2();
             uc1 = new UserControl1();
@@ -80,9 +83,10 @@ namespace Tabel_server
             dtMain = obj;
             if (lbUsers.SelectedIndex != -1)
             {
-                MonthEmployeesDatasOld emp = employees[lbUsers.SelectedIndex];
-                tbTabelNamber.Text = emp.tabelNumber;
-                Lb_users_SelectionChange?.Invoke(emp.tabelNumber);
+                // MonthEmployeesDatasOld emp = employees[lbUsers.SelectedIndex];
+                MonthEmployee employee = monthEmployees[lbUsers.SelectedIndex];
+                tbTabelNamber.Text = employee.Employee.TabelNumber;
+                Lb_users_SelectionChange?.Invoke(employee.Employee.TabelNumber);
             }
             else { }
         }
@@ -114,23 +118,25 @@ namespace Tabel_server
         }
         private void LbUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             ListBox lb = (ListBox)sender;
+            MessageBox.Show(monthEmployees[lb.SelectedIndex].ToString());
             if (lb.SelectedIndex!=-1)
             {
-                MonthEmployeesDatasOld emp = employees[lb.SelectedIndex];
-                tbTabelNamber.Text = employees[lb.SelectedIndex].tabelNumber;
+                //MonthEmployeesDatasOld emp = employees[lb.SelectedIndex];
+                tbTabelNamber.Text = monthEmployees[lb.SelectedIndex].Employee.TabelNumber;
                 MainGrid.Children.Clear();
-                uc1.SetSource(emp);
-                uc1.SetSourceNew(monthEmployees[1]);
+               // uc1.SetSource(emp);
+                uc1.SetSource(monthEmployees[lb.SelectedIndex]);
                 MainGrid.Children.Add(uc1.uc1);
-                tbNameTable.Text = "Табель работника: "+ emp.fio+ ", за " +dtMain.ToString("MMMM",  CultureInfo.CurrentCulture).ToLower() +" " +dtMain.Year +" года.";
+                tbNameTable.Text = "Табель работника: "+ monthEmployees[lb.SelectedIndex].Employee.Surname +" " + monthEmployees[lb.SelectedIndex].Employee.Surname + ", за " +dtMain.ToString("MMMM",  CultureInfo.CurrentCulture).ToLower() +" " +dtMain.Year +" года.";
             }
             else { }
         }
-        public void SetlbUsers(ObservableCollection<MonthEmployeesDatasOld> monthemployees)
+        public void SetlbUsers(ObservableCollection<MonthEmployee> monthemployees)
         {
-           lbUsers.ItemsSource = monthemployees;
-           this.employees = monthemployees;
+           //lbUsers.ItemsSource = monthemployees;
+           //this.monthEmployees = monthemployees;
         }
         private void View2_Click(object sender, RoutedEventArgs e)
         {

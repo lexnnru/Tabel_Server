@@ -627,6 +627,7 @@ namespace Tabel_server.Model
                 
             }
             MonthEmployee monthEmployee = new MonthEmployee(Days);
+            monthEmployee.Employee = employee;
             return monthEmployee;
         }
     }

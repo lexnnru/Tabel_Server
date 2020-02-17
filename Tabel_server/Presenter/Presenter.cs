@@ -19,8 +19,8 @@ namespace Tabel_server.Presenter
         ImainWindow imain;
         Model.DataBase_manager DBmanager;
         Employee employee = new Employee();
-        ObservableCollection<MonthEmployeesDatasOld> monthemployees = new ObservableCollection<MonthEmployeesDatasOld>();
-        ObservableCollection<MonthEmployee> monthemployeesNew = new ObservableCollection<MonthEmployee>();
+        //ObservableCollection<MonthEmployeesDatasOld> monthemployees = new ObservableCollection<MonthEmployeesDatasOld>();
+        ObservableCollection<MonthEmployee> monthemployees = new ObservableCollection<MonthEmployee>();
         ObservableCollection<Employee> FullEmployees = new ObservableCollection<Employee>();
         public Presenter(ImainWindow imain)
         {
@@ -32,8 +32,8 @@ namespace Tabel_server.Presenter
             imain.GetMonthEmployeeData += Imain_GetMonthEmployeeData;
             imain.DateChanged += Imain_DateChanged;
             imain.LoadDataTableToDB += Imain_LoadDataTableToDB;
-            monthemployees = new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain));
-            imain.SetlbUsers(monthemployees);
+            //monthemployees = new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain));
+            
             imain.mu.Loaded += Mu_Loaded;
             imain.mu.AddNewEmpl += Mu_AddNewEmpl;
             imain.mu.Setsource += Mu_Setsource;
@@ -41,6 +41,7 @@ namespace Tabel_server.Presenter
             imain.ShowCalendar += Imain_ShowCalendar;
             imain.SpecialDays = DBmanager.Get_DayTypeInYear(imain.dtMain.Date.Year);
              imain.monthEmployees = GetMonthEmployees();
+            imain.SetlbUsers(monthemployees);
         }
         public ObservableCollection<Model.Data.Table.MonthEmployee> GetMonthEmployees()
         {
@@ -52,7 +53,7 @@ namespace Tabel_server.Presenter
           new DateTime(employee.DateOfDismiss).ToLocalTime() >= new DateTime(imain.dtMain.Year, imain.dtMain.Month, 1))
                 { monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); }
             }
-            monthemployeesNew = monthEmployees;
+           this.monthemployees = monthEmployees;
             return monthEmployees;
         }
         private void Imain_ShowCalendar()
@@ -145,7 +146,8 @@ namespace Tabel_server.Presenter
         {
             string message = DBmanager.AddNewEmplpyee(obj);
             imain.ShowMess(message);
-            imain.SetlbUsers(new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain)));
+           // imain.SetlbUsers(new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain)));
+            imain.SetlbUsers(GetMonthEmployees());
         }
         private void Mu_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -155,7 +157,7 @@ namespace Tabel_server.Presenter
         private void Imain_DateChanged()
         {
 
-            monthemployees = new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain));
+            monthemployees = GetMonthEmployees();
             imain.SetlbUsers(monthemployees);
         }
         private List<MonthEmployeesDatasOld> Imain_GetMonthEmployeeData(DateTime date)

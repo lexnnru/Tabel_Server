@@ -13,8 +13,7 @@ namespace Tabel_server.Interfaces
 {
     public interface IUserControl1
     {
-        void SetSource(MonthEmployeesDatasOld emp);
-        void SetSourceNew(MonthEmployee emp);
+        void SetSource(MonthEmployee emp);
         UserControl uc1 { get; }
     }
 }
