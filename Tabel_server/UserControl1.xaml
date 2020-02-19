@@ -8,9 +8,11 @@
              xmlns:convert="clr-namespace:Tabel_server.Model.Data"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <convert:ConverterDayType x:Key="convtype"/>
         <convert:ConverterDay x:Key="convday"/>
         <convert:ConverterTime x:Key="convtime"/>
         <convert:ConverterTimeSpan x:Key="convtimeSpan"/>
+        <convert:ConverterDayTypePlan x:Key="convplanColor" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,28 +21,30 @@
             <ColumnDefinition Width="16*"/>
             <ColumnDefinition Width="95*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="datagrid1" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0" ItemsSource="{Binding odd}" Grid.ColumnSpan="4">
+        <DataGrid x:Name="datagrid1" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0" ItemsSource="{Binding employee.Days}" Grid.ColumnSpan="4">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
+                    <Style.Setters>
+                        <Setter Property="Background" Value="{Binding DayOnPlan.DayTypeOnPlan, Converter={StaticResource convplanColor}}"></Setter>
+                    </Style.Setters>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding isHoliday}" Value="true">
+                        <!--<DataTrigger Value="true">
                             <Setter Property="Background" Value="LightBlue"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding isHaveData}" Value="false">
                             <Setter Property="Background" Value="Red"/>
-                        </DataTrigger>
-
+                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding daynumber, Converter={StaticResource convday}}" Header="Дата" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding startday, Converter={StaticResource convtime}}" Header="Начало работы" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding endday, Converter={StaticResource convtime}}" Header="Окончание работы" CanUserSort="False" />
-                <DataGridTextColumn Binding="{Binding specCheck}" Header="Специальная отметка" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding city}" Header="Город" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding achiv}" Header="Достижения за день" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding Work_time, Converter={StaticResource convtimeSpan}}" Header="Отработанное время" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding DayOnFact.StartWork, Converter={StaticResource convday}}" Header="Дата" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding DayOnFact.StartWork, Converter={StaticResource convtime}}" Header="Начало работы" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding DayOnFact.EndWOrk, Converter={StaticResource convtime}}" Header="Окончание работы" CanUserSort="False" />
+                <DataGridTextColumn Binding="{Binding DayOnFact.DayTypeOnEmployee, Converter={StaticResource convtype}}" Header="Специальная отметка" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding DayOnFact.City}" Header="Город" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding DayOnFact.Achiv}" Header="Достижения за день" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding TotalTime, Converter={StaticResource convtimeSpan}}" Header="Отработанное время" CanUserSort="False"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

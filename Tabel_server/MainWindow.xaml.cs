@@ -120,7 +120,6 @@ namespace Tabel_server
         {
             
             ListBox lb = (ListBox)sender;
-            MessageBox.Show(monthEmployees[lb.SelectedIndex].ToString());
             if (lb.SelectedIndex!=-1)
             {
                 //MonthEmployeesDatasOld emp = employees[lb.SelectedIndex];

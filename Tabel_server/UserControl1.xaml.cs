@@ -24,13 +24,15 @@ namespace Tabel_server
     public partial class UserControl1 : UserControl, Interfaces.IUserControl1
     {
         //public ObservableCollection<OneDayData> odd { get; set; }
-        public ObservableCollection<MonthEmployee> employees { get; set; }
+      //  public ObservableCollection<MonthEmployee> employees { get; set; }
+        public MonthEmployee employee { get; set; }
         public UserControl1()
         {
             InitializeComponent();
             // odd = new ObservableCollection<OneDayData>();
-            MonthEmployee employees;
-            this.DataContext = this;
+            // MonthEmployee employees;
+            
+            
         }
 
         public UserControl uc1 => this;
@@ -44,8 +46,11 @@ namespace Tabel_server
 
         ////        odd.Add(x); });
         //}
-        public void SetSource(MonthEmployee employees)
-        { 
+        public void SetSource(MonthEmployee employee)
+        {
+            this.employee = employee;
+            this.DataContext = this;
+
         }
     }
 }

@@ -18,10 +18,11 @@ namespace Tabel_server.Model.Data.Table
         public TimeSpan Time15X { get; set; }
         public TimeSpan Time20X { get; set; }
         public TimeSpan TimeHoli { get; set; }
+       // public TimeSpan TotalTime { get; set; }
         /// <summary>
         ////Время недоработанное работником
         /// </summary>
-        public TimeSpan Time0 { get; set; }
+        public TimeSpan Time0 { get; set; } // Недоработанное до плана время
         public DayEmployee(DayOnPlan dayOnPlan, DayOnFact dayOnFact, Employee employee)
         {
             DayOnFact = dayOnFact;
@@ -59,6 +60,7 @@ namespace Tabel_server.Model.Data.Table
                     Time20X = dayOnFact.WorkedTime - new TimeSpan(8, 0, 0);
                 }
             }
+         //   TotalTime = Time0 + Time1X + Time15X + Time20X + TimeHoli;
         }
 
     }

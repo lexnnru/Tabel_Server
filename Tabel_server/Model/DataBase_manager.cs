@@ -543,7 +543,7 @@ namespace Tabel_server.Model
                 dayOnFact.City = list[8];
                 dayOnFact.Achiv = list[10];
                 dayOnFact.Dinner = new TimeSpan(0, 48, 0);
-                switch (list[10])
+                switch (list[9])
                 {
                     case "ком.":
                         dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.WorkedBusinessTrip;
@@ -561,7 +561,8 @@ namespace Tabel_server.Model
                         dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedVacation;
                         break;
                     case "":
-                        dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked;
+                        if (dayOnFact.EndWOrk>dayOnFact.StartWork)
+                        { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked; }                        
                         break;
                 }
             }
