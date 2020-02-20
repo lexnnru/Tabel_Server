@@ -9,10 +9,10 @@ namespace Tabel_server.Model.Data.Table.EmployeeDay
 {
     public enum DayTypeOnFact
     {
-        /// <summary>Рабочий день
+        /// <summary>Не рабочий день
         /// </summary>
         /// 
-        Holiday,
+        NotWorked,
         /// <summary>Рабочий день
         /// </summary>
         Worked,

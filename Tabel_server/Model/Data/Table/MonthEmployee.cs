@@ -13,6 +13,7 @@ namespace Tabel_server.Model.Data.Table
         public TimeSpan Time15X { get; set; }
         public TimeSpan Time20X { get; set; }
         public TimeSpan TimeHoli { get; set; }
+        public TimeSpan TotalTime { get; set; }
         public int DaysWorked { get; set; }
         public int DaysWorkedBusinessTrip { get; set; }
         public int DaysNotWorkedSick { get; set; }
@@ -41,13 +42,16 @@ namespace Tabel_server.Model.Data.Table
 
 
             foreach (DayEmployee day in Days)
-            { if (day.DayOnFact.Error == true)
+            {
+                
+                if (day.DayOnFact.Error == true)
                 { Error = true; }
                 Time1X += day.Time1X;
                 Time15X += day.Time15X;
                 Time20X += day.Time20X;
                 Time0 += day.Time0;
                 TimeHoli += day.TimeHoli;
+                TotalTime += day.DayOnFact.WorkedTime;
                 switch (day.DayOnFact.DayTypeOnEmployee)
                 {
                     case EmployeeDay.DayTypeOnFact.Worked:

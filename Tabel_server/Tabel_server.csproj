@@ -115,9 +115,7 @@
     <Compile Include="Calendar\Year.xaml.cs">
       <DependentUpon>Year.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IUserControl2.cs" />
     <Compile Include="Interfaces\IUserControl1.cs" />
-    <Compile Include="Interfaces\IUserControl3.cs" />
     <Compile Include="MangeUsers.xaml.cs">
       <DependentUpon>MangeUsers.xaml</DependentUpon>
     </Compile>

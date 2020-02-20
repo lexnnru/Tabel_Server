@@ -182,7 +182,7 @@ namespace Tabel_server.Model
         public List<IncomingDataTable> Get_Month_IDD(string nameTable, int year, int month)
         {
             List<IncomingDataTable> list = new List<IncomingDataTable>();
-            for (int i = 1; i <= 31; i++)
+            for (int i = 1; i <= DateTime.DaysInMonth(year, month); i++)
             {
                 list.Add(Get_IncomingDataTable(nameTable, year, month, i));
             }

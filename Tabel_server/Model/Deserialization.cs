@@ -14,7 +14,6 @@ namespace Tabel_server.Model
     class Deserialization
         
     {
-        public string PathToFile;
 
         public List<IncomingDataTable> GetOneTabelData (string PathToFile, out string tablenumber)
           

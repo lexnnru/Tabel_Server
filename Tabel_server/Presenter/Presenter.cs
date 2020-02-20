@@ -30,7 +30,7 @@ namespace Tabel_server.Presenter
             DBmanager.CreateHoliTabel();
             imain.LoadHoli += Imain_LoadHoli;
             imain.GetMonthEmployeeData += Imain_GetMonthEmployeeData;
-            imain.DateChanged += Imain_DateChanged;
+            imain.UpdateMonthEmployees += Imain_UpdateMonthEmployees;
             imain.LoadDataTableToDB += Imain_LoadDataTableToDB;
             //monthemployees = new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain));
             
@@ -84,7 +84,11 @@ namespace Tabel_server.Presenter
                 {
                     bool show = false;
                     List<IncomingDataTable> rowForUpdate = DBmanager.CompareFileTabelWithDatabase(obj[i]);
-                    List<IncomingDataTable> rowINDB = DBmanager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month);
+                    List<IncomingDataTable> rowINDB = new List<IncomingDataTable>();
+                    
+                    if (rowForUpdate.Count!=0)
+                    { rowINDB = DBmanager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month); }
+                    
                     for (int j = 0; j < rowForUpdate.Count; j++)
                     {
 
@@ -154,7 +158,7 @@ namespace Tabel_server.Presenter
             imain.mu.employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
             imain.mu.lbUsers.ItemsSource = imain.mu.employees;
         }
-        private void Imain_DateChanged()
+        private void Imain_UpdateMonthEmployees()
         {
 
             monthemployees = GetMonthEmployees();

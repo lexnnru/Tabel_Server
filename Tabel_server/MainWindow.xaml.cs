@@ -34,22 +34,20 @@ namespace Tabel_server
         event Action<string> LoadHoli;
         
         event Func <DateTime, List<MonthEmployeesDatasOld>>GetMonthEmployeeData;
-        event Action DateChanged;
+        event Action UpdateMonthEmployees;
         event Action <List<string>> LoadDataTableToDB;
         event Action ShowCalendar;
         void SetlbUsers(ObservableCollection<MonthEmployee> employees);
         List<DateTime> HoliDateTimes { get; set; }
         Window Get { get; }
         IUserControl1 uc1 { get; }
-        IUserControl2 uc2 { get; }
-        IUserControl3 uc3 { get; }
+        UserControl3 uc3 { get; }
         MangeUsers mu { get; set; }
         Calendar.MainWindow calendar { get; set; }
         List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
         
 
         string tabelNamber { get; set; }
-       ObservableCollection<MonthEmployeesDatasOld> employees { get; set; }
 
         DateTime dtMain { get; set; }
         
@@ -79,11 +77,10 @@ namespace Tabel_server
 
         private void Dtpicker_SelectedDateChanged(DateTime obj)
         {
-            DateChanged?.Invoke();
+            UpdateMonthEmployees?.Invoke();
             dtMain = obj;
             if (lbUsers.SelectedIndex != -1)
             {
-                // MonthEmployeesDatasOld emp = employees[lbUsers.SelectedIndex];
                 MonthEmployee employee = monthEmployees[lbUsers.SelectedIndex];
                 tbTabelNamber.Text = employee.Employee.TabelNumber;
                 Lb_users_SelectionChange?.Invoke(employee.Employee.TabelNumber);
@@ -95,10 +92,9 @@ namespace Tabel_server
             get { return this; }  
         }
         public IUserControl1 uc1 { get; private set; }
-        public IUserControl2 uc2 { get; private set; }
-        public IUserControl3 uc3 { get;  set; }
+        public UserControl2 uc2 { get; private set; }
+        public UserControl3 uc3 { get;  set; }
         public string tabelNamber { get; set; }
-        public ObservableCollection<MonthEmployeesDatasOld> employees { get; set; }
         public DateTime dtMain { get; set; }
         public List<DateTime> HoliDateTimes { get; set; }
         public MangeUsers mu { get; set; }
@@ -109,7 +105,7 @@ namespace Tabel_server
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
         public event Func<DateTime, List<MonthEmployeesDatasOld>> GetMonthEmployeeData;
-        public event Action DateChanged;
+        public event Action UpdateMonthEmployees;
         public event Action<List<string>> LoadDataTableToDB;
         public event Action ShowCalendar;
         public void ShowMess(string message)
@@ -140,15 +136,15 @@ namespace Tabel_server
         private void View2_Click(object sender, RoutedEventArgs e)
         {
             List<MonthEmployeesDatasOld> monthEmployeeDatas= GetMonthEmployeeData?.Invoke(dtMain);
-            uc2.SetSummaryTable(monthEmployeeDatas, dtMain, HoliDateTimes);
+            uc2.SetSummaryTable(monthEmployees, dtMain, HoliDateTimes);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc2.uc2);
             tbNameTable.Text = "Таблица отработанных сотрудниками часов за: " + dtMain.ToString("MMMM", CultureInfo.CurrentCulture).ToLower() + " " + dtMain.Year + " года.";
         }
         private void View3_Click(object sender, RoutedEventArgs e)
         {
-            List<MonthEmployeesDatasOld> monthEmployeeDatas = GetMonthEmployeeData?.Invoke(dtMain);
-            uc3.SetSource(monthEmployeeDatas, HoliDateTimes, dtMain);
+            //List<MonthEmployeesDatasOld> monthEmployeeDatas = GetMonthEmployeeData?.Invoke(dtMain);
+            uc3.SetSource(monthEmployees, HoliDateTimes, dtMain);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc3.uc3);
         }
@@ -163,7 +159,7 @@ namespace Tabel_server
                 MessageBox.Show("Готово");
             }
             
-            DateChanged?.Invoke();
+            UpdateMonthEmployees?.Invoke();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -190,7 +186,7 @@ namespace Tabel_server
             {
                 LoadDataTableToDB?.Invoke(openFileDlg.FileNames.ToList());
             }
-            DateChanged?.Invoke();
+            UpdateMonthEmployees?.Invoke();
         }
 
         private void BtCalendar_Click(object sender, RoutedEventArgs e)
@@ -207,7 +203,7 @@ namespace Tabel_server
 
         private void BtCalculateSalary_Click(object sender, RoutedEventArgs e)
         {
-            UCCalculateZP uCCalculateZP = new UCCalculateZP(employees);
+            UCCalculateZP uCCalculateZP = new UCCalculateZP(monthEmployees);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uCCalculateZP);
         }

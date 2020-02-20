@@ -56,22 +56,22 @@ namespace Tabel_server.Model.Data
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string specCheck = (string)value;
-            if (specCheck == "ком.")
+            DayTypeOnFact specCheck = (DayTypeOnFact)value;
+            if (specCheck == DayTypeOnFact.WorkedBusinessTrip)
             { return "#FF80E2F1"; }
-            else if (specCheck=="")
+            else if (specCheck== DayTypeOnFact.Worked)
             { return "White"; }
-            else if (specCheck == "больн.")
+            else if (specCheck == DayTypeOnFact.NotWorkedSick)
             { return "#FFFFBDBD"; }
-            else if (specCheck == "отп.б.с.")
+            else if (specCheck == DayTypeOnFact.NotWorkedMatherhoodVacation)
             { return "#FFFB8585"; }
-            else if (specCheck == "отг.")
-            { return "#FFFFFFAB"; }
-            else if (specCheck == "отп.")
+            else if (specCheck == DayTypeOnFact.NotWorkedVacation)
             { return "#FFFFFF7D"; }
-            else if (specCheck == null)
-            { return "White"; }
-            else return "White";
+            else if (specCheck == DayTypeOnFact.NotWorkedAdministrative)
+            { return "#FFFFFF7D"; }
+            else if (specCheck == DayTypeOnFact.NotWorked)
+            { return "#FFFFFF7D"; }
+            else return "Blue";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -84,7 +84,7 @@ namespace Tabel_server.Model.Data
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             DayTypeOnFact specCheck = (DayTypeOnFact)value;
-            if (specCheck == DayTypeOnFact.Holiday)
+            if (specCheck == DayTypeOnFact.NotWorked)
             { return "Выходной"; }
             else if (specCheck == DayTypeOnFact.Worked)
             { return "Рабочий"; }

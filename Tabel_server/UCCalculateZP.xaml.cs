@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tabel_server.Model.Data;
+using Tabel_server.Model.Data.Table;
 
 namespace Tabel_server
 {
@@ -22,7 +23,7 @@ namespace Tabel_server
     /// </summary>
     public partial class UCCalculateZP : UserControl
     {
-        public UCCalculateZP(ObservableCollection<Model.Data.MonthEmployeesDatasOld> monthEmployeeDatas)
+        public UCCalculateZP(ObservableCollection<MonthEmployee> monthEmployeeDatas)
         {
             InitializeComponent();
             List<MonthZP> monthZP = new List<MonthZP>();
@@ -32,7 +33,7 @@ namespace Tabel_server
 
 
                     }
-            this.DataContext = this;
+           
 
         }
     }

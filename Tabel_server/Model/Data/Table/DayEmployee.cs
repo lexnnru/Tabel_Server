@@ -18,7 +18,7 @@ namespace Tabel_server.Model.Data.Table
         public TimeSpan Time15X { get; set; }
         public TimeSpan Time20X { get; set; }
         public TimeSpan TimeHoli { get; set; }
-       // public TimeSpan TotalTime { get; set; }
+       
         /// <summary>
         ////Время недоработанное работником
         /// </summary>
@@ -42,12 +42,12 @@ namespace Tabel_server.Model.Data.Table
                     Time0 = dayOnPlan.WorkedTime - dayOnFact.WorkedTime;
                 }
                 else if (dayOnFact.WorkedTime > dayOnPlan.WorkedTime && dayOnFact.WorkedTime <= dayOnPlan.WorkedTime + new TimeSpan(2, 0, 0))
-                { Time1X = dayOnFact.WorkedTime;
+                { Time1X = DayOnPlan.WorkedTime;
                     Time15X = dayOnFact.WorkedTime - dayOnPlan.WorkedTime;
                 }
                 else if (dayOnFact.WorkedTime >dayOnPlan.WorkedTime + new TimeSpan(2, 0, 0))
                 {
-                    Time1X = dayOnFact.WorkedTime;
+                    Time1X = DayOnPlan.WorkedTime;
                     Time15X = new TimeSpan(2, 0, 0);
                     Time20X = dayOnFact.WorkedTime - Time1X - Time15X;
                 }
@@ -56,7 +56,7 @@ namespace Tabel_server.Model.Data.Table
             {    if (dayOnFact.WorkedTime<= new TimeSpan(8, 0, 0))
                 { TimeHoli = dayOnFact.WorkedTime; }
                 else if (dayOnFact.WorkedTime > new TimeSpan(8, 0, 0))
-                { TimeHoli = dayOnFact.WorkedTime;
+                { TimeHoli = new TimeSpan(8, 0, 0);
                     Time20X = dayOnFact.WorkedTime - new TimeSpan(8, 0, 0);
                 }
             }
