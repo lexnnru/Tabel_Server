@@ -30,7 +30,10 @@ namespace Tabel_server.Model.Data.Table.EmployeeDay
         NotWorkedVacation,
         /// <summary>Административный отгул
         /// </summary>
-        NotWorkedAdministrative
+        NotWorkedAdministrative,
+        /// <summary>Нет данных
+        /// </summary>
+        NoData
     }
 
 

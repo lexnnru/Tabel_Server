@@ -566,11 +566,17 @@ namespace Tabel_server.Model
                         break;
                 }
             }
+            else
+            { dayOnFact.StartWork = day;
+                dayOnFact.EndWOrk = day;
+                dayOnFact.DayTypeOnEmployee = DayTypeOnFact.NoData;
+                    }
             return dayOnFact;
             }
         DayOnPlan GetDayOnPlan(DateTime day)
         {
             DayOnPlan dayOnPlan = new DayOnPlan();
+            dayOnPlan.Day = day;
 
             if (day.DayOfWeek==DayOfWeek.Monday || day.DayOfWeek == DayOfWeek.Tuesday || day.DayOfWeek == DayOfWeek.Wednesday || day.DayOfWeek == DayOfWeek.Thursday)
             { dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;

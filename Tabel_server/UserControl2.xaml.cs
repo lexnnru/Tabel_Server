@@ -107,7 +107,7 @@ namespace Tabel_server
             this.DataContext = this;
             tables = new ObservableCollection<Table>();
         }
-        public void SetSummaryTable(ObservableCollection<MonthEmployee> Employees, DateTime date, List<DateTime> HolidateTimes)
+        public void SetSummaryTable(ObservableCollection<MonthEmployee> Employees, DateTime date)
         {     
             
             tables.Clear();
@@ -122,13 +122,17 @@ namespace Tabel_server
             {
                 if (Employees[0].Days[i-1].DayOnPlan.DayTypeOnPlan==DayTypeOnPlan.Holiday)
                 {
+                    string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
+                    Color t= Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
                     //dt[i].CellStyle = new Style(typeof(DataGridCell));
-                    dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.Pink)));
+                    dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(t)));
                 }
                 if (Employees[0].Days[i-1].DayOnPlan.DayTypeOnPlan == DayTypeOnPlan.WorkedShort)
                 {
-                   // dt[i].CellStyle = new Style(typeof(DataGridCell));
-                    dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.AliceBlue)));
+                    string[] ColorHoli = Properties.Settings.Default.ColorWorkedShortDay.Split(':');
+                    Color t = Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    //dt[i].CellStyle = new Style(typeof(DataGridCell));
+                    dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(t)));
                 }
                 //for (int j = 0; j < Employees[0].Days.Length; j++)
                 //{
@@ -180,6 +184,7 @@ namespace Tabel_server
                     tables[i].day30 = Employees[i].Days[29].DayOnFact.WorkedTime;
                 if (Employees[i].Days.Length > 30)
                     tables[i].day31 = Employees[i].Days[30].DayOnFact.WorkedTime;
+
                     tables[i].day1c = Employees[i].Days[0].DayOnFact.DayTypeOnEmployee;
                     tables[i].day2c = Employees[i].Days[1].DayOnFact.DayTypeOnEmployee;
                     tables[i].day3c = Employees[i].Days[2].DayOnFact.DayTypeOnEmployee;
@@ -230,6 +235,14 @@ namespace Tabel_server
                 dt[i].MinWidth = 0;
                 dt[i].Width = 0;
             }
+        }
+
+        private void datagridSummary_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
+            MyDialog.ShowDialog();
+
         }
     }
 }

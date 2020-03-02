@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 using Tabel_server.Model.Data.Table;
 using Tabel_server.Model.Data.Table.EmployeeDay;
 
@@ -13,7 +14,16 @@ namespace Tabel_server.Model.Data
         {
             DayTypeOnPlan specCheck = (DayTypeOnPlan)value;
             if (specCheck == DayTypeOnPlan.Holiday)
-            { return "LightBlue"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                }
+                catch { return "White"; }
+                
+               
+            }
             else if (specCheck == DayTypeOnPlan.Worked)
             { return "White"; }
             else if (specCheck == DayTypeOnPlan.WorkedShort)
@@ -58,20 +68,60 @@ namespace Tabel_server.Model.Data
         {
             DayTypeOnFact specCheck = (DayTypeOnFact)value;
             if (specCheck == DayTypeOnFact.WorkedBusinessTrip)
-            { return "#FF80E2F1"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorBiznesTrip.Split(':');
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                }
+                catch { return "White"; }
+            }
             else if (specCheck== DayTypeOnFact.Worked)
-            { return "White"; }
+            {
+                return "White";
+            }
             else if (specCheck == DayTypeOnFact.NotWorkedSick)
-            { return "#FFFFBDBD"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorSick.Split(':');
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                }
+                catch { return "White"; }
+            }
             else if (specCheck == DayTypeOnFact.NotWorkedMatherhoodVacation)
-            { return "#FFFB8585"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorVocation.Split(':');
+
+                return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                }
+                catch { return "White"; }
+            }
             else if (specCheck == DayTypeOnFact.NotWorkedVacation)
-            { return "#FFFFFF7D"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorVocation.Split(':');
+
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                }
+                catch { return "White"; }
+            }
             else if (specCheck == DayTypeOnFact.NotWorkedAdministrative)
-            { return "#FFFFFF7D"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorAdministrativ.Split(':');
+
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                }
+                catch { return "White"; }
+            }
             else if (specCheck == DayTypeOnFact.NotWorked)
-            { return "#FFFFFF7D"; }
-            else return "Blue";
+            { return "White"; }
+            else return "White";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

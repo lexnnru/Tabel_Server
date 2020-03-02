@@ -1,0 +1,40 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tabel_server.Settings.Colors"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Tabel_server.Settings.Colors.UCColors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="17*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Командировка" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" />
+        <Label Content="Отпуск" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
+        <Label Content="Больничный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2"/>
+        <Label Content="Административный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" />
+        <Label Content="Выходной" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" />
+        <Label Content="Соращенный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="0" x:Name="CPBiznesTrip" SelectedColorChanged="CPBiznesTrip_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="1" x:Name="CPVocation" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectedColorChanged="CPVocation_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="2" x:Name="CPSick" SelectedColorChanged="CPSick_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="3" x:Name="CPAdministrativ" SelectedColorChanged="CPAdministrativ_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="4" x:Name="CPHoliDay" SelectedColorChanged="CPHoliDay_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="5" x:Name="CPWorkedShortDay" SelectedColorChanged="CPWorkedShortDay_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+    </Grid>
+</UserControl>

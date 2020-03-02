@@ -28,9 +28,6 @@ namespace Tabel_server.Model.Data.Table
         public TimeSpan Time0 { get; set; }
         public Employee Employee { get; set; }
         public bool Error { get; set; }
-     
-
-
         public MonthEmployee(DayEmployee[] Days)
         {
             

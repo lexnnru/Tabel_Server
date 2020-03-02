@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tabel_server.Model.Data
 {
-    public class Employee
+    public class Employee : INotifyPropertyChanged 
     {
         public string TabelNumber { get; set; }
         public string Surname { get; set; }
@@ -20,6 +22,12 @@ namespace Tabel_server.Model.Data
         public override string ToString()
         {
             return string.Join(" ", Surname, Name, Patronymic);
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
         //public List<OneDayData> GetOneDayDatas(Model.DataBase_manager db, DateTime date)

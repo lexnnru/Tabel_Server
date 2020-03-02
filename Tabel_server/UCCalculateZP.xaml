@@ -6,21 +6,64 @@
              xmlns:local="clr-namespace:Tabel_server"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DataGrid ItemsSource="{Binding monthZP}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+    <DataGrid  ItemsSource="{Binding MonthZP}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AutoGenerateColumns="False" >
         <DataGrid.Columns>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Работник">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding ElementName }"/>
+                        <TextBlock Text="{Binding MonthEmployeeZP.Employee }"/>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Ежемесячная премия"/>
-            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за командировки"/>
-            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за переработки"/>
-            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Свободная премия"/>
-            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Сумма"/>
-            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="На руки"/>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Добросовестный труд">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding MonthBonus, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за командировки">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding BiznessTripBonus, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за переработки">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding OverWorkingBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Свободная премия">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding FreeBonus, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"  ></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Сумма">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ZP}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="На руки">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock   Text="{Binding ZPwithout13}" ></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn ClipboardContentBinding="{x:Null}"    Header="Редактирование">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <CheckBox   IsChecked="{Binding Editing,  UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
         </DataGrid.Columns>
     </DataGrid>
 

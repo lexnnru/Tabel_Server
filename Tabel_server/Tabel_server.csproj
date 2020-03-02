@@ -139,8 +139,14 @@
     <Compile Include="PreveiwWindow\PreveiwTableForUpdate.xaml.cs">
       <DependentUpon>PreveiwTableForUpdate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Colors\UCColors.xaml.cs">
+      <DependentUpon>UCColors.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UCCalculateZP.xaml.cs">
       <DependentUpon>UCCalculateZP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\UCSettings.xaml.cs">
+      <DependentUpon>UCSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
@@ -198,7 +204,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Settings\Colors\UCColors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UCCalculateZP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\UCSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,7 +21,9 @@ namespace Tabel_server
     public partial class UCYearCalendar : UserControl
     {
         DateTime data;
-        public DateTime Data { get { return data; } set { data = value; tbYear.Text = Data.Year.ToString(); SelectedDateChanged?.Invoke(value); } }
+        public DateTime Data { 
+            get { return data; }
+            set { data = value; tbYear.Text = Data.Year.ToString(); SelectedDateChanged?.Invoke(value); } }
         List<month> userControl4s;
         public event Action<DateTime> SelectedDateChanged;
         public UCYearCalendar( )

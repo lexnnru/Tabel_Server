@@ -77,15 +77,16 @@ namespace Tabel_server
 
         private void Dtpicker_SelectedDateChanged(DateTime obj)
         {
-            UpdateMonthEmployees?.Invoke();
             dtMain = obj;
-            if (lbUsers.SelectedIndex != -1)
+            if (lbUsers.SelectedIndex == -1)
+            { }
+            else
             {
                 MonthEmployee employee = monthEmployees[lbUsers.SelectedIndex];
                 tbTabelNamber.Text = employee.Employee.TabelNumber;
                 Lb_users_SelectionChange?.Invoke(employee.Employee.TabelNumber);
             }
-            else { }
+            UpdateMonthEmployees?.Invoke();
         }
         public Window Get
         {
@@ -130,13 +131,12 @@ namespace Tabel_server
         }
         public void SetlbUsers(ObservableCollection<MonthEmployee> monthemployees)
         {
-           //lbUsers.ItemsSource = monthemployees;
-           //this.monthEmployees = monthemployees;
+            lbUsers.ItemsSource = monthemployees;
+            this.monthEmployees = monthemployees;
         }
         private void View2_Click(object sender, RoutedEventArgs e)
         {
-            List<MonthEmployeesDatasOld> monthEmployeeDatas= GetMonthEmployeeData?.Invoke(dtMain);
-            uc2.SetSummaryTable(monthEmployees, dtMain, HoliDateTimes);
+            uc2.SetSummaryTable(monthEmployees, dtMain);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc2.uc2);
             tbNameTable.Text = "Таблица отработанных сотрудниками часов за: " + dtMain.ToString("MMMM", CultureInfo.CurrentCulture).ToLower() + " " + dtMain.Year + " года.";
@@ -211,6 +211,13 @@ namespace Tabel_server
         private void lbUsers_LostFocus(object sender, RoutedEventArgs e)
         {
             lbUsers.SelectedIndex = -1;
+        }
+
+        private void btSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Tabel_server.UCSettings uCSettings = new UCSettings();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uCSettings);
         }
     }
 }
