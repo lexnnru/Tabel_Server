@@ -562,7 +562,8 @@ namespace Tabel_server.Model
                         break;
                     case "":
                         if (dayOnFact.EndWOrk>dayOnFact.StartWork)
-                        { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked; }                        
+                        { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked; } 
+                        else { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorked; }
                         break;
                 }
             }
@@ -596,16 +597,6 @@ namespace Tabel_server.Model
             List<(DateTime data, DayType datatype, TimeSpan length)> SpecialDays = Get_DayTypeInYear(day.Year);
             foreach ((DateTime data, DayType datatype, TimeSpan length) data in SpecialDays)
             {
-                //if (data.data.AddDays(1) == day && data.datatype == DayType.FreeDay)
-                //{
-                //    if (dayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Holiday)
-                //    { }
-                //    else {
-                //        dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
-                //        dayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
-                //    }
-                    
-                //}
                 if (data.data == day && data.datatype == DayType.FreeDay)
                 {
                     dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;

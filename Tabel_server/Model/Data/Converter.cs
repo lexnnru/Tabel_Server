@@ -72,7 +72,9 @@ namespace Tabel_server.Model.Data
                 try
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorBiznesTrip.Split(':');
-                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    Color color = Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    return  color.ToString();
+                    
                 }
                 catch { return "White"; }
             }
@@ -85,7 +87,7 @@ namespace Tabel_server.Model.Data
                 try
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorSick.Split(':');
-                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2])).ToString();
                 }
                 catch { return "White"; }
             }
@@ -95,7 +97,7 @@ namespace Tabel_server.Model.Data
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorVocation.Split(':');
 
-                return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2])).ToString();
                 }
                 catch { return "White"; }
             }
@@ -105,7 +107,7 @@ namespace Tabel_server.Model.Data
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorVocation.Split(':');
 
-                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2])).ToString();
                 }
                 catch { return "White"; }
             }
@@ -115,12 +117,16 @@ namespace Tabel_server.Model.Data
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorAdministrativ.Split(':');
 
-                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2])).ToString();
                 }
                 catch { return "White"; }
             }
             else if (specCheck == DayTypeOnFact.NotWorked)
-            { return "White"; }
+            {
+                string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
+                Color color= Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                return color.ToString();
+            }
             else return "White";
         }
 
@@ -135,19 +141,21 @@ namespace Tabel_server.Model.Data
         {
             DayTypeOnFact specCheck = (DayTypeOnFact)value;
             if (specCheck == DayTypeOnFact.NotWorked)
-            { return "Выходной"; }
+            { return ""; }
             else if (specCheck == DayTypeOnFact.Worked)
-            { return "Рабочий"; }
+            { return ""; }
             else if (specCheck == DayTypeOnFact.WorkedBusinessTrip)
-            { return "Командировка"; }
+            { return "Ком."; }
             else if (specCheck == DayTypeOnFact.NotWorkedSick)
-            { return "Больничный"; }
+            { return "Больн."; }
             else if (specCheck == DayTypeOnFact.NotWorkedMatherhoodVacation)
-            { return "Больничный по уходу за ребенком"; }
+            { return "Больн."; }
             else if (specCheck == DayTypeOnFact.NotWorkedVacation)
-            { return "Отпуск"; }
+            { return "Отп."; }
             else if (specCheck == DayTypeOnFact.NotWorkedAdministrative)
-            { return "Административный"; }
+            { return "Адм."; }
+            else if (specCheck == DayTypeOnFact.NoData)
+            { return "-"; }
             else return "-";
             //return "-";
         }
@@ -171,4 +179,18 @@ namespace Tabel_server.Model.Data
             return null;
         }
     }
+    public class ConverterMoney : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int i = (Int32)value;
+            return i.ToString("N0", CultureInfo.InvariantCulture).Replace(',', ' ');
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
     }
+}

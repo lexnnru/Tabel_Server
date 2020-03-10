@@ -11,7 +11,7 @@
         <convert:ConverterTimeSpan x:Key="convSpan"/>
     </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding employees}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding employees}" x:Name="dgSummary" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AutoGenerateColumns="False">
             <!--<DataGrid.RowDetailsTemplate >
                 <DataTemplate >
                     <Grid>
@@ -23,7 +23,7 @@
                 <DataGridTextColumn Binding="{Binding Employee}" ClipboardContentBinding="{x:Null}" Header="Работник"/>
                 <DataGridTextColumn Binding="{Binding Time1X , Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Часы без переработок"/>
                 <DataGridTextColumn Binding="{Binding Time15X, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Переработки будни"/>
-                <DataGridTextColumn Binding="{Binding Time20x, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Сверх переработки всего "/>
+                <DataGridTextColumn Binding="{Binding Time20X, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Сверх переработки всего "/>
                 <DataGridTextColumn Binding="{Binding TimeHoli, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" Header="Переработки выходные"/>
                 <DataGridTextColumn Binding="{Binding DaysWorkedBusinessTrip}" ClipboardContentBinding="{x:Null}" >
                     <DataGridTextColumn.Header>

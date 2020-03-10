@@ -41,7 +41,7 @@ namespace Tabel_server.Model.Data.Table
             foreach (DayEmployee day in Days)
             {
                 
-                if (day.DayOnFact.Error == true)
+                if (day.Error == true)
                 { Error = true; }
                 Time1X += day.Time1X;
                 Time15X += day.Time15X;

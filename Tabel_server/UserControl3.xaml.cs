@@ -51,8 +51,9 @@ namespace Tabel_server
         public UserControl3()
         {
             InitializeComponent();
+            this.DataContext = this;
 
-           // tables = new ObservableCollection<table>();
+            // tables = new ObservableCollection<table>();
         }
 
         public UserControl uc3 =>this;
@@ -64,7 +65,8 @@ namespace Tabel_server
             //tables.Clear();
             //int DayinMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
             this.employees=monthemployees;
-            this.DataContext = this;
+            dgSummary.ItemsSource = employees;
+           
             //for (int i=0; i<monthemployees.Count; i++)
             //{
             //TimeSpan hour1=new TimeSpan(0, 0, 0);

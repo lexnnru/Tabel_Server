@@ -23,33 +23,18 @@ namespace Tabel_server
     /// </summary>
     public partial class UserControl1 : UserControl, Interfaces.IUserControl1
     {
-        //public ObservableCollection<OneDayData> odd { get; set; }
-      //  public ObservableCollection<MonthEmployee> employees { get; set; }
         public MonthEmployee employee { get; set; }
         public UserControl1()
         {
             InitializeComponent();
-            // odd = new ObservableCollection<OneDayData>();
-            // MonthEmployee employees;
-            
-            
+            this.DataContext = this;
         }
-
         public UserControl uc1 => this;
-
-        //public void SetSource(MonthEmployeesDatasOld employees)
-        //{
-        ////    odd.Clear();
-        ////    employees.oneDayDatas.ForEach(x => {
-        ////        if (x.Work_time_According_plan==new TimeSpan(0,0,0))
-        ////        { x.isHoliday = true; }
-
-        ////        odd.Add(x); });
-        //}
         public void SetSource(MonthEmployee employee)
         {
             this.employee = employee;
-            this.DataContext = this;
+            
+            datagrid1.ItemsSource = employee.Days;
 
         }
     }

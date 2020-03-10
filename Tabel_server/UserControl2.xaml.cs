@@ -98,9 +98,7 @@ namespace Tabel_server
     public partial class UserControl2 : UserControl
     {
         public ObservableCollection<Table> tables { get; set; }
-        public ObservableCollection<OneDayData> otables { get; set; }
         public UserControl uc2 => this;
-        public List<MonthEmployee> Employees { set; get; }
         public UserControl2()
         {
             InitializeComponent();
@@ -124,30 +122,20 @@ namespace Tabel_server
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
                     Color t= Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
-                    //dt[i].CellStyle = new Style(typeof(DataGridCell));
+                    dt[i].CellStyle = new Style(typeof(DataGridCell));
                     dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(t)));
                 }
                 if (Employees[0].Days[i-1].DayOnPlan.DayTypeOnPlan == DayTypeOnPlan.WorkedShort)
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorWorkedShortDay.Split(':');
                     Color t = Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
-                    //dt[i].CellStyle = new Style(typeof(DataGridCell));
+                    dt[i].CellStyle = new Style(typeof(DataGridCell));
                     dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(t)));
                 }
-                //for (int j = 0; j < Employees[0].Days.Length; j++)
-                //{
-                //    if (new DateTime(date.Year, date.Month, i) == new DateTime(HolidateTimes[j].Year, HolidateTimes[j].Month, HolidateTimes[j].Day))
-                //    {
-                //        dt[i].CellStyle = new Style(typeof(DataGridCell));
-                //        dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.Pink)));
-                //    }
-                //}
             }
             for (int i = 0; i < Employees.Count; i++)
             {
-
                 tables.Add(new Table());
-
                 tables[i].info = "табельный номер: " + Employees[i].Employee.TabelNumber + ", должность: " + Employees[i].Employee.Post;
                 tables[i].name = Employees[i].Employee.ToString();
                 tables[i].day1 = Employees[i].Days[0].DayOnFact.WorkedTime;

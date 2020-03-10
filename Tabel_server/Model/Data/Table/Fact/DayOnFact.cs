@@ -22,7 +22,11 @@ namespace Tabel_server.Model.Data.Table.EmployeeDay
                 if (workertime == new TimeSpan(0, 0, 0) && DayTypeOnEmployee == DayTypeOnFact.Worked)
                 { Error = true; }
             } }
-        public TimeSpan Dinner { get; set; }
+        TimeSpan dinner;
+        public TimeSpan Dinner { 
+            get { return dinner; }
+            set { dinner = value; }
+        }
         public String City { get; set; }
         public String Achiv { get; set; }
         public bool Error { get; set; }
