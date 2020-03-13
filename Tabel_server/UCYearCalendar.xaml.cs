@@ -23,7 +23,10 @@ namespace Tabel_server
         DateTime data;
         public DateTime Data { 
             get { return data; }
-            set { data = value; tbYear.Text = Data.Year.ToString(); SelectedDateChanged?.Invoke(value); } }
+            set { data = value; tbYear.Text = Data.Year.ToString(); 
+                SelectedDateChanged?.Invoke(value);
+            } 
+        }
         List<month> userControl4s;
         public event Action<DateTime> SelectedDateChanged;
         public UCYearCalendar( )
@@ -33,12 +36,12 @@ namespace Tabel_server
             userControl4s = new List<month>() { month1, month2, month3, month4, month5, month6, month7, month8, month9, month10, month11, month12 };
             userControl4s[Data.Month-1].SelectTriger = true;
         }
-        private void Month_Click(int obj)
+        public void Month_Click(int obj)
         {
             for (int i=0; i< userControl4s.Count; i++)
             { userControl4s[i].SelectTriger = false; }
             Data = new DateTime(Convert.ToInt32(tbYear.Text), obj, 1);
-            SelectedDateChanged?.Invoke(Data);
+            //SelectedDateChanged?.Invoke(Data);
 
         }
         private void Button_Click(object sender, RoutedEventArgs e)

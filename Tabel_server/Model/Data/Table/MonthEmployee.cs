@@ -22,12 +22,28 @@ namespace Tabel_server.Model.Data.Table
         public int DaysNotWorkedAdministrative { get; set; }
         public int WorkedDayInMonthPlaned { get; set; }
         public TimeSpan WorkedHoursInMonthPlaned { get; set; }
+        bool saveStart;
+        public bool SaveStart { 
+            get{ return saveStart; }
+            set { saveStart = value;
+            if (saveStart==true)
+                { SaveMonthZP?.Invoke(MonthZP); }
+            }
+        }
+
+        MonthZP monthZP;
+        public MonthZP MonthZP { get            { return monthZP; }
+            set { 
+                monthZP = value;
+            }
+        }
         /// <summary>
         ////Время недоработанное работником
         /// </summary>
         public TimeSpan Time0 { get; set; }
         public Employee Employee { get; set; }
         public bool Error { get; set; }
+        public event Action<MonthZP> SaveMonthZP;
         public MonthEmployee(DayEmployee[] Days)
         {
             

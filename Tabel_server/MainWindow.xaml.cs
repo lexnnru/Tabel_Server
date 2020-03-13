@@ -67,12 +67,13 @@ namespace Tabel_server
             mu = new MangeUsers();
             new Presenter.Presenter(this);
             dtpicker.SelectedDateChanged += Dtpicker_SelectedDateChanged;
-            Loger.LogChange += Loger_LogChange;
+            //Loger.LogChange += Loger_LogChange;
         }
 
         private void Loger_LogChange(string obj)
         {
             MessageBox.Show(obj);
+            
         }
 
         private void Dtpicker_SelectedDateChanged(DateTime obj)
@@ -143,24 +144,23 @@ namespace Tabel_server
         }
         private void View3_Click(object sender, RoutedEventArgs e)
         {
-            //List<MonthEmployeesDatasOld> monthEmployeeDatas = GetMonthEmployeeData?.Invoke(dtMain);
             uc3.SetSource(monthEmployees, HoliDateTimes, dtMain);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc3.uc3);
         }
-        private void BtloadHoli_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-            openFileDlg.Filter = ("File Json(*.json)|*.json|All files(*.*)|*.*");
-            Nullable<bool> result = openFileDlg.ShowDialog();
-            if (result == true)
-            {
-                LoadHoli?.Invoke(openFileDlg.FileName);
-                MessageBox.Show("Готово");
-            }
+        //private void BtloadHoli_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
+        //    openFileDlg.Filter = ("File Json(*.json)|*.json|All files(*.*)|*.*");
+        //    Nullable<bool> result = openFileDlg.ShowDialog();
+        //    if (result == true)
+        //    {
+        //        LoadHoli?.Invoke(openFileDlg.FileName);
+        //        MessageBox.Show("Готово");
+        //    }
             
-            UpdateMonthEmployees?.Invoke();
-        }
+        //    UpdateMonthEmployees?.Invoke();
+        //}
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if ( min.Width== new GridLength(0))

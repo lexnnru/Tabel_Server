@@ -215,7 +215,6 @@ namespace Tabel_server.Model
         }
         public List<IncomingDataTable> CompareFileTabelWithDatabase(string path)
         {
-
             Deserialization ds = new Deserialization();
             List<IncomingDataTable> odd = ds.GetOneTabelData(path, out string tablename);
             List<IncomingDataTable> oddRowToUpdate = new List<IncomingDataTable>();
@@ -244,21 +243,16 @@ namespace Tabel_server.Model
                     }
                     else { AddRowToTable(odd[i].tabelNumber, paramForUsersTable, znachenies); }
                 }
-
-
                 return oddRowToUpdate;
             }
-
             else
             {
-                Model.Loger.GetLog("Работника с табельным номером: " + tablename + " не обнаружено!" + " Файл " + path + " не был добавлен.");
+                Model.Loger.SetLog("Работника с табельным номером: " + tablename + " не обнаружено!" + " Файл " + path + " не был добавлен.");
                 return oddRowToUpdate;
                 //Create_DataBase_Table(tablename, paramForUsersTable, typeOfDataForTabelUsersTable);
                 //List<string> znachenie = new List<string>() { tablename, odd[0].family, odd[0].name, odd[0].parentName, odd[0].mail};
                 //AddRowToTable(NameOfTablenamberUserTable, paramForTabelNamberUserTable, znachenie);
             }
-
-
         }
         public void AddTabelToDB(string path)
         {
@@ -315,6 +309,26 @@ namespace Tabel_server.Model
                 return checktabelrow;
             }
             else {
+                checktabelrow = false;
+                return checktabelrow;
+            }
+        }
+        public bool CheckExistingRowInTable(string nametable, int year, int month)
+        {
+            bool checktabelrow;
+            if (CheckExistingTable(nametable))
+            {
+                SQLiteDataReader dr = new SQLiteCommand($"select count(*) from '{nametable}' where year = {year} and month = {month}", db_connection).ExecuteReader();
+                dr.Read();
+                object count = dr["count(*)"];
+                if (Convert.ToInt32(count) == 1)
+                { checktabelrow = true; }
+                else checktabelrow = false;
+                dr.Close();
+                return checktabelrow;
+            }
+            else
+            {
                 checktabelrow = false;
                 return checktabelrow;
             }
@@ -398,6 +412,25 @@ namespace Tabel_server.Model
 
             new SQLiteCommand($"UPDATE '{nametable}' set  {endCommand} where {parametr[0]}={znachenie[0]} " +
             $"and {parametr[1]}={znachenie[1]} and {parametr[2]}={znachenie[2]}", db_connection).ExecuteNonQuery();
+        }
+        public void UpdateRowYearDay(string nametable, List<string> parametr, List<string> znachenie)
+        {
+            string fullCommand = "";
+            string endCommand = "";
+            for (int i = 0; i < parametr.Count; i++)
+            {
+                if (znachenie[i] == "")
+                    fullCommand = parametr[i] + "= null";
+                else { fullCommand = parametr[i] + "=" + "'" + znachenie[i] + "'"; }
+                if (i < parametr.Count - 1)
+                {
+                    fullCommand = fullCommand + ", ";
+                }
+                endCommand += fullCommand;
+            }
+
+            new SQLiteCommand($"UPDATE '{nametable}' set  {endCommand} where {parametr[0]}={znachenie[0]} " +
+            $"and {parametr[1]}={znachenie[1]}", db_connection).ExecuteNonQuery();
         }
 
         ///Работа с таблицей выходных
@@ -561,8 +594,8 @@ namespace Tabel_server.Model
                         dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorkedVacation;
                         break;
                     case "":
-                        if (dayOnFact.EndWOrk>dayOnFact.StartWork)
-                        { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked; } 
+                        if (dayOnFact.EndWOrk > dayOnFact.StartWork)
+                        { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.Worked; }
                         else { dayOnFact.DayTypeOnEmployee = Data.Table.EmployeeDay.DayTypeOnFact.NotWorked; }
                         break;
                 }
@@ -571,15 +604,15 @@ namespace Tabel_server.Model
             { dayOnFact.StartWork = day;
                 dayOnFact.EndWOrk = day;
                 dayOnFact.DayTypeOnEmployee = DayTypeOnFact.NoData;
-                    }
-            return dayOnFact;
             }
+            return dayOnFact;
+        }
         DayOnPlan GetDayOnPlan(DateTime day)
         {
             DayOnPlan dayOnPlan = new DayOnPlan();
             dayOnPlan.Day = day;
 
-            if (day.DayOfWeek==DayOfWeek.Monday || day.DayOfWeek == DayOfWeek.Tuesday || day.DayOfWeek == DayOfWeek.Wednesday || day.DayOfWeek == DayOfWeek.Thursday)
+            if (day.DayOfWeek == DayOfWeek.Monday || day.DayOfWeek == DayOfWeek.Tuesday || day.DayOfWeek == DayOfWeek.Wednesday || day.DayOfWeek == DayOfWeek.Thursday)
             { dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Worked;
                 dayOnPlan.WorkedTime = new TimeSpan(8, 12, 0);
             }
@@ -588,7 +621,7 @@ namespace Tabel_server.Model
                 dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.WorkedShort;
                 dayOnPlan.WorkedTime = new TimeSpan(7, 12, 0);
             }
-            else 
+            else
             {
                 dayOnPlan.DayTypeOnPlan = DayTypeOnPlan.Holiday;
                 dayOnPlan.WorkedTime = new TimeSpan(0);
@@ -615,19 +648,73 @@ namespace Tabel_server.Model
             }
             return dayOnPlan;
         }
-        
-            public MonthEmployee GetMonthEmployee (DateTime month, Employee employee)
+        public MonthEmployee GetMonthEmployee(DateTime month, Employee employee)
         {
             DayEmployee[] Days = new DayEmployee[DateTime.DaysInMonth(month.Year, month.Month)];
             for (int i = 1; i <= DateTime.DaysInMonth(month.Year, month.Month); i++)
-            { 
-                Days[i-1] = GetDayEmployee(new DateTime(month.Year, month.Month, i), employee);
-                
+            {
+                Days[i - 1] = GetDayEmployee(new DateTime(month.Year, month.Month, i), employee);
             }
             MonthEmployee monthEmployee = new MonthEmployee(Days);
             monthEmployee.Employee = employee;
+            try { 
+                monthEmployee.MonthZP = GetMonthZP(month, employee);
+            }
+            catch (Exception ex)
+            {
+                Loger.SetLog(ex.ToString());
+            }
             return monthEmployee;
+            }
+        public MonthZP GetMonthZP(DateTime month, Employee employee)
+        {
+            List<string> param = new List<string>() {  "Year", "Month" };
+            List<string> znachenie = new List<string>() { month.Year.ToString(), month.Month.ToString() };
+            
+            List<string> list = GetRowFromTable(employee.TabelNumber + "ZP", param, znachenie);
+            if (list.Count > 0)
+            {
+                double MonthBonus = Convert.ToInt32(list[6]);
+                double BiznessTripBonus = Convert.ToDouble(list[5]);
+                double OverWorkingBonus = Convert.ToDouble(list[6]);
+                double OverWorkingBonusIfVocation = Convert.ToDouble(list[6]);
+                double FreeBonus = Convert.ToDouble(list[7]);
+                double ZP = Convert.ToDouble(list[8]);
+                double ZPwithout13 = Convert.ToDouble(list[9]);
+                MonthZP monthZP = new MonthZP(Convert.ToInt32(list[4]), 
+                    Convert.ToDouble(list[5]), Convert.ToDouble(list[6]),
+                  Convert.ToDouble(list[7]), Convert.ToInt32(list[8]), Convert.ToInt32(list[9]), Convert.ToInt32(list[10]));
+                return monthZP;
+            }
+            else return null;
+        } 
+        public void SaveMonthZP(MonthEmployee monthEmployee)
+        {
+            List<string> param = new List<string>() {"Year", "Month", "Salary", "MonthBonus", "BiznessTripBonus",
+                "OverWorkingBonus",    "OverWorkingBonusIfVocation", "FreeBonus", "ZP", "ZPwithout13"};
+            List<string> typeData = new List<string>() {"TEXT","TEXT","TEXT", "TEXT", "TEXT", "TEXT",
+                "TEXT", "TEXT", "TEXT", "TEXT"};
+            List<string> znach = new List<string>() {monthEmployee.Days[0].DayOnPlan.Day.Year.ToString(),
+                monthEmployee.Days[0].DayOnPlan.Day.Month.ToString(),
+                monthEmployee.Employee.Salary.ToString(),
+                monthEmployee.MonthZP.MonthBonus.ToString(),
+                 monthEmployee.MonthZP.BiznessTripBonus.ToString(),
+                monthEmployee.MonthZP.OverWorkingBonus.ToString(),
+                monthEmployee.MonthZP.OverWorkingBonusIfVocation.ToString(),
+                monthEmployee.MonthZP.FreeBonus.ToString(),
+                monthEmployee.MonthZP.ZP.ToString(),
+                monthEmployee.MonthZP.ZPwithout13.ToString(),
+        };
+            if (CheckExistingTable(monthEmployee.Employee.TabelNumber + "ZP")==true)
+            {}
+            else
+            { Create_DataBase_Table(monthEmployee.Employee.TabelNumber + "ZP", param, typeData); }
+            if (CheckExistingRowInTable(monthEmployee.Employee.TabelNumber + "ZP",
+                    monthEmployee.Days[0].DayOnFact.StartWork.Year,
+                    monthEmployee.Days[0].DayOnFact.StartWork.Month) == true)
+            { UpdateRowYearDay(monthEmployee.Employee.TabelNumber + "ZP", param, znach); }
+            else { AddRowToTable(monthEmployee.Employee.TabelNumber + "ZP", param, znach); }
         }
-    }
+    } 
    
 }

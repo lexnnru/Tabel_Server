@@ -10,45 +10,57 @@
     <UserControl.Resources>
         <convert:ConverterMoney x:Key="ConvertMoney"/>
     </UserControl.Resources>
-    <DataGrid  ItemsSource="{Binding MonthZP}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AutoGenerateColumns="False" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+        <Button  HorizontalAlignment="Left" x:Name="btSave" Width="100" Content="Сохранить" Style="{DynamicResource ButtonStyle1}" Click="btSave_Click"
+                  IsEnabled="{Binding MonthZP.Fix}"/>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding MonthEmployees}" HorizontalAlignment="Stretch" AutoGenerateColumns="False"  >
+        
         <DataGrid.Columns>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Работник">
+                
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding MonthEmployeeZP.Employee }" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Employee }" HorizontalAlignment="Center" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Добросовестный труд">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding MonthBonus, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <TextBox Text="{Binding MonthZP.MonthBonus, UpdateSourceTrigger=PropertyChanged}" 
+                                     IsEnabled="{Binding MonthZP.Fix }" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding MonthZP.Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за командировки">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding BiznessTripBonus, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <TextBox IsEnabled="{Binding MonthZP.Fix }" Text="{Binding MonthZP.BiznessTripBonus, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding MonthZP.Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за переработки">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding OverWorkingBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <TextBox IsEnabled="{Binding MonthZP.Fix }" Text="{Binding MonthZP.OverWorkingBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding MonthZP.Editing, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Премия за переработки в случае отпуска">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding OverWorkingBonusIfVocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding Editing, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox IsEnabled="{Binding MonthZP.Fix }" Text="{Binding MonthZP.OverWorkingBonusIfVocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" IsReadOnly="{Binding MonthZP.Editing, UpdateSourceTrigger=PropertyChanged}">
                             <TextBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock Text="Дней в отпуске:"></TextBlock>
-                                        <TextBlock Text="{Binding MonthEmployeeZP.DaysNotWorkedVacation}"></TextBlock>
+                                            <TextBlock Text="{Binding MonthZP.DaysNotWorkedVacation}"></TextBlock>
                                     </StackPanel>
                                 </ToolTip>
                             </TextBox.ToolTip>
@@ -59,28 +71,28 @@
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Свободная премия">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding FreeBonus, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  ></TextBox>
+                            <TextBox IsEnabled="{Binding MonthZP.Fix }" Text="{Binding MonthZP.FreeBonus, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  ></TextBox>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Сумма">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding ZP, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"></TextBlock>
+                            <TextBlock Text="{Binding MonthZP.ZP, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"></TextBlock>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="На руки">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock   Text="{Binding ZPwithout13, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" ></TextBlock>
+                            <TextBlock   Text="{Binding MonthZP.ZPwithout13, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" ></TextBlock>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn ClipboardContentBinding="{x:Null}"    Header="Редактирование">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <CheckBox HorizontalAlignment="Center"   IsChecked="{Binding Editing,  UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
+                            <CheckBox IsEnabled="{Binding MonthZP.Fix }" HorizontalAlignment="Center"   IsChecked="{Binding MonthZP.Editing,  UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -88,12 +100,13 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel x:Name="spPickBonus">
-                            <RadioButton x:Name="BonusOverWorkingChk"  Content="Премия за переработки" IsChecked="{Binding BonusOverWorkingChk,  UpdateSourceTrigger=PropertyChanged}"  />
-                            <RadioButton x:Name="BonusOverWorkingWhenVocationChk" Content="Премия во время отпуска" IsChecked="{Binding BonusOverWorkingWhenVocationChk,    UpdateSourceTrigger=PropertyChanged}" />
+                                <RadioButton IsEnabled="{Binding MonthZP.Fix }" x:Name="BonusOverWorkingChk"  Content="Премия за переработки" IsChecked="{Binding MonthZP.BonusOverWorkingChk,  UpdateSourceTrigger=PropertyChanged}"  />
+                                <RadioButton IsEnabled="{Binding MonthZP.Fix }" x:Name="BonusOverWorkingWhenVocationChk" Content="Премия во время отпуска" IsChecked="{Binding MonthZP.BonusOverWorkingWhenVocationChk,    UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
     </DataGrid>
+    </Grid>
 </UserControl>

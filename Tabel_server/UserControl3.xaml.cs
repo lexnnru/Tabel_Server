@@ -52,103 +52,14 @@ namespace Tabel_server
         {
             InitializeComponent();
             this.DataContext = this;
-
-            // tables = new ObservableCollection<table>();
         }
-
         public UserControl uc3 =>this;
-
 
         public void SetSource(ObservableCollection<MonthEmployee> monthemployees, List<DateTime> HolidateTimes, DateTime dateTime)
         {
-
-            //tables.Clear();
-            //int DayinMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
             this.employees=monthemployees;
             dgSummary.ItemsSource = employees;
            
-            //for (int i=0; i<monthemployees.Count; i++)
-            //{
-            //TimeSpan hour1=new TimeSpan(0, 0, 0);
-            //TimeSpan hour15 = new TimeSpan(0, 0, 0);
-            //TimeSpan hour20 = new TimeSpan(0, 0, 0);
-            //TimeSpan hourHoli20 = new TimeSpan(0, 0, 0);
-            //TimeSpan sickHours = new TimeSpan(0, 0, 0);
-            //TimeSpan vacationHours = new TimeSpan(0, 0, 0);
-            //TimeSpan compensatory_hours = new TimeSpan(0, 0, 0);
-            //TimeSpan totalWorkHours = new TimeSpan(0, 0, 0);
-            //TimeSpan totalWorkHours_According_Plan = new TimeSpan(0, 0, 0);
-
-            //int daycomm = 0;
-            //int sickDays = 0;
-            //int vacationDays = 0;
-            //int compensatory_days = 0;
-
-
-            //    for (int j = 0; j < monthemployees[i].oneDayDatas.Count; j++)
-            //    {
-            //        if(monthemployees[i].oneDayDatas[j].specCheck=="ком.")
-            //        { daycomm++;}
-            //        if (monthemployees[i].oneDayDatas[j].specCheck == "больн." || monthemployees[i].oneDayDatas[j].specCheck == "отп.б.с.")
-            //        { sickDays++;
-            //            sickHours += monthemployees[i].oneDayDatas[j].Sick_time;
-            //        }
-            //        if (monthemployees[i].oneDayDatas[j].specCheck == "отг.")
-            //        {
-            //            compensatory_days++;
-            //            compensatory_hours += monthemployees[i].oneDayDatas[j].Compensatory_time;
-            //        }
-            //        if (monthemployees[i].oneDayDatas[j].specCheck == "отп.")
-            //        {
-            //            compensatory_days++;
-            //            compensatory_hours += monthemployees[i].oneDayDatas[j].Vocation_time;
-            //        }
-
-
-            //        if (monthemployees[i].oneDayDatas[j].Work_time_According_plan> new TimeSpan(0,0,0))
-            //        {
-
-            //            if (monthemployees[i].oneDayDatas[j].Work_time <= monthemployees[i].oneDayDatas[j].Work_time_According_plan)
-            //            {
-            //                hour1 += monthemployees[i].oneDayDatas[j].Work_time;
-            //            }
-            //            else if (monthemployees[i].oneDayDatas[j].Work_time > monthemployees[i].oneDayDatas[j].Work_time_According_plan &&
-            //            monthemployees[i].oneDayDatas[j].Work_time <= monthemployees[i].oneDayDatas[j].Work_time_According_plan + new TimeSpan(2, 0, 0))
-            //            {
-            //                hour1 += monthemployees[i].oneDayDatas[j].Work_time_According_plan;
-            //                hour15 = hour15 + monthemployees[i].oneDayDatas[j].Work_time - monthemployees[i].oneDayDatas[j].Work_time_According_plan;
-            //            }
-            //            else if (monthemployees[i].oneDayDatas[j].Work_time > monthemployees[i].oneDayDatas[j].Work_time_According_plan + new TimeSpan(2, 0, 0))
-            //                {
-            //                    hour1 += monthemployees[i].oneDayDatas[j].Work_time_According_plan;
-            //                    hour15 += new TimeSpan(2, 0, 0);
-            //                    hour20 = hour20 + monthemployees[i].oneDayDatas[j].Work_time - monthemployees[i].oneDayDatas[j].Work_time_According_plan - new TimeSpan(2, 0, 0);
-            //                }
-
-            //        }
-            //        else
-            //        {
-            //            if (monthemployees[i].oneDayDatas[j].Work_time <= new TimeSpan(8, 0, 0))
-            //            {
-            //                hourHoli20 += monthemployees[i].oneDayDatas[j].Work_time;
-            //            }
-            //            else
-            //            {
-            //                hour20 = hour20 + monthemployees[i].oneDayDatas[j].Work_time - new TimeSpan(8, 0, 0);
-            //            }
-            //        }
-
-            //        totalWorkHours = sickHours + vacationHours + compensatory_hours + hour1;
-            //        totalWorkHours_According_Plan += monthemployees[i].oneDayDatas[j].Work_time_According_plan;
-            //    }
-
-            //tables.Add(new table { fio = monthemployees[i].fio, hour1=hour1, hour15=hour15, hour20=hour20, hourHoli20=hourHoli20 ,
-            //    daycomm =daycomm, sickDays=sickDays, sickHours=sickHours, compensatory_days=compensatory_days,
-            //    compensatory_hours =compensatory_hours, vacationDays=vacationDays, vacationHours=vacationHours, totalWorkHours=totalWorkHours,
-            //    Details = string.Format("Должность: {0}  Табельный номер: {1}.", monthemployees[i].post, monthemployees[i].tabelNumber),
-            //    totalWorkHours_According_Plan=totalWorkHours_According_Plan
-            //});
-            //}
 
         }
     }

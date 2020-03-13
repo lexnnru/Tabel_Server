@@ -128,6 +128,7 @@
     <Compile Include="Model\Data\Table\Fact\DayOnFact.cs" />
     <Compile Include="Model\Data\Table\Fact\DayTypeOnFact.cs" />
     <Compile Include="Model\Data\Table\MonthEmployee.cs" />
+    <Compile Include="Model\Data\Table\MonthZP.cs" />
     <Compile Include="Model\Data\Table\Plan\DayOnPlan.cs" />
     <Compile Include="Model\Data\Table\Plan\DayTypeOnPlan.cs" />
     <Compile Include="Model\Deserialization.cs" />

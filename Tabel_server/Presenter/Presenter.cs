@@ -43,7 +43,7 @@ namespace Tabel_server.Presenter
              imain.monthEmployees = GetMonthEmployees();
             imain.SetlbUsers(monthemployees);
         }
-        public ObservableCollection<Model.Data.Table.MonthEmployee> GetMonthEmployees()
+        public ObservableCollection<MonthEmployee> GetMonthEmployees()
         {
             ObservableCollection<MonthEmployee> monthEmployees = new ObservableCollection<MonthEmployee>();
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
@@ -51,11 +51,24 @@ namespace Tabel_server.Presenter
             {
                 if (new DateTime(new DateTime(employee.DataOfEmployment).ToLocalTime().Year, new DateTime(employee.DataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
           new DateTime(employee.DateOfDismiss).ToLocalTime() >= new DateTime(imain.dtMain.Year, imain.dtMain.Month, 1))
-                { monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); }
+                { 
+                    monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); 
+                }
             }
            this.monthemployees = monthEmployees;
-            return monthEmployees;
+            for (int i=0; i< monthemployees.Count; i++)
+            { 
+                monthemployees[i].SaveMonthZP += Presenter_SaveMonthZP;
+            }
+            return monthemployees;
         }
+
+        private void Presenter_SaveMonthZP(MonthZP obj)
+        {
+            for (int i=0; i< monthemployees.Count; i++)
+            { DBmanager.SaveMonthZP(monthemployees[i]); }
+        }
+
         private void Imain_ShowCalendar()
         {
             
@@ -125,7 +138,7 @@ namespace Tabel_server.Presenter
                 }
                 catch (Exception ex)
                 {
-                    Model.Loger.GetLog(ex.Message);
+                    Model.Loger.SetLog(ex.Message);
                 }
 
             }
@@ -133,7 +146,7 @@ namespace Tabel_server.Presenter
         private void Window_AddTabelToDB(string obj)
         {
             DBmanager.AddTabelToDB(obj);
-            Model.Loger.GetLog(obj + " файл табеля добавлен");
+            Model.Loger.SetLog(obj + " файл табеля добавлен");
         }
 
         private void Mu_ChangeEmpl(Employee arg1, Employee arg2)
@@ -150,7 +163,6 @@ namespace Tabel_server.Presenter
         {
             string message = DBmanager.AddNewEmplpyee(obj);
             imain.ShowMess(message);
-           // imain.SetlbUsers(new ObservableCollection<MonthEmployeesDatasOld>(Imain_GetMonthEmployeeData(imain.dtMain)));
             imain.SetlbUsers(GetMonthEmployees());
         }
         private void Mu_Loaded(object sender, System.Windows.RoutedEventArgs e)
