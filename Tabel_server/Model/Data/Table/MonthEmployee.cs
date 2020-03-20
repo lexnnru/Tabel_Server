@@ -25,16 +25,20 @@ namespace Tabel_server.Model.Data.Table
         bool saveStart;
         public bool SaveStart { 
             get{ return saveStart; }
-            set { saveStart = value;
+            set { 
+                saveStart = value;
             if (saveStart==true)
-                { SaveMonthZP?.Invoke(MonthZP); }
+                { SaveMonthZP?.Invoke(this); }
             }
         }
-
         MonthZP monthZP;
-        public MonthZP MonthZP { get            { return monthZP; }
+        public MonthZP MonthZP { 
+            get{
+                return monthZP;
+            }
             set { 
                 monthZP = value;
+               // Employee.Salary = MonthZP.Salary;
             }
         }
         /// <summary>
@@ -43,20 +47,16 @@ namespace Tabel_server.Model.Data.Table
         public TimeSpan Time0 { get; set; }
         public Employee Employee { get; set; }
         public bool Error { get; set; }
-        public event Action<MonthZP> SaveMonthZP;
+        public event Action<MonthEmployee> SaveMonthZP;
         public MonthEmployee(DayEmployee[] Days)
         {
-            
             this.Days = Days;
             Time1X = new TimeSpan(0);
             Time15X = new TimeSpan(0);
             Time20X = new TimeSpan(0);
             TimeHoli = new TimeSpan(0);
-
-
             foreach (DayEmployee day in Days)
             {
-                
                 if (day.Error == true)
                 { Error = true; }
                 Time1X += day.Time1X;
@@ -85,7 +85,6 @@ namespace Tabel_server.Model.Data.Table
                     case EmployeeDay.DayTypeOnFact.NotWorkedAdministrative:
                         DaysNotWorkedAdministrative += 1;
                         break;
-
                 }
                 switch (day.DayOnPlan.DayTypeOnPlan)
                 {
@@ -97,10 +96,8 @@ namespace Tabel_server.Model.Data.Table
                         WorkedDayInMonthPlaned += 1;
                         WorkedHoursInMonthPlaned += day.DayOnPlan.WorkedTime;
                         break;
-
                 }
-
-                }
+            }
         }
     }
 }

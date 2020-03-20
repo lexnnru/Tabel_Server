@@ -658,7 +658,8 @@ namespace Tabel_server.Model
             MonthEmployee monthEmployee = new MonthEmployee(Days);
             monthEmployee.Employee = employee;
             try { 
-                monthEmployee.MonthZP = GetMonthZP(month, employee);
+                monthEmployee.MonthZP = GetSavedMonthBonus( month, monthEmployee);
+                monthEmployee.Employee.Salary = monthEmployee.MonthZP.Salary;
             }
             catch (Exception ex)
             {
@@ -666,44 +667,35 @@ namespace Tabel_server.Model
             }
             return monthEmployee;
             }
-        public MonthZP GetMonthZP(DateTime month, Employee employee)
+        public MonthZP GetSavedMonthBonus(DateTime month, MonthEmployee mothemployee)
         {
             List<string> param = new List<string>() {  "Year", "Month" };
             List<string> znachenie = new List<string>() { month.Year.ToString(), month.Month.ToString() };
             
-            List<string> list = GetRowFromTable(employee.TabelNumber + "ZP", param, znachenie);
+            List<string> list = GetRowFromTable(mothemployee.Employee.TabelNumber + "ZP", param, znachenie);
             if (list.Count > 0)
             {
-                double MonthBonus = Convert.ToInt32(list[6]);
-                double BiznessTripBonus = Convert.ToDouble(list[5]);
-                double OverWorkingBonus = Convert.ToDouble(list[6]);
-                double OverWorkingBonusIfVocation = Convert.ToDouble(list[6]);
-                double FreeBonus = Convert.ToDouble(list[7]);
-                double ZP = Convert.ToDouble(list[8]);
-                double ZPwithout13 = Convert.ToDouble(list[9]);
-                MonthZP monthZP = new MonthZP(Convert.ToInt32(list[4]), 
-                    Convert.ToDouble(list[5]), Convert.ToDouble(list[6]),
-                  Convert.ToDouble(list[7]), Convert.ToInt32(list[8]), Convert.ToInt32(list[9]), Convert.ToInt32(list[10]));
+                DateTime dt = Convert.ToDateTime(list[6]).ToLocalTime();
+                MonthZP monthZP = new MonthZP(Convert.ToInt32(list[4]), Convert.ToInt32(list[5]), Convert.ToInt32(list[3]), Convert.ToDateTime(list[6]).ToLocalTime(),
+                  mothemployee);
                 return monthZP;
             }
             else return null;
         } 
         public void SaveMonthZP(MonthEmployee monthEmployee)
         {
-            List<string> param = new List<string>() {"Year", "Month", "Salary", "MonthBonus", "BiznessTripBonus",
-                "OverWorkingBonus",    "OverWorkingBonusIfVocation", "FreeBonus", "ZP", "ZPwithout13"};
-            List<string> typeData = new List<string>() {"TEXT","TEXT","TEXT", "TEXT", "TEXT", "TEXT",
-                "TEXT", "TEXT", "TEXT", "TEXT"};
+            List<string> param = new List<string>() {"Year", "Month", "Salary", "MonthBonus"
+                , "FreeBonus", "SaveDate"};
+            List<string> typeData = new List<string>() {"TEXT","TEXT","TEXT", "TEXT", "TEXT", "TEXT"};
             List<string> znach = new List<string>() {monthEmployee.Days[0].DayOnPlan.Day.Year.ToString(),
                 monthEmployee.Days[0].DayOnPlan.Day.Month.ToString(),
                 monthEmployee.Employee.Salary.ToString(),
                 monthEmployee.MonthZP.MonthBonus.ToString(),
-                 monthEmployee.MonthZP.BiznessTripBonus.ToString(),
-                monthEmployee.MonthZP.OverWorkingBonus.ToString(),
-                monthEmployee.MonthZP.OverWorkingBonusIfVocation.ToString(),
+                 //monthEmployee.MonthZP.BiznessTripBonus.ToString(),
+                //monthEmployee.MonthZP.OverWorkingBonus.ToString(),
+               // monthEmployee.MonthZP.OverWorkingBonusIfVocation.ToString(),
                 monthEmployee.MonthZP.FreeBonus.ToString(),
-                monthEmployee.MonthZP.ZP.ToString(),
-                monthEmployee.MonthZP.ZPwithout13.ToString(),
+                DateTime.Now.ToUniversalTime().ToString()
         };
             if (CheckExistingTable(monthEmployee.Employee.TabelNumber + "ZP")==true)
             {}

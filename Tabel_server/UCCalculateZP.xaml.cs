@@ -25,27 +25,43 @@ namespace Tabel_server
     /// </summary>
     public partial class UCCalculateZP : UserControl
     {
-        public ObservableCollection<MonthZP> MonthZP { get; set; }
+        //public ObservableCollection<MonthZP> MonthZP { get; set; }
         public ObservableCollection<MonthEmployee> MonthEmployees { get; set; }
         public UCCalculateZP(ObservableCollection<MonthEmployee> monthEmployees)
         {
             InitializeComponent();
             MonthEmployees = monthEmployees;
-            MonthZP = new ObservableCollection<MonthZP>();
+            //MonthZP = new ObservableCollection<MonthZP>();
             for (int i=0; i< monthEmployees.Count; i++)
             {
                 if (monthEmployees[i].MonthZP==null)
                 {
                     monthEmployees[i].MonthZP = new MonthZP(monthEmployees[i]);
-                    MonthZP.Add(new MonthZP(monthEmployees[i])); ;
+                    
+                   // MonthZP.Add(new MonthZP(monthEmployees[i])); ;
                 }
+                monthEmployees[i].MonthZP.CalculateZP();
             }
             DataContext = this;
+            if (MonthEmployees.Count == 0)
+            { btSave.IsEnabled = false; }
+            else
+            {
+                if (MonthEmployees[0].Days[0].DayOnPlan.Day < new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)-TimeSpan.FromDays(62) ||
+                      DateTime.Now< MonthEmployees[0].Days[0].DayOnPlan.Day)
+                { btSave.IsEnabled = false; }
+            }
+          
         }
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
             foreach (MonthEmployee monthEmployee in MonthEmployees)
-                monthEmployee.SaveStart = true;
+            { monthEmployee.SaveStart = true;
+                monthEmployee.MonthZP.SavedDate = DateTime.Now;
+            }
+
+           
         }
     }
 }
+

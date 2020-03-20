@@ -147,6 +147,7 @@ namespace Tabel_server
             uc3.SetSource(monthEmployees, HoliDateTimes, dtMain);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uc3.uc3);
+            tbNameTable.Text = "Сводная таблица отработанных часов: " + dtMain.ToString("MMMM", CultureInfo.CurrentCulture).ToLower() + " " + dtMain.Year + " года.";
         }
         //private void BtloadHoli_Click(object sender, RoutedEventArgs e)
         //{
@@ -203,9 +204,9 @@ namespace Tabel_server
 
         private void BtCalculateSalary_Click(object sender, RoutedEventArgs e)
         {
-            UCCalculateZP uCCalculateZP = new UCCalculateZP(monthEmployees);
             MainGrid.Children.Clear();
-            MainGrid.Children.Add(uCCalculateZP);
+            MainGrid.Children.Add(new UCCalculateZP(monthEmployees));
+            tbNameTable.Text = "Рассчет ЗП за: " + dtMain.ToString("MMMM", CultureInfo.CurrentCulture).ToLower() + " " + dtMain.Year + " года.";
         }
 
         private void lbUsers_LostFocus(object sender, RoutedEventArgs e)

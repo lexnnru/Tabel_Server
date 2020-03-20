@@ -15,8 +15,9 @@
             <RowDefinition Height="13*"/>
             <RowDefinition Height="11*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="11*"/>
             <RowDefinition Height="17*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,17 +25,18 @@
             <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Командировка" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" />
-        <Label Content="Отпуск" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
-        <Label Content="Больничный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2"/>
-        <Label Content="Административный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" />
-        <Label Content="Выходной" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" />
-        <Label Content="Соращенный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" />
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="0" x:Name="CPBiznesTrip" SelectedColorChanged="CPBiznesTrip_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="1" x:Name="CPVocation" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectedColorChanged="CPVocation_SelectedColorChanged"/>
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="2" x:Name="CPSick" SelectedColorChanged="CPSick_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="3" x:Name="CPAdministrativ" SelectedColorChanged="CPAdministrativ_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="4" x:Name="CPHoliDay" SelectedColorChanged="CPHoliDay_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="5" x:Name="CPWorkedShortDay" SelectedColorChanged="CPWorkedShortDay_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+        <Label Content="Командировка" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,120.6,0" />
+        <Label Content="Отпуск" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,120.6,0" />
+        <Label Content="Больничный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,120.6,0"/>
+        <Label Content="Административный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,120.6,55" Grid.RowSpan="2" />
+        <Label Content="Выходной" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0.2,120.6,0" />
+        <Label Content="Соращенный" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,120.6,5.6" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="0" x:Name="CPBiznesTrip" SelectedColorChanged="CPBiznesTrip_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0.2,0,120.4,0" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="1" x:Name="CPVocation" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectedColorChanged="CPVocation_SelectedColorChanged" Grid.ColumnSpan="2" Margin="0.2,0,120.4,0"/>
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="2" x:Name="CPSick" SelectedColorChanged="CPSick_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0.2,0,120.4,0" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="3" x:Name="CPAdministrativ" SelectedColorChanged="CPAdministrativ_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0.2,0,120.4,55" Grid.RowSpan="2"/>
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="4" x:Name="CPHoliDay" SelectedColorChanged="CPHoliDay_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0.2,0.2,120.4,0" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="5" x:Name="CPWorkedShortDay" SelectedColorChanged="CPWorkedShortDay_SelectedColorChanged" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0.2,0,120.4,5.6"/>
+        <Button Style="{DynamicResource ButtonStyle1}" Content="По умолчанию" Grid.Column="1" HorizontalAlignment="Stretch"  Grid.Row="6" VerticalAlignment="Stretch" Click="Button_Click"  />
     </Grid>
 </UserControl>

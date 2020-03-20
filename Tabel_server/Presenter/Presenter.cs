@@ -63,10 +63,12 @@ namespace Tabel_server.Presenter
             return monthemployees;
         }
 
-        private void Presenter_SaveMonthZP(MonthZP obj)
+        private void Presenter_SaveMonthZP(MonthEmployee obj)
         {
-            for (int i=0; i< monthemployees.Count; i++)
-            { DBmanager.SaveMonthZP(monthemployees[i]); }
+            //for (int i=0; i< monthemployees.Count; i++)
+            //{ DBmanager.SaveMonthZP(obj); }
+            DBmanager.SaveMonthZP(obj);
+
         }
 
         private void Imain_ShowCalendar()

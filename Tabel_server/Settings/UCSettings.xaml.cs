@@ -24,14 +24,11 @@ namespace Tabel_server
         {
             InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Tabel_server.Settings.Colors.UCColors uCColors = new Settings.Colors.UCColors();
             GridForUC.Children.Clear();
             GridForUC.Children.Add(uCColors);
-            
-
         }
     }
 }
