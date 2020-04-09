@@ -28,38 +28,37 @@ namespace Tabel_server
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     ///
-    public interface ImainWindow
-    {  void ShowMess(string message);
-        event Action<string> Lb_users_SelectionChange;
-        event Action<string> LoadHoli;
+    //public interface ImainWindow
+    //{  void ShowMess(string message);
+    //    event Action<string> Lb_users_SelectionChange;
+    //    event Action<string> LoadHoli;
         
-        event Func <DateTime, List<MonthEmployeesDatasOld>>GetMonthEmployeeData;
-        event Action UpdateMonthEmployees;
-        event Action <List<string>> LoadDataTableToDB;
-        event Action ShowCalendar;
-        void SetlbUsers(ObservableCollection<MonthEmployee> employees);
-        List<DateTime> HoliDateTimes { get; set; }
-        Window Get { get; }
-        IUserControl1 uc1 { get; }
-        UserControl3 uc3 { get; }
-        MangeUsers mu { get; set; }
-        Calendar.MainWindow calendar { get; set; }
-        List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
+    //    event Func <DateTime, List<MonthEmployeesDatasOld>>GetMonthEmployeeData;
+    //    event Action UpdateMonthEmployees;
+    //    event Action <List<string>> LoadDataTableToDB;
+    //    event Action ShowCalendar;
+    //    void SetlbUsers(ObservableCollection<MonthEmployee> employees);
+    //    List<DateTime> HoliDateTimes { get; set; }
+    //    Window Get { get; set; }
+    //    IUserControl1 uc1 { get; }
+    //    UserControl3 uc3 { get; }
+    //    MangeUsers mu { get; set; }
+    //    Calendar.MainWindow calendar { get; set; }
+    //    List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
+
+    //    string tabelNamber { get; set; }
+
+    //    DateTime dtMain { get; set; }
         
+    //        ObservableCollection<MonthEmployee> monthEmployees { get; set; }
 
-        string tabelNamber { get; set; }
-
-        DateTime dtMain { get; set; }
-        
-            ObservableCollection<MonthEmployee> monthEmployees { get; set; }
-
-    }
-    public partial class MainWindow : Window, ImainWindow
+    //}
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {   
             InitializeComponent();
-            DataContext = this;
+                DataContext = this;
             dtMain = dtpicker.Data;
             uc2 = new UserControl2();
             uc1 = new UserControl1();
@@ -67,6 +66,7 @@ namespace Tabel_server
             mu = new MangeUsers();
             new Presenter.Presenter(this);
             dtpicker.SelectedDateChanged += Dtpicker_SelectedDateChanged;
+            
             //Loger.LogChange += Loger_LogChange;
         }
 
@@ -88,11 +88,9 @@ namespace Tabel_server
                 Lb_users_SelectionChange?.Invoke(employee.Employee.TabelNumber);
             }
             UpdateMonthEmployees?.Invoke();
+            
         }
-        public Window Get
-        {
-            get { return this; }  
-        }
+        
         public IUserControl1 uc1 { get; private set; }
         public UserControl2 uc2 { get; private set; }
         public UserControl3 uc3 { get;  set; }
@@ -103,6 +101,12 @@ namespace Tabel_server
         public Calendar.MainWindow calendar { get; set; }
         public List<(DateTime, DayType, TimeSpan)> SpecialDays { get; set; }
         public ObservableCollection<MonthEmployee> monthEmployees { get; set; }
+       
+        public Window Get
+        {
+            get { return this; }
+            set { }
+        }
 
         public event Action<string> LoadHoli;
         public event Action<string> Lb_users_SelectionChange;
@@ -116,7 +120,6 @@ namespace Tabel_server
         }
         private void LbUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             ListBox lb = (ListBox)sender;
             if (lb.SelectedIndex!=-1)
             {
@@ -137,9 +140,12 @@ namespace Tabel_server
         }
         private void View2_Click(object sender, RoutedEventArgs e)
         {
-            uc2.SetSummaryTable(monthEmployees, dtMain);
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(uc2.uc2);
+            if (monthEmployees.Count!=0)
+            {
+                uc2.SetSummaryTable(monthEmployees, dtMain);
+                MainGrid.Children.Clear();
+                MainGrid.Children.Add(uc2.uc2);
+            }
             tbNameTable.Text = "Таблица отработанных сотрудниками часов за: " + dtMain.ToString("MMMM", CultureInfo.CurrentCulture).ToLower() + " " + dtMain.Year + " года.";
         }
         private void View3_Click(object sender, RoutedEventArgs e)

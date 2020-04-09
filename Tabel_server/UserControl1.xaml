@@ -44,7 +44,7 @@
                 <DataGridTextColumn Binding="{Binding DayOnFact.DayTypeOnEmployee, Converter={StaticResource convtype}}" Header="Специальная отметка" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding DayOnFact.City}" Header="Город" CanUserSort="False"/>
                 <DataGridTextColumn Binding="{Binding DayOnFact.Achiv}" Header="Достижения за день" CanUserSort="False"/>
-                <DataGridTextColumn Binding="{Binding TotalTime, Converter={StaticResource convtimeSpan}}" Header="Отработанное время" CanUserSort="False"/>
+                <DataGridTextColumn Binding="{Binding DayOnFact.WorkedTime, Converter={StaticResource convtimeSpan}}" Header="Отработанное время" CanUserSort="False"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

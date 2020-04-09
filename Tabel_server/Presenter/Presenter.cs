@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Threading;
+using Tabel_server.Model;
 using Tabel_server.Model.Data;
 using Tabel_server.Model.Data.Table;
 
@@ -16,13 +17,13 @@ namespace Tabel_server.Presenter
 {
     public class Presenter
     {
-        ImainWindow imain;
+        MainWindow imain;
         Model.DataBase_manager DBmanager;
         Employee employee = new Employee();
         //ObservableCollection<MonthEmployeesDatasOld> monthemployees = new ObservableCollection<MonthEmployeesDatasOld>();
         ObservableCollection<MonthEmployee> monthemployees = new ObservableCollection<MonthEmployee>();
         ObservableCollection<Employee> FullEmployees = new ObservableCollection<Employee>();
-        public Presenter(ImainWindow imain)
+        public Presenter(MainWindow imain)
         {
             this.imain = imain;
             DBmanager = new Model.DataBase_manager("TabelDB");
@@ -50,7 +51,10 @@ namespace Tabel_server.Presenter
             foreach (Employee employee in employees)
             {
                 if (new DateTime(new DateTime(employee.DataOfEmployment).ToLocalTime().Year, new DateTime(employee.DataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
-          new DateTime(employee.DateOfDismiss).ToLocalTime() >= new DateTime(imain.dtMain.Year, imain.dtMain.Month, 1))
+          new DateTime(employee.DateOfDismiss).ToLocalTime() >= new DateTime(imain.dtMain.Year, imain.dtMain.Month, 1)||
+          new DateTime(new DateTime(employee.DataOfEmployment).ToLocalTime().Year, new DateTime(employee.DataOfEmployment).ToLocalTime().Month, 1) <= new DateTime(imain.dtMain.Year, imain.dtMain.Month, DateTime.DaysInMonth(imain.dtMain.Year, imain.dtMain.Month)) &&
+          employee.DateOfDismiss==0
+          )
                 { 
                     monthEmployees.Add(DBmanager.GetMonthEmployee(imain.dtMain, employee)); 
                 }
@@ -88,83 +92,125 @@ namespace Tabel_server.Presenter
             DBmanager.SetDayType(arg1, arg2, arg3);
             imain.calendar.SpecialDays = DBmanager.Get_DayTypeInYear(DateTime.Now.Year);
             imain.HoliDateTimes = GetHoliDateTimes(imain.dtMain, imain.calendar.SpecialDays);
+            
 
         }
 
-        private void Imain_LoadDataTableToDB(List<string> obj)
+        private void Imain_LoadDataTableToDB(List<string> linksToFileWithTable)
         {
-            for (int i = 0; i < obj.Count; i++)
-            {
-                try
+            ObservableCollection<Employee> EmployeeForAdd = new ObservableCollection<Employee>();
+            for (int i = 0; i < linksToFileWithTable.Count; i++)
+            { List<IncomingDataTable> rowForUpdate = DBmanager.CompareFileTabelWithDatabase(linksToFileWithTable[i], out Employee employee, out bool createNewEmployee);
+               
+                if (createNewEmployee == true)
                 {
-                    bool show = false;
-                    List<IncomingDataTable> rowForUpdate = DBmanager.CompareFileTabelWithDatabase(obj[i]);
-                    List<IncomingDataTable> rowINDB = new List<IncomingDataTable>();
-                    
-                    if (rowForUpdate.Count!=0)
-                    { rowINDB = DBmanager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month); }
-                    
-                    for (int j = 0; j < rowForUpdate.Count; j++)
-                    {
+                    EmployeeForAdd.Add(employee);
+                }
+            }
 
-                        if (rowForUpdate[j].daynumber == rowINDB[j].daynumber && rowForUpdate[j].startday == rowINDB[j].startday && rowForUpdate[j].endday == rowINDB[j].endday &&
-                            rowForUpdate[j].city == rowINDB[j].city && rowForUpdate[j].achiv == rowINDB[j].achiv && rowForUpdate[j].specCheck == rowINDB[j].specCheck)
+            if (EmployeeForAdd.Count!=0)
+            {
+                imain.MainGrid.Children.Clear();
+                MangeUsersWhenImport mangeUsersWhenImport = new MangeUsersWhenImport();
+                mangeUsersWhenImport.Employees = EmployeeForAdd;
+                mangeUsersWhenImport.LinksToTabel = linksToFileWithTable;
+                mangeUsersWhenImport.ReImportTabel += MangeUsersWhenImport_ReImportTabel;
+                mangeUsersWhenImport.AddNewEmpl += Mu_AddNewEmpl;
+                imain.MainGrid.Children.Add(mangeUsersWhenImport);
+            }
+            else
+            {
+                for (int i = 0; i < linksToFileWithTable.Count; i++)
+                {
+                    try
+                    {
+                        bool show = false;
+
+                        List<IncomingDataTable> rowINDB = new List<IncomingDataTable>();
+                        List<IncomingDataTable> rowForUpdate = DBmanager.CompareFileTabelWithDatabase(linksToFileWithTable[i], out Employee employee, out bool createNewEmployee);
+                        if (rowForUpdate.Count != 0)
+                        { rowINDB = DBmanager.Get_Month_IDD(rowForUpdate[0].tabelNumber, rowForUpdate[0].daynumber.Year, rowForUpdate[0].daynumber.Month); }
+                        else { Loger.SetLog(linksToFileWithTable[i] +" Файл добавлен"); }
+
+                        for (int j = 0; j < rowForUpdate.Count; j++)
                         {
-                            rowForUpdate[j].overlap = true;
+
+                            if (rowForUpdate[j].daynumber == rowINDB[j].daynumber && rowForUpdate[j].startday == rowINDB[j].startday 
+                                && rowForUpdate[j].endday == rowINDB[j].endday &&
+                                rowForUpdate[j].city == rowINDB[j].city && rowForUpdate[j].achiv == rowINDB[j].achiv && 
+                                rowForUpdate[j].specCheck == rowINDB[j].specCheck)
+                            {
+                                rowForUpdate[j].overlap = true;
+                            }
+                            else
+                            {
+                                show = true;
+                                rowForUpdate[j].overlap = false;
+                                if (rowForUpdate[j].startday != rowINDB[j].startday)
+                                { rowForUpdate[j].startdayMarking = true; }
+                                if (rowForUpdate[j].endday != rowINDB[j].endday)
+                                { rowForUpdate[j].enddayMarking = true; }
+                                if (rowForUpdate[j].city != rowINDB[j].city)
+                                { rowForUpdate[j].cityMarking = true; }
+                                if (rowForUpdate[j].achiv != rowINDB[j].achiv)
+                                { rowForUpdate[j].achivMarking = true; }
+                                if (rowForUpdate[j].specCheck != rowINDB[j].specCheck)
+                                { rowForUpdate[j].specCheckMarking = true; }
+                            }
+        
+                        }
+                        if (show)
+                        {
+                            PreveiwWindow.PreveiwTableForUpdate window = new PreveiwWindow.PreveiwTableForUpdate();
+
+                            window.showTable(rowForUpdate, rowINDB, DBmanager.GetEmployee(rowForUpdate[0].tabelNumber), linksToFileWithTable[i]);
+                            window.AddTabelToDB += Window_AddTabelToDB;
+                            window.Show();
                         }
                         else
-                        {
-                            show = true;
-                            rowForUpdate[j].overlap = false;
-                            if (rowForUpdate[j].startday != rowINDB[j].startday)
-                            { rowForUpdate[j].startdayMarking = true; }
-                            if (rowForUpdate[j].endday != rowINDB[j].endday)
-                            { rowForUpdate[j].enddayMarking = true; }
-                            if (rowForUpdate[j].city != rowINDB[j].city)
-                            { rowForUpdate[j].cityMarking = true; }
-                            if (rowForUpdate[j].achiv != rowINDB[j].achiv)
-                            { rowForUpdate[j].achivMarking = true; }
-                            if (rowForUpdate[j].specCheck != rowINDB[j].specCheck)
-                            { rowForUpdate[j].specCheckMarking = true; }
-                        }
+                        { Loger.SetLog(linksToFileWithTable[i] + "Файл табеля добавлен", true); }
+            
+
                     }
-                    if (show)
+                    catch (Exception ex)
                     {
-                        PreveiwWindow.PreveiwTableForUpdate window = new PreveiwWindow.PreveiwTableForUpdate();
-
-                        window.showTable(rowForUpdate, rowINDB, DBmanager.GetEmployee(rowForUpdate[0].tabelNumber), obj[i]);
-                        window.AddTabelToDB += Window_AddTabelToDB;
-                        window.Show();
+                        Model.Loger.SetLog(ex.Message, true);
                     }
 
                 }
-                catch (Exception ex)
-                {
-                    Model.Loger.SetLog(ex.Message);
-                }
+            }
+                //new Window() { Content = mangeUsersWhenImport, Title = "Сотрудники необходимые для добавления" }.Show();
+
+
 
             }
+
+       
+
+        private void MangeUsersWhenImport_ReImportTabel(List<string> obj)
+        {
+            Imain_LoadDataTableToDB(obj);
         }
+
         private void Window_AddTabelToDB(string obj)
         {
             DBmanager.AddTabelToDB(obj);
-            Model.Loger.SetLog(obj + " файл табеля добавлен");
+            Model.Loger.SetLog(obj + " файл табеля добавлен", true);
         }
 
-        private void Mu_ChangeEmpl(Employee arg1, Employee arg2)
+        private void Mu_ChangeEmpl(Employee empl0ld, Employee emplNew)
         {
-            DBmanager.UpdateEmployee(arg1, arg2);
+            DBmanager.UpdateEmployee(empl0ld, emplNew);
         }
         private void Mu_Setsource()
         {
             imain.mu.employees = new ObservableCollection<Employee>(employee.GetAllEmployees(DBmanager, imain.dtMain));
-
             imain.mu.lbUsers.ItemsSource = imain.mu.employees;
         }
-        private void Mu_AddNewEmpl(Employee obj)
+        private void Mu_AddNewEmpl(Employee employeeForAdd)
         {
-            string message = DBmanager.AddNewEmplpyee(obj);
-            imain.ShowMess(message);
+            string message = DBmanager.AddNewEmplpyee(employeeForAdd);
+           Loger.SetLog(message, true);
             imain.SetlbUsers(GetMonthEmployees());
         }
         private void Mu_Loaded(object sender, System.Windows.RoutedEventArgs e)

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tabel_server.Model;
 using Tabel_server.Model.Data;
 
 namespace Tabel_server
@@ -20,12 +21,24 @@ namespace Tabel_server
     /// <summary>
     /// Логика взаимодействия для MangeUsers.xaml
     /// </summary>
-    public partial class MangeUsers : UserControl
+    public partial class MangeUsersWhenImport : UserControl
     {
         public event Action<Employee> AddNewEmpl;
-        public event Action<Employee, Employee> ChangeEmpl;
-        public event Action Setsource;
-        public ObservableCollection<Employee> employees;
+        public event Action<List<string>> ReImportTabel;
+        ObservableCollection<Employee> employees;
+        public List<bool> EmployeesNotSavedList;
+        public List<string> LinksToTabel;
+        public ObservableCollection<Employee> Employees
+        {
+            get { return employees; }
+            set { 
+                employees = value;
+                EmployeesNotSavedList = new List<bool>();
+                foreach (Employee employee in Employees)
+                {
+                    EmployeesNotSavedList.Add(true); }
+            }
+        }
         public Employee employee { get; set; }
         long DateOfEmployeement
         { get
@@ -49,21 +62,20 @@ namespace Tabel_server
             }
             set
             {
-                if (value == new DateTime(2199, 1, 1).ToUniversalTime().Ticks || value == 0)
+                if (value == new DateTime(2199, 1, 1).ToUniversalTime().Ticks)
                 { dtDateOfDismiss.SelectedDate = null; }
                 else { dtDateOfDismiss.SelectedDate = new DateTime(value).ToLocalTime(); }
             }
         }
-        public MangeUsers()
+        public MangeUsersWhenImport()
         {
             InitializeComponent();
-            dtDateOfEmployeement.DisplayDateEnd = DateTime.Now;
-            SetSourceLBUsers();
+            DataContext = this;
+            dtDateOfEmployeement.SelectedDate = DateTime.Now;
+            
+           // SetSourceLBUsers();
         }
-        public void SetSourceLBUsers()
-        {
-            Setsource?.Invoke();
-        }
+
         public void BtNewEmpl_Click(object sender, RoutedEventArgs e)
         {
             tbFamily.Text = "";
@@ -90,42 +102,42 @@ namespace Tabel_server
 
         private void BtSave_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckData() == false)
-            { MessageBox.Show("Не все поля заполнены"); }
-            else
-            {
-                employee = new Employee()
-                {
-                    Surname = tbFamily.Text,
-                    Name = tbName.Text,
-                    Patronymic = tbParentName.Text,
-                    Salary = Convert.ToInt32(tbSalary.Text),
-                    Post = tbPost.Text,
-                    TabelNumber = tbTabelNumber.Text
-                };
-                ChangeEmpl?.Invoke(employee, new Employee()
-                {
-                    Surname = tbFamily.Text,
-                    Name = tbName.Text,
-                    Patronymic = tbParentName.Text,
-                    Post = tbPost.Text,
-                    Salary = Convert.ToInt32(tbSalary.Text),
-                    DataOfEmployment = DateOfEmployeement,
-                    DateOfDismiss = DateOfDismiss
-                });
-                Setsource?.Invoke();
-                btSave.IsEnabled = false;
-                tbTabelNumber.IsEnabled = false;
-                tbFamily.IsEnabled = false;
-                tbName.IsEnabled = false;
-                tbParentName.IsEnabled = false;
-                dtDateOfEmployeement.IsEnabled = false;
-                dtDateOfDismiss.IsEnabled = false;
-                tbSalary.IsEnabled = false;
-                tbPost.IsEnabled = false;
-                btSave.IsEnabled = false;
-                btChangeEmpl.IsEnabled = false;
-            }
+            //if (CheckData() == false)
+            //{ MessageBox.Show("Не все поля заполнены"); }
+            //else
+            //{
+            //    employee = new Employee()
+            //    {
+            //        Surname = tbFamily.Text,
+            //        Name = tbName.Text,
+            //        Patronymic = tbParentName.Text,
+            //        Salary = Convert.ToInt32(tbSalary.Text),
+            //        Post = tbPost.Text,
+            //        TabelNumber = tbTabelNumber.Text
+            //    };
+            //    ChangeEmpl?.Invoke(employee, new Employee()
+            //    {
+            //        Surname = tbFamily.Text,
+            //        Name = tbName.Text,
+            //        Patronymic = tbParentName.Text,
+            //        Post = tbPost.Text,
+            //        Salary = Convert.ToInt32(tbSalary.Text),
+            //        DataOfEmployment = DateOfEmployeement,
+            //        DateOfDismiss = DateOfDismiss
+            //    });
+            //    Setsource?.Invoke();
+            //    btSave.IsEnabled = false;
+            //    tbTabelNumber.IsEnabled = false;
+            //    tbFamily.IsEnabled = false;
+            //    tbName.IsEnabled = false;
+            //    tbParentName.IsEnabled = false;
+            //    dtDateOfEmployeement.IsEnabled = false;
+            //    dtDateOfDismiss.IsEnabled = false;
+            //    tbSalary.IsEnabled = false;
+            //    tbPost.IsEnabled = false;
+            //    btSave.IsEnabled = false;
+            //    btChangeEmpl.IsEnabled = false;
+            //}
         }
 
         private void TbSalary_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -152,21 +164,23 @@ namespace Tabel_server
 
         private void LbUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btChangeEmpl.IsEnabled = true;
-            btAddNowEmpl.IsEnabled = false;
+           
             if (lbUsers.SelectedIndex==-1)
             { }
             else
             {
-                employee = employees[lbUsers.SelectedIndex];
+                employee = Employees[lbUsers.SelectedIndex];
                 tbFamily.Text = employee.Surname;
                 tbName.Text = employee.Name;
                 tbParentName.Text = employee.Patronymic;
                 tbSalary.Text = employee.Salary.ToString();
                 tbPost.Text = employee.Post;
-                tbTabelNumber.Text = employee.TabelNumber.ToString();
+               tbTabelNumber.Text = employee.TabelNumber.ToString();
                 DateOfEmployeement = employee.DataOfEmployment;
                 DateOfDismiss = employee.DateOfDismiss;
+                btAddNowEmpl.IsEnabled = true;
+                EnableDisbaleTB(true);
+                //EnableDisbaleTB(EmployeesNotSavedList[lbUsers.SelectedIndex]);
             }
         }
         private void BtChangeEmpl_Click(object sender, RoutedEventArgs e)
@@ -187,7 +201,8 @@ namespace Tabel_server
         {
             if (CheckData()==false)
             { MessageBox.Show("Не все поля заполнены"); }
-            else {
+            else 
+            {
                 employee = new Employee()
                 {
                     Surname = tbFamily.Text,
@@ -195,24 +210,31 @@ namespace Tabel_server
                     Patronymic = tbParentName.Text,
                     Salary = Convert.ToInt32(tbSalary.Text),
                     DataOfEmployment = DateOfEmployeement,
-                    DateOfDismiss = DateOfDismiss,
                     Post = tbPost.Text,
                     TabelNumber = tbTabelNumber.Text,
                 };
                 AddNewEmpl?.Invoke(employee);
-                Setsource?.Invoke();
-                btSave.IsEnabled = false;
-                tbTabelNumber.IsEnabled = false;
-                tbFamily.IsEnabled = false;
-                tbName.IsEnabled = false;
-                tbParentName.IsEnabled = false;
-                dtDateOfEmployeement.IsEnabled = false;
-                dtDateOfDismiss.IsEnabled = false;
-                tbSalary.IsEnabled = false;
-                tbPost.IsEnabled = false;
-                btSave.IsEnabled = false;
-                btChangeEmpl.IsEnabled = false;
-                btAddNowEmpl.IsEnabled = true;
+                //Loger.SetLog("Сотрудник "+ Employees[lbUsers.SelectedIndex] +" добавлен", true);
+                Employees.Remove(Employees[lbUsers.SelectedIndex]);
+                tbFamily.Text = "";
+                tbName.Text = "";
+                tbParentName.Text = "";
+                tbSalary.Text = "0";
+                dtDateOfEmployeement.SelectedDate = null;
+                tbPost.Text = "";
+                tbTabelNumber.Text = "";
+                btAddNowEmpl.IsEnabled = false;
+                EnableDisbaleTB(false);
+                
+                if (Employees.Count == 0)
+                {
+                    Loger.SetLog("Все сотрудники успешно добавлены. Запуск повторного импорта табелей", true);
+                    ReImportTabel?.Invoke(LinksToTabel);
+                }
+
+               
+                // Setsource?.Invoke();
+                //EmployeesNotSavedList[lbUsers.SelectedIndex] = false;
             }
             
         }
@@ -223,30 +245,35 @@ namespace Tabel_server
             { return false; }
             else return true;
         }
+        public void EnableDisbaleTB(bool enable)
+        { if (enable == true)
+            { tbFamily.IsEnabled = true;
+                tbName.IsEnabled = true;
+                tbParentName.IsEnabled = true;
+                tbPost.IsEnabled = true;
+                tbSalary.IsEnabled = true;
+                dtDateOfEmployeement.IsEnabled = true;
+                btAddNowEmpl.IsEnabled = true;
+            }
+        else
+            {
+                tbFamily.IsEnabled = false;
+                tbName.IsEnabled = false;
+                tbParentName.IsEnabled = false;
+                tbPost.IsEnabled = false;
+                tbSalary.IsEnabled = false;
+                dtDateOfEmployeement.IsEnabled = false;
+                btAddNowEmpl.IsEnabled = false;
+            }
+        }
 
         private void LbUsers_GotFocus(object sender, RoutedEventArgs e)
         {
-            btSave.IsEnabled = false;
-            tbTabelNumber.IsEnabled = false;
-            tbFamily.IsEnabled = false;
-            tbName.IsEnabled = false;
-            tbParentName.IsEnabled = false;
-            dtDateOfEmployeement.IsEnabled = false;
-            dtDateOfDismiss.IsEnabled = false;
-            tbSalary.IsEnabled = false;
-            tbPost.IsEnabled = false;
-            btSave.IsEnabled = false;
-            btChangeEmpl.IsEnabled = false;
-            btAddNowEmpl.IsEnabled = true;
-
-
-            btChangeEmpl.IsEnabled = true;
-            btAddNowEmpl.IsEnabled = false;
             if (lbUsers.SelectedIndex == -1)
             { }
             else
             {
-                employee = employees[lbUsers.SelectedIndex];
+                employee = Employees[lbUsers.SelectedIndex];
                 tbFamily.Text = employee.Surname;
                 tbName.Text = employee.Name;
                 tbParentName.Text = employee.Patronymic;
@@ -257,6 +284,11 @@ namespace Tabel_server
                 DateOfDismiss = employee.DateOfDismiss;
             }
 
+        }
+
+        private void lbUsers_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int a = lbUsers.SelectedIndex;
         }
     }
 }

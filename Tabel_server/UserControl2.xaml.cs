@@ -116,7 +116,7 @@ namespace Tabel_server
                 dt[i].CellStyle = new Style(typeof(DataGridCell));
                 dt[i].CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(Colors.White)));
             }
-            for (int i = 1; i <= DateTime.DaysInMonth(Employees[0].Days[0].DayOnFact.StartWork.Year, Employees[0].Days[0].DayOnFact.StartWork.Month); i++)
+            for (int i = 1; i <= DateTime.DaysInMonth(Employees[0].Days[0].DayOnPlan.Day.Year, Employees[0].Days[0].DayOnPlan.Day.Month); i++)
             {
                 if (Employees[0].Days[i-1].DayOnPlan.DayTypeOnPlan==DayTypeOnPlan.Holiday)
                 {

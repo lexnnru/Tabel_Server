@@ -213,7 +213,7 @@ namespace Tabel_server.Model
             dr.Close();
             return idd;
         }
-        public List<IncomingDataTable> CompareFileTabelWithDatabase(string path)
+        public List<IncomingDataTable> CompareFileTabelWithDatabase(string path, out Employee employee, out bool createNewEmployee)
         {
             Deserialization ds = new Deserialization();
             List<IncomingDataTable> odd = ds.GetOneTabelData(path, out string tablename);
@@ -242,12 +242,30 @@ namespace Tabel_server.Model
                         // UpdateRow(odd[i].tabelNumber, paramForUsersTable, znachenies);
                     }
                     else { AddRowToTable(odd[i].tabelNumber, paramForUsersTable, znachenies); }
-                }
+                } 
+                employee = new Employee() { };
+                    createNewEmployee = false;
+                
                 return oddRowToUpdate;
             }
             else
             {
-                Model.Loger.SetLog("Работника с табельным номером: " + tablename + " не обнаружено!" + " Файл " + path + " не был добавлен.");
+                if (odd.Count>0)
+                {
+                    employee = new Employee()
+                    {
+                        TabelNumber = tablename,
+                        Name = odd[0].name,
+                        Surname = odd[0].family,
+                        Patronymic = odd[0].parentName
+                    };
+                Model.Loger.SetLog("Работника с табельным номером: " + tablename + " не обнаружено!" + " Файл " + path + " не был добавлен.", true);
+                    createNewEmployee = true;
+                    return oddRowToUpdate;
+
+                };
+                createNewEmployee = false;
+                employee = new Employee() { };
                 return oddRowToUpdate;
                 //Create_DataBase_Table(tablename, paramForUsersTable, typeOfDataForTabelUsersTable);
                 //List<string> znachenie = new List<string>() { tablename, odd[0].family, odd[0].name, odd[0].parentName, odd[0].mail};
@@ -533,7 +551,7 @@ namespace Tabel_server.Model
                 List<string> znachenie = new List<string>() { employee.TabelNumber, employee.Surname, employee.Name, employee.Patronymic,
                     employee.DataOfEmployment.ToString(), employee.DateOfDismiss.ToString(), employee.Salary.ToString(), employee.Post};
                 AddRowToTable(NameOfTablenamberUserTable, paramForTabelNamberUserTable, znachenie);
-                return "Сотрудник успешно добавлен";
+                return "Сотрудник " +employee +" успешно добавлен";
             }
         }
         public Employee GetEmployee(string tabelNumberOfThisUser)
@@ -659,7 +677,8 @@ namespace Tabel_server.Model
             monthEmployee.Employee = employee;
             try { 
                 monthEmployee.MonthZP = GetSavedMonthBonus( month, monthEmployee);
-                monthEmployee.Employee.Salary = monthEmployee.MonthZP.Salary;
+                if (monthEmployee.MonthZP!=null)
+                { monthEmployee.Employee.Salary = monthEmployee.MonthZP.Salary; }
             }
             catch (Exception ex)
             {
