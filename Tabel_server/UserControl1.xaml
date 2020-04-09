@@ -28,12 +28,6 @@
                         <Setter Property="Background" Value="{Binding DayOnPlan.DayTypeOnPlan, Converter={StaticResource convplanColor}}"></Setter>
                     </Style.Setters>
                     <Style.Triggers>
-                        <!--<DataTrigger Value="true">
-                            <Setter Property="Background" Value="LightBlue"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding isHaveData}" Value="false">
-                            <Setter Property="Background" Value="Red"/>
-                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
