@@ -31,15 +31,15 @@ namespace Tabel_server.Model.Data.Table
             this.MonthBonus = MonthBonus;
             this.FreeBonus = FreeBonus;
             this.Salary = Salary;
-            this.SavedDate = SavedDate;
+            this.SavedDate = SavedDate.ToString();
             this.MonthEmployee = MonthEmployee;
             if (MonthEmployee.DaysNotWorkedVacation > 0 || MonthEmployee.DaysNotWorkedMatherhoodVacation > 0)
             { BonusOverWorkingWhenVocationChk = true; }
             CalculateBonus();
             Saved = true;
         }
-        DateTime savedDate;
-        public DateTime SavedDate
+        string savedDate;
+        public string SavedDate
         {
             get { return savedDate; }
             set

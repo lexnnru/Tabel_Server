@@ -21,6 +21,7 @@ namespace Tabel_server.Model.Data.Table
         public int DaysNotWorkedVacation { get; set; }
         public int DaysNotWorkedAdministrative { get; set; }
         public int WorkedDayInMonthPlaned { get; set; }
+        public int WorkedDayInMonthFact { get; set; }
         public TimeSpan WorkedHoursInMonthPlaned { get; set; }
         bool saveStart;
         public bool SaveStart { 
@@ -69,9 +70,11 @@ namespace Tabel_server.Model.Data.Table
                 {
                     case EmployeeDay.DayTypeOnFact.Worked:
                          DaysWorked+= 1;
+                        WorkedDayInMonthFact += 1;
                         break;
                     case EmployeeDay.DayTypeOnFact.WorkedBusinessTrip:
                         DaysWorkedBusinessTrip += 1;
+                        WorkedDayInMonthFact += 1;
                         break;
                     case EmployeeDay.DayTypeOnFact.NotWorkedVacation:
                         DaysNotWorkedVacation += 1;

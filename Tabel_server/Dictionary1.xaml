@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Tabel_server">
 
+
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>

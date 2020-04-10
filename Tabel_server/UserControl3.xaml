@@ -43,6 +43,11 @@
                         <TextBlock TextAlignment="Center">Количество рабочих <LineBreak></LineBreak>дней по плану</TextBlock>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding WorkedDayInMonthFact}" ClipboardContentBinding="{x:Null}" HeaderStringFormat=""  >
+                    <DataGridTextColumn.Header>
+                        <TextBlock TextAlignment="Center">Количество рабочих <LineBreak></LineBreak>дней по факту</TextBlock>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding WorkedHoursInMonthPlaned, Converter={StaticResource convSpan}}" ClipboardContentBinding="{x:Null}" HeaderStringFormat=""  >
                     <DataGridTextColumn.Header>
                         <TextBlock TextAlignment="Center">Количество рабочих <LineBreak></LineBreak>часов по плану</TextBlock>

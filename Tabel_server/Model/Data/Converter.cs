@@ -18,16 +18,25 @@ namespace Tabel_server.Model.Data
                 try
                 {
                     string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
-                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2])).ToString();
                 }
                 catch { return "White"; }
-                
-               
+
+
             }
             else if (specCheck == DayTypeOnPlan.Worked)
             { return "White"; }
             else if (specCheck == DayTypeOnPlan.WorkedShort)
-            { return "LightYellow"; }
+            {
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorWorkedShortDay.Split(':');
+
+                    return Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2])).ToString();
+                }
+                catch { return "White"; }
+            }
             else return "White";
         }
 

@@ -16,7 +16,7 @@ namespace Tabel_server.Model.Data.Table.EmployeeDay
         /// <summary>Рабочий день
         /// </summary>
         Worked,
-        /// <summary>Командировка
+        /// <summary>Рабочий день в коммандировке
         /// </summary>
         WorkedBusinessTrip,
         /// <summary>Больничный

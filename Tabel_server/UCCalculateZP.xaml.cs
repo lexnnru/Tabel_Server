@@ -57,7 +57,7 @@ namespace Tabel_server
         {
             foreach (MonthEmployee monthEmployee in MonthEmployees)
             { monthEmployee.SaveStart = true;
-                monthEmployee.MonthZP.SavedDate = DateTime.Now;
+                monthEmployee.MonthZP.SavedDate = DateTime.Now.ToString();
             }
 
            

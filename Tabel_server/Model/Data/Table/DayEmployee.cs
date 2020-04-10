@@ -22,6 +22,14 @@ namespace Tabel_server.Model.Data.Table
         public bool Error { get {
                 if (DayOnFact.WorkedTime == new TimeSpan(0, 0, 0) && DayOnPlan.DayTypeOnPlan == DayTypeOnPlan.Worked)
                 { error = true; }
+                else if (DayOnFact.DayTypeOnEmployee==DayTypeOnFact.NotWorkedSick&& DayOnFact.WorkedTime>new TimeSpan(0,0,0))
+                { error = true; }
+                else if (DayOnFact.DayTypeOnEmployee == DayTypeOnFact.NotWorkedVacation && DayOnFact.WorkedTime > new TimeSpan(0, 0, 0))
+                { error = true; }
+                else if (DayOnFact.DayTypeOnEmployee == DayTypeOnFact.NotWorkedAdministrative && DayOnFact.WorkedTime > new TimeSpan(0, 0, 0))
+                { error = true; }
+                else if (DayOnFact.DayTypeOnEmployee == DayTypeOnFact.NotWorkedMatherhoodVacation && DayOnFact.WorkedTime > new TimeSpan(0, 0, 0))
+                { error = true; }
                 else { error = false; }
 
                 return error;
