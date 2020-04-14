@@ -36,11 +36,11 @@ namespace Tabel_server
             userControl4s = new List<month>() { month1, month2, month3, month4, month5, month6, month7, month8, month9, month10, month11, month12 };
             userControl4s[Data.Month-1].SelectTriger = true;
         }
-        public void Month_Click(int obj)
+        public void Month_Click(int monthNumber)
         {
             for (int i=0; i< userControl4s.Count; i++)
             { userControl4s[i].SelectTriger = false; }
-            Data = new DateTime(Convert.ToInt32(tbYear.Text), obj, 1);
+            Data = new DateTime(Convert.ToInt32(tbYear.Text), monthNumber, 1);
             //SelectedDateChanged?.Invoke(Data);
 
         }

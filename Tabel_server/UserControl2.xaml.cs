@@ -89,7 +89,7 @@ namespace Tabel_server
         public DayTypeOnFact day29c { get; set; }
         public DayTypeOnFact day30c { get; set; }
         public DayTypeOnFact day31c { get; set; }
-        public double summa { get; set; }
+        public int summa { get; set; }
         public string Details { get; set; }
         public string info { get; set; }
         
@@ -209,7 +209,7 @@ namespace Tabel_server
                     tables[i].day31c = Employees[i].Days[30].DayOnFact.DayTypeOnEmployee;
                     //Details = string.Format("Должность: {0}  Табельный номер: {1}.";
                     //Employees[i].post, Employees[i].tabelNumber),
-                    tables[i].summa = Employees[i].TotalTime.TotalHours;
+                    tables[i].summa = Convert.ToInt32(Math.Round(Employees[i].TotalTime.TotalHours));
                     //Employees[i].oneDayDatas.Sum(n => n.Work_time.Hours)
                  
             }

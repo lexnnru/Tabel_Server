@@ -132,9 +132,13 @@ namespace Tabel_server.Model.Data
             }
             else if (specCheck == DayTypeOnFact.NotWorked)
             {
-                string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
-                Color color= Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
-                return color.ToString();
+                try
+                {
+                    string[] ColorHoli = Properties.Settings.Default.ColorHoliDay.Split(':');
+                    Color color = Color.FromRgb(System.Convert.ToByte(ColorHoli[0]), System.Convert.ToByte(ColorHoli[1]), System.Convert.ToByte(ColorHoli[2]));
+                    return color.ToString();
+                }
+                catch { return "White"; }
             }
             else return "White";
         }

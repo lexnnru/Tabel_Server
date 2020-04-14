@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tabel_server.Model;
 
 namespace Tabel_server.Settings.Colors
 {
@@ -39,7 +40,7 @@ namespace Tabel_server.Settings.Colors
                 CPWorkedShortDay.SelectedColor = Color.FromRgb(Convert.ToByte(ColorShortWorked[0]), Convert.ToByte(ColorShortWorked[1]), Convert.ToByte(ColorShortWorked[2]));
                 
             }
-            catch { }
+            catch { Loger.SetLog("Ошибка! Отсутствуют настроенные цвета. Перейдите в раздел настройки и выберите цвета для отображения.", true); }
         }
         private void CPBiznesTrip_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {

@@ -84,7 +84,6 @@ namespace Tabel_server
             else
             {
                 MonthEmployee employee = monthEmployees[lbUsers.SelectedIndex];
-                tbTabelNamber.Text = employee.Employee.TabelNumber;
                 Lb_users_SelectionChange?.Invoke(employee.Employee.TabelNumber);
             }
             UpdateMonthEmployees?.Invoke();
@@ -124,7 +123,6 @@ namespace Tabel_server
             if (lb.SelectedIndex!=-1)
             {
                 //MonthEmployeesDatasOld emp = employees[lb.SelectedIndex];
-                tbTabelNamber.Text = monthEmployees[lb.SelectedIndex].Employee.TabelNumber;
                 MainGrid.Children.Clear();
                // uc1.SetSource(emp);
                 uc1.SetSource(monthEmployees[lb.SelectedIndex]);
@@ -186,7 +184,7 @@ namespace Tabel_server
         private void BtLoadTabl_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-            openFileDlg.Filter = ("File Json(*.json)|*.json|All files(*.*)|*.*");
+            openFileDlg.Filter = ("File TimeTable(*.tt)|*.tt|All files(*.*)|*.*");
             openFileDlg.Multiselect=true;
             Nullable<bool> result = openFileDlg.ShowDialog();
             if (result == true)

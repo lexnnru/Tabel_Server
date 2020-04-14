@@ -410,7 +410,8 @@ namespace Tabel_server.Model
                 }
                 endcomand += fullCommand;
             }
-            new SQLiteCommand($"UPDATE '{NameOfTablenamberUserTable}' set  {endcomand} where {paramForTabelNamberUserTable[0]}={znachenies[0]}", db_connection).ExecuteNonQuery();
+
+            int countUpdated=new SQLiteCommand($"UPDATE '{NameOfTablenamberUserTable}' set  {endcomand} WHERE {paramForTabelNamberUserTable[0]}={"'"+olddata.TabelNumber+"'"}", db_connection).ExecuteNonQuery();
         }
         public void UpdateRow(string nametable, List<string> parametr, List<string> znachenie)
         {

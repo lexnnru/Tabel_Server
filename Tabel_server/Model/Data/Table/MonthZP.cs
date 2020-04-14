@@ -65,8 +65,11 @@ namespace Tabel_server.Model.Data.Table
             get { return monthBonus; }
             set { monthBonus = value; 
                 CalculateZP();
+                BonusSummaAll = value + BonusSumma+Convert.ToInt32(BiznessTripBonus);
+
+
             }
-        }
+}
         public double biznessTripBonus;
         public double BiznessTripBonus 
         { 
@@ -75,7 +78,8 @@ namespace Tabel_server.Model.Data.Table
             set 
             { 
                 biznessTripBonus = Math.Round(value); 
-                CalculateZP(); 
+                CalculateZP();
+                BonusSummaAll = Convert.ToInt32(value) + BonusSumma + MonthBonus;
             }
         }
         double overWorkingBonus { get; set; }
@@ -126,7 +130,7 @@ namespace Tabel_server.Model.Data.Table
                 freeBonus = value;
                 OnPropertyChanged("FreeBonus");
                 CalculateZP();
-                BonusSumma = value + Convert.ToInt32(Math.Round(OverWorkingBonusRezult)); ;
+                BonusSumma = value + Convert.ToInt32(Math.Round(OverWorkingBonusRezult)); 
             }
         }
         int bonusSumma;
@@ -137,6 +141,17 @@ namespace Tabel_server.Model.Data.Table
             {
                 bonusSumma = value;
                 OnPropertyChanged("BonusSumma");
+                BonusSummaAll = value + Convert.ToInt32(BiznessTripBonus) + MonthBonus;
+            }
+        }
+        int bonusSummaAll;
+        public int BonusSummaAll
+        {
+            get { return bonusSummaAll; }
+            set
+            {
+                bonusSummaAll = value;
+                OnPropertyChanged("BonusSummaAll");
             }
         }
         int zp;

@@ -18,20 +18,18 @@
         </Grid.RowDefinitions>
         <Button  HorizontalAlignment="Left" x:Name="btSave" Width="100" Content="Сохранить" Style="{DynamicResource ButtonStyle1}" Click="btSave_Click"
                   />
-
-        <DataGrid Grid.Row="1" ItemsSource="{Binding MonthEmployees}" Background="White" HorizontalAlignment="Stretch" AutoGenerateColumns="False"   >
+        <DataGrid Grid.Row="1" ItemsSource="{Binding MonthEmployees}" Background="White" HorizontalAlignment="Stretch" AutoGenerateColumns="False" Foreground="Black"   >
             <DataGrid.Columns>
                 <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Работник" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock Text="{Binding Employee }"   HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding Employee }"  Style="{DynamicResource TextblockInTableStyle}" HorizontalAlignment="Center" />
                             </Border>
-
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Добросовестный труд">
+                <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" HeaderStyle="{DynamicResource WrappedColumnHeaderStyle}" Width="120"  Header="Премия за добросовестный труд" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding MonthZP.MonthBonus, UpdateSourceTrigger=PropertyChanged}" 
@@ -43,7 +41,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock IsEnabled="{Binding MonthZP.Fix }" Text="{Binding MonthZP.BiznessTripBonus}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" ></TextBlock>
+                                <TextBlock Style="{DynamicResource TextblockInTableStyle}" IsEnabled="{Binding MonthZP.Fix }" Text="{Binding MonthZP.BiznessTripBonus}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" ></TextBlock>
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -52,7 +50,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock  Text="{Binding MonthZP.OverWorkingBonusRezult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBlock Style="{DynamicResource TextblockInTableStyle}" Text="{Binding MonthZP.OverWorkingBonusRezult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" 
                                      ></TextBlock>
                             </Border>
@@ -83,15 +81,25 @@
                 <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Свободная премия">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox  Text="{Binding MonthZP.FreeBonus, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  ></TextBox>
+                            <TextBox   Text="{Binding MonthZP.FreeBonus, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  ></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" HeaderStyle="{DynamicResource WrappedColumnHeaderStyle}" Header="Переработки прюс свободная" Width="130">
+                <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" HeaderStyle="{DynamicResource WrappedColumnHeaderStyle}" Header="Переработки плюс свободная" Width="130">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock  Text="{Binding MonthZP.BonusSumma, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
+                                <TextBlock Style="{DynamicResource TextblockInTableStyle}"  Text="{Binding MonthZP.BonusSumma, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  ></TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" HeaderStyle="{DynamicResource WrappedColumnHeaderStyle}" Header="Сумма всех премий" Width="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Background="#FFF1F1F1">
+                                <TextBlock Style="{DynamicResource TextblockInTableStyle}"  Text="{Binding MonthZP.BonusSummaAll, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  ></TextBlock>
                             </Border>
                         </DataTemplate>
@@ -101,7 +109,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock Text="{Binding MonthZP.ZP, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"></TextBlock>
+                                <TextBlock Style="{DynamicResource TextblockInTableStyle}" Text="{Binding MonthZP.ZP, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"></TextBlock>
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -110,7 +118,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock   Text="{Binding MonthZP.ZPwithout13, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" ></TextBlock>
+                                <TextBlock  Style="{DynamicResource TextblockInTableStyle}"  Text="{Binding MonthZP.ZPwithout13, Converter={StaticResource ConvertMoney}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" ></TextBlock>
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -129,7 +137,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Background="#FFF1F1F1">
-                                <TextBlock   
+                                <TextBlock Style="{DynamicResource TextblockInTableStyle}"   
                                        Text="{Binding MonthZP.SavedDate}"></TextBlock>
                             </Border>
                         </DataTemplate>

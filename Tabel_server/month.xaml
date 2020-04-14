@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Tabel_server"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border x:Name="Border" BorderThickness="1" CornerRadius="10" BorderBrush="Black">
-        <Grid x:Name="Grid" MouseLeftButtonDown="Grid_MouseLeftButtonDown"> 
+    <Border x:Name="Border" BorderThickness="1" Background="White" CornerRadius="10"  MouseLeftButtonDown="Grid_MouseLeftButtonDown" BorderBrush="Black">
+        <Grid x:Name="Grid"  MouseLeftButtonDown="Grid_MouseLeftButtonDown" > 
             
         <TextBlock  x:Name="NameMonth"  HorizontalAlignment="Center" VerticalAlignment="Center"  Text="" FontSize="14" > </TextBlock>  
         </Grid>

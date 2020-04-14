@@ -48,7 +48,7 @@
             <local:month x:Name="month9" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" nameMonth="сен" numberMonth="9" Click="Month_Click"  Grid.Column="0" Grid.Row="2"/>
             <local:month x:Name="month10" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" nameMonth="окт" numberMonth="10" Click="Month_Click"  Grid.Column="1" Grid.Row="2"/>
             <local:month x:Name="month11" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" nameMonth="ноя" numberMonth="11" Click="Month_Click"  Grid.Column="2" Grid.Row="2"/>
-            <local:month x:Name="month12" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" nameMonth="дек" numberMonth="12" Click="Month_Click"  Grid.Column="3" Grid.Row="2"/>
+                <local:month x:Name="month12" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" nameMonth="дек" numberMonth="12" Click="Month_Click"   Grid.Column="3" Grid.Row="2"/>
         </Grid>
         </Border>
     </Grid>

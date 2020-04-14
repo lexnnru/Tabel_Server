@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Tabel_server"
         mc:Ignorable="d"
-        Title="Sintek_table_server" Height="626" Width="1013" WindowState="Maximized" Margin="10,0,0,0" >
+        Title="Учет рабочего времени" Height="626" Width="1013" WindowState="Maximized" Margin="10,0,0,0" >
     <Window.Resources>
     </Window.Resources>
     <Grid>
@@ -35,12 +35,10 @@
                        TextWrapping="Wrap"
                        TextAlignment="Center"/>
             </Button>
-            <TextBlock x:Name="tbTabelNamber" TextAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="Табельный номер"  />
             <ListBox x:Name="lbUsers" ItemsSource="{Binding monthEmployees}"  SelectionChanged="LbUsers_SelectionChanged" Grid.Column="0" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LostFocus="lbUsers_LostFocus" >
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="160"></ColumnDefinition>
@@ -64,6 +62,8 @@
                             <TextBlock  HorizontalAlignment="Left"  TextWrapping="WrapWithOverflow"  Grid.Column="2" Grid.Row="0">
                                 <Run Text="(" ></Run>
                                 <Run Text="{Binding Path=Employee.Post}"></Run>
+                                <Run Text=" табельный №" ></Run>
+                                <Run Text="{Binding Path=Employee.TabelNumber}"></Run>
                                 <Run Text=")" ></Run>
                             </TextBlock>
                         </Grid>
