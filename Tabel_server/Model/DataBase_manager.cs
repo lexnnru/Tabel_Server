@@ -143,7 +143,7 @@ namespace Tabel_server.Model
 
             for (int i = 0; i < ColumnForSearch.Count; i++)
             {
-                partOFcommand = partOFcommand + ColumnForSearch[i] + "=" + ZnachenieForSearch[i];
+                partOFcommand = partOFcommand + ColumnForSearch[i] + "=" + "'" +ZnachenieForSearch[i] + "'";
                 if (i < ZnachenieForSearch.Count - 1)
                 {
                     partOFcommand += " and ";
